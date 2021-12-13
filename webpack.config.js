@@ -28,6 +28,6 @@ module.exports = {
   },
   devtool: prod ? undefined : 'source-map',
   plugins: [
-    new HtmlWebpackPlugin({template: 'index.html',})
+    new HtmlWebpackPlugin({template: 'client/src/index.html',})
           ],
 };
