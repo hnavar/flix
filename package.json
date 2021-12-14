@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon --watch server --exec ts-node server/index.ts",
-    "build": "webpack",
+    "build": "webpack --config webpack.config.js --mode production",
     "dev": "webpack --watch"
   },
   "author": "",
