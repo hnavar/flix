@@ -35,8 +35,9 @@ const grabMovieData = (movieName: string) : any => {
 app.get('/title', (req: any, res: any) => {
 grabMovieData('inception')
 .then((data: any) => {
-  console.log(data.data.data);
-  res.send(data.data.data);
+  const {id, title, image} = data.data.data.results[0];
+  console.log(id, title, image);
+  res.send(title, id, image)
 }).catch((error: any) => {
   console.log(error);
   res.status(500).send(error);
