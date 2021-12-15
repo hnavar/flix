@@ -1,11 +1,13 @@
-import React, {useState, useEffect} from "react";
+import React, {FC, useState, useEffect, Props} from "react";
 import {Card, CardHeader, CardMedia, CardContent, CardActions, Collapse, Typography} from '@mui/material'
 
 interface MovieObj {
   [key: string]: string;
 }
 
-const CarouselItem = ({item}: {item: MovieObj}) => {
+type CarouselItemProps = {item: MovieObj}
+
+const CarouselItem:FC<CarouselItemProps> = ({item}: {item: MovieObj}) => {
   const {title, trailer_url, description, release_date} = item;
   return (
     <>
@@ -23,7 +25,11 @@ const CarouselItem = ({item}: {item: MovieObj}) => {
           title={title}
           subheader={release_date}
         />
-        <CardContent>{description}</CardContent>
+        <CardContent>
+          <Typography>
+            {description}
+          </Typography>
+        </CardContent>
       </Card>
     </>
   )
