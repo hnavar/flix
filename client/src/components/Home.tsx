@@ -1,11 +1,11 @@
-import React, {useState, useEffect} from "react";
+import React, {FC, useState, useEffect} from "react";
 import axios from 'axios';
 import Carousel from "react-material-ui-carousel";
 import CarouselItem from './CarouselItem';
 import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
 import ArrowBackIosOutlinedIcon from '@mui/icons-material/ArrowBackIosOutlined';
 
-const Home = (props: any) => {
+const Home:FC = (props: any) => {
   const [genres, setGenres] = useState([]);
   const [directors, setDirectors] = useState([]);
   const [actors, setActors] = useState([]);
@@ -16,9 +16,13 @@ const Home = (props: any) => {
   // actorsMovies is an object with {director: arrMoviesActor}
   const [actorsMovies, setActorsMovies] = useState({});
 
-  interface MovieStorage {
-    [key: string]: object[];
+  interface MovieObj {
+    [key: string]: string;
   }
+  interface MovieStorage {
+    [key: string]: MovieObj[];
+  }
+
 
   const getGenres = () => {
     axios.get('/api/genres/:id')
@@ -98,7 +102,7 @@ const Home = (props: any) => {
         >
           <h2 className="carousel-categories">{key}</h2>
           {
-            moviesObj[key].map((movie: object) => <CarouselItem item={movie} />)
+            moviesObj[key].map((movie: MovieObj) => <CarouselItem item={movie} />)
           }
         </Carousel>
       );
