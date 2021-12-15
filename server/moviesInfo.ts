@@ -1,4 +1,4 @@
-const axios = require('axios');
+
 
 // sample data
 // {
@@ -23,14 +23,14 @@ const axios = require('axios');
 //     };
 
 
-export const grabMovieData = (movieName: string) :any => {
-   return axios.get(`https://imdb-api.com/en/API/SearchMovie/k_4pd82hff/${movieName}`)
-    .then((data: any) => {
-      return {data};
-    }).catch((error: any) => {
-      console.log(error);
-    });
-}
+// const grabMovieData = (movieName: string) : any => {
+//    return axios.get(`https://imdb-api.com/en/API/SearchMovie/k_4pd82hff/${movieName}`)
+//     .then((data: any) => {
+//       return {data};
+//     }).catch((error: any) => {
+//       console.log(error);
+//     });
+// }
 
 // {
 //   "imDbId": "tt1375666",
@@ -50,7 +50,7 @@ export const grabMovieData = (movieName: string) :any => {
 
 
 //will use above ID to grab
-export const grabMovieTrailer = (movieId: string) => {
+const grabMovieTrailer = (movieId: string) => {
   axios.get(`https://imdb-api.com/en/API/MovieVideos/k_4pd82hff/${movieId}`)
     .then((data: object) => {
       console.log({data});
@@ -204,7 +204,7 @@ export const grabMovieTrailer = (movieId: string) => {
 // wilhelm scream
 // wuxia
 // zombie
-export const grabMoviesByKeyword = (keyword: string) => {
+const grabMoviesByKeyword = (keyword: string) => {
   axios.get(`https://imdb-api.com/en/API/Keyword/k_4pd82hff/${keyword}`)
     .then((data: object) => {
       console.log({data});
@@ -246,4 +246,6 @@ export const grabMoviesByKeyword = (keyword: string) => {
 //       }
 //     ]
 // };
+
+
 
