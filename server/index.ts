@@ -19,6 +19,9 @@ app.listen(port,()=>{
 });
 
 
+
+
+//api functions
 const grabMovieData = (movieName: string) : any => {
   return axios.get(`https://imdb-api.com/en/API/SearchMovie/k_4pd82hff/${movieName}`)
    .then((data: any) => {
@@ -28,7 +31,7 @@ const grabMovieData = (movieName: string) : any => {
    });
 }
 
-
+//App Routes
 app.get('/title', (req: any, res: any) => {
 grabMovieData('inception')
 .then((data: any) => {

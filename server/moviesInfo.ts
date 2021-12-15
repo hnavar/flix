@@ -1,5 +1,5 @@
 
-
+// const axios = require('axios');
 // sample data
 // {
 //   "searchType": "Movie",
@@ -23,13 +23,13 @@
 //     };
 
 
-// const grabMovieData = (movieName: string) : any => {
-//    return axios.get(`https://imdb-api.com/en/API/SearchMovie/k_4pd82hff/${movieName}`)
-//     .then((data: any) => {
-//       return {data};
-//     }).catch((error: any) => {
-//       console.log(error);
-//     });
+// export const grabMovieData = (movieName: string) : any => {
+//   return axios.get(`https://imdb-api.com/en/API/SearchMovie/k_4pd82hff/${movieName}`)
+//    .then((data: any) => {
+//      return {data};
+//    }).catch((error: any) => {
+//      console.log(error);
+//    });
 // }
 
 // {
