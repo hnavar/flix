@@ -1,14 +1,3 @@
-// const router = require('express').Router();
-
-// const { grabMovieData } = require('./moviesInfo');
-
-// app.get('/title', (req: any, res: any) => {
-// grabMovieData('inception')
-// .then((data: any) => {
-//   console.log({data});
-//   res.send({data});
-// }).catch((error: any) => {
-//   console.log(error);
-//   res.status(500).send(error);
-//   })
-// });
+// const {Router} = require('express');
+// import type {Request, Response} from 'express';
+// const MoviesRouter = Router();
