@@ -1,4 +1,4 @@
-const {Router} = require('express');
+import {Router} from 'express';
 import type {Request, Response} from 'express';
 const GenresRouter = Router();
 const {getFavoriteGenres} = require('../database/index');
@@ -12,4 +12,4 @@ GenresRouter.get('/:id', (req: Request, res: Response) => {
     });
 });
 
-module.exports = {GenresRouter};
+export default GenresRouter;

@@ -1,7 +1,7 @@
-const {Router} = require('express');
+import {Router} from 'express';
 import type {Request, Response} from 'express';
-const DirectorsRouter = Router();
 const {getFavoriteDirectors} = require('../database/index')
+const DirectorsRouter = Router();
 
 DirectorsRouter.get('/:id', (req: Request, res: Response) => {
   getFavoriteDirectors(req.params.id)
@@ -12,4 +12,4 @@ DirectorsRouter.get('/:id', (req: Request, res: Response) => {
     });
 });
 
-module.exports = {DirectorsRouter};
+export default DirectorsRouter;

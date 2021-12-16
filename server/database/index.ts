@@ -199,7 +199,7 @@ const getFavoriteActors = (userId: number) => {
         through: {where: {userId: userId}}
       }
     ]
-  })
+  });
 };
 
 const getFavoriteDirectors = (userId: number) => {
@@ -210,7 +210,7 @@ const getFavoriteDirectors = (userId: number) => {
         through: {where: {userId: userId}}
       }
     ]
-  })
+  });
 };
 
 const getFavoriteGenres = (userId: number) => {
@@ -221,7 +221,7 @@ const getFavoriteGenres = (userId: number) => {
         through: {where: {userId: userId}}
       }
     ]
-  })
+  });
 };
 
 module.exports = {

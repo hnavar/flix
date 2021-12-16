@@ -1,10 +1,10 @@
-const {Router} = require('express');
+import {Router} from 'express';
 import type {Request, Response} from 'express';
-const MoviesRouter = Router();
 const {getAllMovies, getAllMoviesByDirector, getAllMoviesByGenre, getAllMoviesWithActor} = require('../database/index')
 
+const MoviesRouter = Router();
 interface MovieObj {
-  [key: string]: string;
+  [key: string]: string | number;
 }
 
 MoviesRouter.get('/', (req: Request, res: Response) => {
@@ -43,4 +43,4 @@ MoviesRouter.get('/directors/:id', (req: Request, res: Response) => {
     });
 });
 
-module.exports = {MoviesRouter};
+export default MoviesRouter;
