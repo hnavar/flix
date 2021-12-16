@@ -43,6 +43,4 @@ MoviesRouter.get('/directors/:id', (req: Request, res: Response) => {
     });
 });
 
-module.exports = {
-  MoviesRouter
-};
+module.exports = {MoviesRouter};

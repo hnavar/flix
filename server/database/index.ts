@@ -21,7 +21,7 @@ const db = new Sequelize({
 
 db.authenticate()
   .then(() => console.log('connected to database'))
-  .catch((err) => console.log(err, 'error hitting'));
+  .catch((err: object) => console.log(err, 'error hitting'));
 
 
 const User = db.define('user', {
@@ -191,10 +191,45 @@ const getAllMoviesWithActor = (actor: number) => {
   });
 };
 
+const getFavoriteActors = (userId: number) => {
+  return User.findAll({
+    include: [
+      {
+        model: Actors,
+        through: {where: {userId: userId}}
+      }
+    ]
+  })
+};
+
+const getFavoriteDirectors = (userId: number) => {
+  return User.findAll({
+    include: [
+      {
+        model: Directors,
+        through: {where: {userId: userId}}
+      }
+    ]
+  })
+};
+
+const getFavoriteGenres = (userId: number) => {
+  return User.findAll({
+    include: [
+      {
+        model: Genre,
+        through: {where: {userId: userId}}
+      }
+    ]
+  })
+};
 
 module.exports = {
   getAllMovies,
   getAllMoviesByDirector,
   getAllMoviesByGenre,
   getAllMoviesWithActor,
+  getFavoriteActors,
+  getFavoriteDirectors,
+  getFavoriteGenres,
 }
