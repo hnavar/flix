@@ -26,30 +26,30 @@ app.listen(port,()=>{
 
 
 
-//api functions
-const grabMovieID = (movieName: string) : any => {
-  return axios.get(`https://imdb-api.com/en/API/SearchMovie/k_4pd82hff/${movieName}`)
-   .then((data: any) => {
-     return {data};
-   }).catch((error: any) => {
-     console.log(error);
-   });
-}
+// //Api function
+// const grabMovieID = (movieName: string) : any => {
+//   return axios.get(`https://imdb-api.com/en/API/SearchMovie/k_4pd82hff/${movieName}`)
+//    .then((data: any) => {
+//      return {data};
+//    }).catch((error: any) => {
+//      console.log(error);
+//    });
+// }
 
 
-//Get Movie Important Info 
-app.get('/movieObj', (req: any, res: any) => {
-grabMovieID('inception')
-.then((data: any) => {
-  const {id} = data.data.data.results[0];
-  return id;
-}).then((data: any) => {
-  return axios.get(`https://imdb-api.com/en/API/Trailer/k_4pd82hff/${data}`)
-}).then((data: any) => {
-console.log(data.data);
-res.send(data.data);
-}).catch((error: any) => {
-  console.log(error);
-  res.status(500).send(error);
-  })
-});
+// //Get Movie Important Info 
+// app.get('/movieObj', (req: any, res: any) => {
+// grabMovieID('inception')
+// .then((data: any) => {
+//   const {id} = data.data.data.results[0];
+//   return id;
+// }).then((data: any) => {
+//   return axios.get(`https://imdb-api.com/en/API/Trailer/k_4pd82hff/${data}`)
+// }).then((data: any) => {
+// console.log(data.data);
+// res.send(data.data);
+// }).catch((error: any) => {
+//   console.log(error);
+//   res.status(500).send(error);
+//   })
+// });
