@@ -37,11 +37,7 @@ const SearchMovie = (props :any) => {
   const handleClick = (event :any) => {
     // console.log('click');
     event.preventDefault();
-    // const { handleSearch } = props;
-    // handleSearch(searchVal);
-    let data = grabMovieInfo(searchVal)
-    console.log(data);
-    // console.log(grabMovieInfo(searchVal));
+    grabMovieInfo(searchVal);
     setSearchVal('');
   };
 
@@ -52,7 +48,6 @@ const SearchMovie = (props :any) => {
       <div>
         <TextField value={searchVal} onChange={handleChange} id="outlined-basic" label="Search Movie" variant="outlined" size="small" />
         <Button onClick={handleClick} variant="contained" id="outlined-basic" color="primary">Search</Button>
-        {/* {searchResults === {} ? null : <div>{searchResults}</div>} */}
       </div>
     </div>
   );
@@ -65,7 +60,6 @@ const SearchMovie = (props :any) => {
         </div>
         <div>
           <div>
-            {/* <h1>{searchResults.imDbId}</h1> */}
             <h1>Title: {searchResults.title}</h1>
             <iframe width="1000" height="600" src={searchResults.linkEmbed} frameBorder="0"></iframe>
             <Button variant="contained" id="outlined-basic" color="primary">Add movie</Button>
