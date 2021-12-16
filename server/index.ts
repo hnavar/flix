@@ -1,14 +1,18 @@
-const path = require ('path');
-const express = require('express');
-const cors = require('cors');
 const bodyParser = require('body-parser');
 const axios = require('axios');
 require('dotenv').config();
 
+import path from 'path';
+import express from 'express';
+import cors from 'cors';
+import MoviesRouter from './api/movies';
+import ActorsRouter from './api/actors';
+import DirectorsRouter from './api/directors';
+import GenresRouter from './api/genres';
 
-const port = process.env.PORT || 3000;
+// const dotenv = require('dotenv');
 const app = express();
-
+const port = process.env.PORT || 3000;
 const dist = path.resolve(__dirname, '..', 'client/dist');
 
 app.use(cors({ credentials: true,
@@ -20,6 +24,10 @@ app.use(cors({ credentials: true,
 
 app.use(express.static(dist));
 app.use(bodyParser.json());
+app.use('/api/movies', MoviesRouter);
+app.use('/api/actors', ActorsRouter);
+app.use('/api/directors', DirectorsRouter);
+app.use('/api/genres', GenresRouter);
 
 
 
