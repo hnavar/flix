@@ -5,15 +5,13 @@ import CarouselItem from './CarouselItem';
 import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
 import ArrowBackIosOutlinedIcon from '@mui/icons-material/ArrowBackIosOutlined';
 
+// using props:any because I'm not sure if I'll pass props to this component
 const Home:FC = (props: any) => {
   const [genres, setGenres] = useState([]);
   const [directors, setDirectors] = useState([]);
   const [actors, setActors] = useState([]);
-  // genreMovies could be an object with {genre: arrMoviesGenre}
   const [genreMovies, setGenreMovies] = useState({});
-  // directorsMovies is an object with {director: arrMoviesDirector}
   const [directorsMovies, setDirectorsMovies] = useState({});
-  // actorsMovies is an object with {director: arrMoviesActor}
   const [actorsMovies, setActorsMovies] = useState({});
 
   interface MovieObj {
