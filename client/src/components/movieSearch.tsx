@@ -13,16 +13,16 @@ const SearchMovie = (props :any) => {
   const handleClick = (event :any) => {
     // console.log('click');
     event.preventDefault();
-    const { handleSearch } = props;
-    handleSearch(searchVal);
+    // const { handleSearch } = props;
+    // handleSearch(searchVal);
     setSearchVal('');
   };
 
   return (
     <div>
       <div>
-        <TextField value={searchVal} onChange={handleChange} id="outlined-basic" label="Search Book" variant="outlined" size="small" />
-        <Button onClick={handleClick} variant="contained" id="outlined-basic" color="success">Search</Button>
+        <TextField value={searchVal} onChange={handleChange} id="outlined-basic" label="Search Movie" variant="outlined" size="small" />
+        <Button onClick={handleClick} variant="contained" id="outlined-basic" color="primary">Search</Button>
       </div>
     </div>
   );

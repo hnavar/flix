@@ -57348,14 +57348,14 @@ const SearchMovie = (props) => {
     const handleClick = (event) => {
         // console.log('click');
         event.preventDefault();
-        const { handleSearch } = props;
-        handleSearch(searchVal);
+        // const { handleSearch } = props;
+        // handleSearch(searchVal);
         setSearchVal('');
     };
     return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null,
         react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null,
-            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_1__["default"], { value: searchVal, onChange: handleChange, id: "outlined-basic", label: "Search Book", variant: "outlined", size: "small" }),
-            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_2__["default"], { onClick: handleClick, variant: "contained", id: "outlined-basic", color: "success" }, "Search"))));
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_1__["default"], { value: searchVal, onChange: handleChange, id: "outlined-basic", label: "Search Movie", variant: "outlined", size: "small" }),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_Button__WEBPACK_IMPORTED_MODULE_2__["default"], { onClick: handleClick, variant: "contained", id: "outlined-basic", color: "primary" }, "Search"))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SearchMovie);
 
