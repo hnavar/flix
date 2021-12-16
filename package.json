@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/express": "^4.17.13",
     "@types/react": "^17.0.37",
     "css-loader": "^6.5.1",
     "html-webpack-plugin": "^5.5.0",

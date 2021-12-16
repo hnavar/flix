@@ -44,9 +44,9 @@ const Home:FC = (props: any) => {
 
   const getGenreMovies = () => {
     const movies: MovieStorage = {};
-    genres.forEach((genre => {
-      axios.get('/api/movies/genres/' + genre)
-        .then(({data}) => movies[genre] = data)
+    genres.forEach(((genre: MovieObj) => {
+      axios.get('/api/movies/genres/' + genre.id)
+        .then(({data}) => movies[genre.genre] = data)
         .catch(() => console.log('failed to get movies by genre'))
         .finally(() => setGenreMovies(movies));
     }))
@@ -54,9 +54,9 @@ const Home:FC = (props: any) => {
 
   const getActorMovies = () => {
     const movies: MovieStorage = {};
-    actors.forEach((actor => {
-      axios.get('/api/movies/actors/' + actor)
-        .then(({data}) => movies[actor] = data)
+    actors.forEach(((actor: MovieObj) => {
+      axios.get('/api/movies/actors/' + actor.id)
+        .then(({data}) => movies[actor.actor_name] = data)
         .catch(() => console.log('failed to get movies by Actor'))
         .finally(() => setActorsMovies(movies));
     }))
@@ -64,9 +64,9 @@ const Home:FC = (props: any) => {
 
   const getDirectorMovies = () => {
     const movies: MovieStorage = {};
-    directors.forEach((director => {
-      axios.get('/api/movies/directors/' + director)
-        .then(({data}) => movies[director] = data)
+    directors.forEach(((director: MovieObj) => {
+      axios.get('/api/movies/directors/' + director.id)
+        .then(({data}) => movies[director.director_name] = data)
         .catch(() => console.log('failed to get movies by director'))
         .finally(() => setDirectorsMovies(movies));
     }))
