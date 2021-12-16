@@ -2,6 +2,8 @@ import React, {useState} from "react";
 import Button from '@mui/material/Button';
 import { TextField } from '@material-ui/core';
 import axios from "axios";
+// import {IMDB_KEY} from process.env
+
 
 const SearchMovie = (props :any) => {
   const [searchVal, setSearchVal] = useState('');
@@ -9,14 +11,14 @@ const SearchMovie = (props :any) => {
 
 
   const grabMovieInfo = (movieName: string) : any => {
-    return axios.get(`https://imdb-api.com/en/API/SearchMovie/k_4pd82hff/${movieName}`)
+    return axios.get(`https://imdb-api.com/en/API/SearchMovie/k_0ey76rg5/${movieName}`)
      .then((data: any) => {
        return {data}
      }).then((data: any) => {
       const {id} = data.data.data.results[0];
       return id;
     }).then((data: any) => {
-      return axios.get(`https://imdb-api.com/en/API/Trailer/k_4pd82hff/${data}`)
+      return axios.get(`https://imdb-api.com/en/API/Trailer/k_0ey76rg5/${data}`)
     }).then((data: any) => {
     console.log(data.data);
     setSearchResults(data.data);
@@ -39,7 +41,7 @@ const SearchMovie = (props :any) => {
     // handleSearch(searchVal);
     let data = grabMovieInfo(searchVal)
     console.log(data);
-    console.log(grabMovieInfo(searchVal));
+    // console.log(grabMovieInfo(searchVal));
     setSearchVal('');
   };
 
@@ -65,12 +67,9 @@ const SearchMovie = (props :any) => {
           <div>
             {/* <h1>{searchResults.imDbId}</h1> */}
             <h1>Title: {searchResults.title}</h1>
+            <iframe width="1000" height="600" src={searchResults.linkEmbed} frameBorder="0"></iframe>
             <h2>Plot: {searchResults.videoDescription}</h2>
-            <h3>Release: {searchResults.year}</h3>
-            <div> Trailer: </div>
-            <video controls>
-             <source src={searchResults.link}/>
-            </video>
+            <h2>Release: {searchResults.year}</h2>
           </div>
         </div>
       </div>

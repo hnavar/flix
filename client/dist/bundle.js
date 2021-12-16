@@ -59459,7 +59459,6 @@ __webpack_require__.r(__webpack_exports__);
 
 const App = () => {
     return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: 'App' },
-        "Hello!",
         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_movieSearch__WEBPACK_IMPORTED_MODULE_1__["default"], null)));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (App);
@@ -59487,18 +59486,19 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+// import {IMDB_KEY} from process.env
 const SearchMovie = (props) => {
     const [searchVal, setSearchVal] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
     const [searchResults, setSearchResults] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
     const grabMovieInfo = (movieName) => {
-        return axios__WEBPACK_IMPORTED_MODULE_1___default().get(`https://imdb-api.com/en/API/SearchMovie/k_4pd82hff/${movieName}`)
+        return axios__WEBPACK_IMPORTED_MODULE_1___default().get(`https://imdb-api.com/en/API/SearchMovie/k_0ey76rg5/${movieName}`)
             .then((data) => {
             return { data };
         }).then((data) => {
             const { id } = data.data.data.results[0];
             return id;
         }).then((data) => {
-            return axios__WEBPACK_IMPORTED_MODULE_1___default().get(`https://imdb-api.com/en/API/Trailer/k_4pd82hff/${data}`);
+            return axios__WEBPACK_IMPORTED_MODULE_1___default().get(`https://imdb-api.com/en/API/Trailer/k_0ey76rg5/${data}`);
         }).then((data) => {
             console.log(data.data);
             setSearchResults(data.data);
@@ -59518,7 +59518,7 @@ const SearchMovie = (props) => {
         // handleSearch(searchVal);
         let data = grabMovieInfo(searchVal);
         console.log(data);
-        console.log(grabMovieInfo(searchVal));
+        // console.log(grabMovieInfo(searchVal));
         setSearchVal('');
     };
     if (!searchResults.title) {
@@ -59537,15 +59537,13 @@ const SearchMovie = (props) => {
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null,
                         "Title: ",
                         searchResults.title),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("iframe", { width: "1000", height: "600", src: searchResults.linkEmbed, frameBorder: "0" }),
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null,
                         "Plot: ",
                         searchResults.videoDescription),
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null,
                         "Release: ",
-                        searchResults.year),
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, " Trailer: "),
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("video", { controls: true },
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("source", { src: searchResults.link }))))));
+                        searchResults.year)))));
     }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SearchMovie);

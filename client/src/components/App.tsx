@@ -6,7 +6,6 @@ const App:FC = () => {
 
   return (
     <div className ='App'>
-      Hello!
       <SearchMovie/>
     </div>
   );
