@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import type {Request, Response} from 'express';
-const {getAllMovies, getAllMoviesByDirector, getAllMoviesByGenre, getAllMoviesWithActor, insertMovie} = require('../database/index')
+const {getAllMovies, getAllMoviesByDirector, getAllMoviesByGenre, getAllMoviesWithActor, addMovie} = require('../database/index')
 
 const MoviesRouter = Router();
 interface MovieObj {
@@ -43,7 +43,7 @@ MoviesRouter.get('/directors/:id', (req: Request, res: Response) => {
     });
 });
 
-MoviesRouter.post('/', (req: Request, res: Response) => {
+MoviesRouter.post('/insertMovie', (req: Request, res: Response) => {
   type movieData = {imDbID: string; title: string; releaseDate: string; videoDescription: string; linkEmbed: string};
   const {imDbID, title, releaseDate, videoDescription, linkEmbed}: movieData = req.body;
   const movie = {
@@ -53,7 +53,7 @@ MoviesRouter.post('/', (req: Request, res: Response) => {
     videoDescription : videoDescription,
     linkEmbed: linkEmbed,
   }
-  return insertMovie(movie);
+  return addMovie(movie);
 });
 
 export default MoviesRouter;

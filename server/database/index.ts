@@ -1,6 +1,10 @@
 const Sequelize = require('sequelize');
 require('dotenv').config();
 
+interface movieObj {
+  [key:string]: string;
+}
+
 const {
   DATABASE,
   USER_NAME,
@@ -239,6 +243,73 @@ const getFavoriteGenres = (userId: number) => {
       console.log(err);
     });
 
+    const addMovie = async (movie: movieObj, userId?: number) => {
+      console.log('from the database', movie);
+      const {movie_id, title, description, release_date, trailer_url, thumbnailUrl} = movie;
+      const actors = movie.actors.split(', ');
+      const directors = movie.directors.split(', ');
+      const genres = movie.genres.split(', ');
+
+      const currentMovie = await Movies.create({
+        movie_id: movie_id,
+        title: title,
+        description: description,
+        release_date: release_date,
+        trailer_url: trailer_url,
+        thumbnailUrl: thumbnailUrl
+      });
+
+      !!userId && Users_Movies.create({
+        userId: userId,
+        movieId: currentMovie.id
+      });
+
+      actors.forEach(actor => {
+        addActor(actor, currentMovie.id);
+      });
+
+      directors.forEach(director => {
+        addDirector(director, currentMovie.id);
+      });
+
+      genres.forEach(genre => {
+        addGenre(genre, currentMovie.id);
+      });
+    };
+
+    const addActor = async (actor: string, movieId?: number) => {
+      const currentActor = await Actors.create(
+        {actor_name: actor}
+      );
+
+      !!movieId && Movie_Actors.create({
+        actorId: currentActor.id,
+        movieId: movieId
+      });
+    };
+
+    const addDirector = async (director: string, movieId?: number) => {
+      const currentDirector = await Directors.create(
+        {director_name: director}
+      );
+
+      !!movieId && Movie_Directors.create({
+        actorId: currentDirector.id,
+        movieId: movieId
+      });
+    };
+
+    const addGenre = async (genre: string, movieId?: number) => {
+      const currentGenre = await Genre.create(
+        {genre: genre}
+      );
+
+      !!movieId && Movie_Genre.create({
+        genreId: currentGenre.id,
+        movieId: movieId
+      });
+    };
+
 
 
 module.exports = {
@@ -249,5 +320,6 @@ module.exports = {
   getFavoriteActors,
   getFavoriteDirectors,
   getFavoriteGenres,
-  insertMovie
+  insertMovie,
+  addMovie
 }

@@ -5,6 +5,7 @@ import axios from "axios";
 
 
 
+
 const SearchMovie = (props :any) => {
   interface Movie {imDbId: string; title: string; year: string; videoDescription: string; linkEmbed: string};
   const [searchVal, setSearchVal] = useState('');
@@ -30,9 +31,27 @@ const SearchMovie = (props :any) => {
      });
   }
 
+  // movieObj: object param
+  const addMovieInfo = () => {
+    return axios.get(`https://imdb-api.com/en/API/Title/k_4pd82hff/${searchResults?.imDbId}`)
+    .then((data: any) => {
+      console.log(data.data);
+      const newData = {
+        genres: data.data.genres,
+        actors: data.data.stars,
+        directors: data.data.directors,
+        thumbnailUrl: data.data.thumbnailUrl,
+      }
+
+      const fullData = {...newData, ...searchResults}
+      console.log(fullData);
+      // return {...movieObj, ...data.data}
+    })
+  }
+
   const addNewMovie = () => {
     if (searchResults) {
-    axios.post('/api/movies', {
+    axios.post('/api/movies/insertMovie', {
       imdDbID: searchResults.imDbId,
       title: searchResults.title,
       releaseDate: searchResults.year,
@@ -48,7 +67,6 @@ const SearchMovie = (props :any) => {
   };
 
   const handleClick = (event :any) => {
-    // console.log('click');
     event.preventDefault();
     grabMovieInfo(searchVal);
     setSearchVal('');
@@ -60,7 +78,7 @@ const SearchMovie = (props :any) => {
     <div>
       <div>
         <TextField value={searchVal} onChange={handleChange} id="outlined-basic" label="Search Movie" variant="outlined" size="small" />
-        <Button onClick={handleClick} variant="contained" id="outlined-basic" color="primary">Search</Button>
+        <Button type="submit" onClick={handleClick} variant="contained" id="outlined-basic" color="primary">Search</Button>
       </div>
     </div>
   );
@@ -69,13 +87,13 @@ const SearchMovie = (props :any) => {
       <div>
         <div>
           <TextField value={searchVal} onChange={handleChange} id="outlined-basic" label="Search Movie" variant="outlined" size="small" />
-          <Button onClick={handleClick} variant="contained" id="outlined-basic" color="primary">Search</Button>
+          <Button type="submit" onClick={handleClick} variant="contained" id="outlined-basic" color="primary">Search</Button>
         </div>
         <div>
           <div>
             <h1>Title: {searchResults.title}</h1>
             <iframe width="1000" height="600" src={searchResults.linkEmbed} frameBorder="0"></iframe>
-            <Button  onClick={addNewMovie} variant="contained" id="outlined-basic" color="primary">Add movie</Button>
+            <Button type="submit" onClick={() => {addNewMovie(), addMovieInfo()}} variant="contained" id="outlined-basic" color="primary">Add movie</Button>
             <h2>Plot: {searchResults.videoDescription}</h2>
             <h2>Release: {searchResults.year}</h2>
           </div>
