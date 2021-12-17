@@ -7,6 +7,7 @@ const {
   USER_PASSWORD,
   HOST,
   DB_PORT,
+
 } = process.env;
 
 const db = new Sequelize({
@@ -224,6 +225,22 @@ const getFavoriteGenres = (userId: number) => {
   });
 };
 
+  const insertMovie = (movie: any) => Movies.create({
+    imdDbID: movie.imDbId,
+      title: movie.title,
+      releaseDate: movie.year,
+      videoDescription : movie.videoDescription,
+      linkEmbed: movie.linkEmbed,
+  }).then((data: any) => {
+    console.log('success', data.toJSON());
+  })
+    .catch((err: any) => {
+    // print the error details
+      console.log(err);
+    });
+
+
+
 module.exports = {
   getAllMovies,
   getAllMoviesByDirector,
@@ -232,4 +249,5 @@ module.exports = {
   getFavoriteActors,
   getFavoriteDirectors,
   getFavoriteGenres,
+  insertMovie
 }

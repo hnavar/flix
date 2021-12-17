@@ -2,12 +2,15 @@ import React, {useState} from "react";
 import Button from '@mui/material/Button';
 import { TextField } from '@material-ui/core';
 import axios from "axios";
-// import {IMDB_KEY} from process.env
+
 
 
 const SearchMovie = (props :any) => {
+  interface Movie {imDbId: string; title: string; year: string; videoDescription: string; linkEmbed: string};
   const [searchVal, setSearchVal] = useState('');
-  const [searchResults, setSearchResults] = useState({});
+  const [searchResults, setSearchResults] = useState<Movie | null>(null);
+
+
 
 
   const grabMovieInfo = (movieName: string) : any => {
@@ -20,7 +23,6 @@ const SearchMovie = (props :any) => {
     }).then((data: any) => {
       return axios.get(`https://imdb-api.com/en/API/Trailer/k_0ey76rg5/${data}`)
     }).then((data: any) => {
-    console.log(data.data);
     setSearchResults(data.data);
     return data.data
     }).catch((error: any) => {
@@ -28,6 +30,17 @@ const SearchMovie = (props :any) => {
      });
   }
 
+  const addNewMovie = () => {
+    if (searchResults) {
+    axios.post('/api/movies', {
+      imdDbID: searchResults.imDbId,
+      title: searchResults.title,
+      releaseDate: searchResults.year,
+      videoDescription : searchResults.videoDescription,
+      linkEmbed: searchResults.linkEmbed,
+    })
+    }
+  };
 
   const handleChange = (event :any) => {
     const searchVal = event.target.value;
@@ -42,7 +55,7 @@ const SearchMovie = (props :any) => {
   };
 
 
-  if (!searchResults.title) {
+  if (!searchResults) {
   return (
     <div>
       <div>
@@ -62,7 +75,7 @@ const SearchMovie = (props :any) => {
           <div>
             <h1>Title: {searchResults.title}</h1>
             <iframe width="1000" height="600" src={searchResults.linkEmbed} frameBorder="0"></iframe>
-            <Button variant="contained" id="outlined-basic" color="primary">Add movie</Button>
+            <Button  onClick={addNewMovie} variant="contained" id="outlined-basic" color="primary">Add movie</Button>
             <h2>Plot: {searchResults.videoDescription}</h2>
             <h2>Release: {searchResults.year}</h2>
           </div>
