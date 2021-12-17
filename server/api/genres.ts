@@ -13,7 +13,7 @@ GenresRouter.get('/:id', (req: Request, res: Response) => {
 });
 
 GenresRouter.post('/', (req: Request, res: Response) => {
-  addDirector(req.body.director)
+  addGenre(req.body.genre)
     .then(() => res.sendStatus(201))
     .catch((err: any) => {
       console.error(err);
