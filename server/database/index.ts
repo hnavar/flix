@@ -265,7 +265,6 @@ interface movieObj {
 }
 
 const addMovie = async (movie: movieObj, userId?: number) => {
-  console.log('from the database', movie);
   const {movie_id, title, description, release_date, trailer_url, thumbnailUrl} = movie;
   const actors = movie.actors.split(', ');
   const directors = movie.directors.split(', ');
