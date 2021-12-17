@@ -1,6 +1,6 @@
 import axios from 'axios';
 const { IMDB_KEY } = process.env;
-// import { app } from '../index'
+import app from '../index'
 
 app.get('/IMDBTop200', (req: any, res: any) => {
     // axios
