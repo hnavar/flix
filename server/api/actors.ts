@@ -13,7 +13,12 @@ ActorsRouter.get('/:id', (req: Request, res: Response) => {
 });
 
 ActorsRouter.post('/', (req: Request, res: Response) => {
-  addActor(req.body.actor);
+  addActor(req.body.actor)
+    .then(() => res.sendStatus(201))
+    .catch((err: any) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
 });
 
 export default ActorsRouter;
