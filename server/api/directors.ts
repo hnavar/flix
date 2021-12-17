@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import type {Request, Response} from 'express';
-const {getFavoriteDirectors} = require('../database/index')
+const {getFavoriteDirectors, addDirector} = require('../database/index')
 const DirectorsRouter = Router();
 
 DirectorsRouter.get('/:id', (req: Request, res: Response) => {
@@ -10,6 +10,10 @@ DirectorsRouter.get('/:id', (req: Request, res: Response) => {
       console.error(err);
       res.sendStatus(500);
     });
+});
+
+DirectorsRouter.post('/', (req: Request, res: Response) => {
+  addDirector(req.body.director);
 });
 
 export default DirectorsRouter;

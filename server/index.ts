@@ -5,7 +5,7 @@ import MoviesRouter from './api/movies';
 import ActorsRouter from './api/actors';
 import DirectorsRouter from './api/directors';
 import GenresRouter from './api/genres';
-// const dotenv = require('dotenv');
+require('dotenv').config();
 const app = express();
 
 const port = process.env.PORT || 3000;

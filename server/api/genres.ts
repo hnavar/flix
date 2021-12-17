@@ -1,7 +1,7 @@
 import {Router} from 'express';
 import type {Request, Response} from 'express';
 const GenresRouter = Router();
-const {getFavoriteGenres} = require('../database/index');
+const {getFavoriteGenres, addGenre} = require('../database/index');
 
 GenresRouter.get('/:id', (req: Request, res: Response) => {
   getFavoriteGenres(req.params.id)
@@ -10,6 +10,10 @@ GenresRouter.get('/:id', (req: Request, res: Response) => {
       console.error(err);
       res.sendStatus(500);
     });
+});
+
+GenresRouter.post('/', (req: Request, res: Response) => {
+  addDirector(req.body.director);
 });
 
 export default GenresRouter;

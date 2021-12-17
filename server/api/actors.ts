@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import type {Request, Response} from 'express';
-const {getFavoriteActors} = require('../database/index');
+const {getFavoriteActors, addActor} = require('../database/index');
 const ActorsRouter = Router();
 
 ActorsRouter.get('/:id', (req: Request, res: Response) => {
@@ -10,6 +10,10 @@ ActorsRouter.get('/:id', (req: Request, res: Response) => {
       console.error(err);
       res.sendStatus(500);
     });
+});
+
+ActorsRouter.post('/', (req: Request, res: Response) => {
+  addActor(req.body.actor);
 });
 
 export default ActorsRouter;
