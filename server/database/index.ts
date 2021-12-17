@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+require('dotenv').config();
 
 const {
   DATABASE,
@@ -60,11 +61,10 @@ const Movies = db.define('movies', {
     unique: true
   },
   title: Sequelize.STRING,
-  trailer_url: Sequelize.STRING,
-  description: Sequelize.STRING,
-  cast: Sequelize.STRING,
+  trailer_url: Sequelize.STRING(2048),
+  description: Sequelize.STRING(8192),
   release_date: Sequelize.STRING,
-  thumbnailUrl: Sequelize.STRING
+  thumbnailUrl: Sequelize.STRING(2048)
 });
 
 const Actors = db.define('actors', {
@@ -74,7 +74,7 @@ const Actors = db.define('actors', {
     primaryKey: true,
   },
   actor_name: {
-    data: Sequelize.STRING,
+    type: Sequelize.STRING,
     unique: true
   }
 });
@@ -86,7 +86,7 @@ const Directors = db.define('directors', {
     primaryKey: true,
   },
   director_name: {
-    data: Sequelize.STRING,
+    type: Sequelize.STRING,
     unique: true
   }
 });
@@ -178,18 +178,18 @@ Directors.belongsToMany(User, { through: 'users_directors' });
 User.belongsToMany(Directors, { through: 'users_actors' });
 Actors.belongsToMany(User, { through: 'users_actors' });
 
-User.sync({force: true});
-Genre.sync({force: true});
-Movies.sync({force: true});
-Actors.sync({force: true});
-Directors.sync({force: true});
-Users_Genre.sync({force: true});
-Users_Movies.sync({force: true});
-Movie_Genre.sync({force: true});
-Movie_Actors.sync({force: true});
-Movie_Directors.sync({force: true});
-Users_Actors.sync({force: true});
-Users_Directors.sync({force: true});
+User.sync();
+Genre.sync();
+Movies.sync();
+Actors.sync();
+Directors.sync();
+Users_Genre.sync();
+Users_Movies.sync();
+Movie_Genre.sync();
+Movie_Actors.sync();
+Movie_Directors.sync();
+Users_Actors.sync();
+Users_Directors.sync();
 
 const getAllMovies = () => {
   return Movies.findAll();
@@ -265,19 +265,20 @@ interface movieObj {
 }
 
 const addMovie = async (movie: movieObj, userId?: number) => {
+  console.log('from the database', movie);
   const {movie_id, title, description, release_date, trailer_url, thumbnailUrl} = movie;
   const actors = movie.actors.split(', ');
   const directors = movie.directors.split(', ');
   const genres = movie.genres.split(', ');
 
-  const currentMovie = await Movies.update({
+  const currentMovie = await Movies.create({
     movie_id: movie_id,
     title: title,
     description: description,
     release_date: release_date,
     trailer_url: trailer_url,
     thumbnailUrl: thumbnailUrl
-  }, {upsert: true});
+  });
 
   !!userId && Users_Movies.create({
     userId: userId,
