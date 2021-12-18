@@ -45,7 +45,7 @@ const SearchMovie = (props :any) => {
 
       const fullData = {...newData, ...searchResults}
       console.log(fullData);
-      axios.post('/api/movies/', fullData)
+      axios.post('/api/movies/saveMovie/', fullData)
     })
   }
 
