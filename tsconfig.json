@@ -2,8 +2,10 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "jsx": "react",
+    "resolveJsonModule": true,
     "module": "commonJS",
     "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
     "lib": [
       "dom",
       "esnext"
@@ -12,6 +14,9 @@
     "sourceMap": true,
     "target": "esnext",
   },
+  "include": [
+    "server/types/*.d.ts"
+  ],
   "exclude": [
     "node_modules"
   ]
