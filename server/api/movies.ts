@@ -44,14 +44,19 @@ MoviesRouter.get('/directors/:id', (req: Request, res: Response) => {
 });
 
 MoviesRouter.post('/insertMovie', (req: Request, res: Response) => {
-  type movieData = {imDbID: string; title: string; releaseDate: string; videoDescription: string; linkEmbed: string};
-  const {imDbID, title, releaseDate, videoDescription, linkEmbed}: movieData = req.body;
+  type movieData = {imDbID: string; title: string; releaseDate: string; videoDescription: string; linkEmbed: string; genres: string;
+    actors: string; directors: string; thumbnailUrl: string};
+  const {imDbID, title, releaseDate, videoDescription, linkEmbed, genres, actors, directors, thumbnailUrl}: movieData = req.body;
   const movie = {
     imdDbID: imDbID,
     title: title,
     releaseDate: releaseDate,
     videoDescription : videoDescription,
     linkEmbed: linkEmbed,
+    genres: genres,
+    actors: actors,
+    directors: directors,
+    thumbnailUrl: thumbnailUrl
   }
   return addMovie(movie);
 });

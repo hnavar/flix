@@ -245,18 +245,19 @@ const getFavoriteGenres = (userId: number) => {
 
     const addMovie = async (movie: movieObj, userId?: number) => {
       console.log('from the database', movie);
-      const {movie_id, title, description, release_date, trailer_url, thumbnailUrl} = movie;
+    //  const {imDbID, title, releaseDate, videoDescription, linkEmbed, genres, actors, directors, thumbnailUrl} = movie;
+      const {title, description, releaseDate, linkEmbed, thumbnailUrl, imDbID} = movie;
       const actors = movie.actors.split(', ');
       const directors = movie.directors.split(', ');
       const genres = movie.genres.split(', ');
 
       const currentMovie = await Movies.create({
-        movie_id: movie_id,
+        movie_id: imDbID,
         title: title,
         description: description,
-        release_date: release_date,
-        trailer_url: trailer_url,
-        thumbnailUrl: thumbnailUrl
+        release_date: releaseDate,
+        trailer_url: linkEmbed,
+        thumbnailUrl: thumbnailUrl,
       });
 
       !!userId && Users_Movies.create({

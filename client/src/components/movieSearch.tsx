@@ -45,21 +45,21 @@ const SearchMovie = (props :any) => {
 
       const fullData = {...newData, ...searchResults}
       console.log(fullData);
-      // return {...movieObj, ...data.data}
+      axios.post('/api/movies/insertMovie', fullData)
     })
   }
 
-  const addNewMovie = () => {
-    if (searchResults) {
-    axios.post('/api/movies/insertMovie', {
-      imdDbID: searchResults.imDbId,
-      title: searchResults.title,
-      releaseDate: searchResults.year,
-      videoDescription : searchResults.videoDescription,
-      linkEmbed: searchResults.linkEmbed,
-    })
-    }
-  };
+  // const addNewMovie = () => {
+  //   if (searchResults) {
+  //   axios.post('/api/movies/insertMovie', {
+  //     imdDbID: searchResults.imDbId,
+  //     title: searchResults.title,
+  //     releaseDate: searchResults.year,
+  //     videoDescription : searchResults.videoDescription,
+  //     linkEmbed: searchResults.linkEmbed,
+  //   })
+  //   }
+  // };
 
   const handleChange = (event :any) => {
     const searchVal = event.target.value;
@@ -93,7 +93,7 @@ const SearchMovie = (props :any) => {
           <div>
             <h1>Title: {searchResults.title}</h1>
             <iframe width="1000" height="600" src={searchResults.linkEmbed} frameBorder="0"></iframe>
-            <Button type="submit" onClick={() => {addNewMovie(), addMovieInfo()}} variant="contained" id="outlined-basic" color="primary">Add movie</Button>
+            <Button type="submit" onClick={addMovieInfo} variant="contained" id="outlined-basic" color="primary">Add movie</Button>
             <h2>Plot: {searchResults.videoDescription}</h2>
             <h2>Release: {searchResults.year}</h2>
           </div>
