@@ -14,7 +14,7 @@ const db = new Sequelize({
   username: USER_NAME,
   password: USER_PASSWORD,
   host: HOST,
-  port: DB_PORT,
+  port: Number(DB_PORT),
   dialect: 'postgres',
   logging: false,
 });
@@ -191,11 +191,11 @@ Movie_Directors.sync();
 Users_Actors.sync();
 Users_Directors.sync();
 
-const getAllMovies = () => {
+export const getAllMovies = () => {
   return Movies.findAll();
 };
 
-const getAllMoviesByGenre = (genre: number) => {
+export const getAllMoviesByGenre = (genre: number) => {
   return Genre.findAll({
     include: [
       {
@@ -206,7 +206,7 @@ const getAllMoviesByGenre = (genre: number) => {
   });
 };
 
-const getAllMoviesByDirector = (director: number) => {
+export const getAllMoviesByDirector = (director: number) => {
   return Directors.findAll({
     include: [
       {
@@ -217,7 +217,7 @@ const getAllMoviesByDirector = (director: number) => {
   });
 };
 
-const getAllMoviesWithActor = (actor: number) => {
+export const getAllMoviesWithActor = (actor: number) => {
   return Actors.findAll({
     include: [
       {
@@ -228,7 +228,7 @@ const getAllMoviesWithActor = (actor: number) => {
   });
 };
 
-const getFavoriteActors = (userId: number) => {
+export const getFavoriteActors = (userId: number) => {
   return User.findAll({
     include: [
       {
@@ -239,7 +239,7 @@ const getFavoriteActors = (userId: number) => {
   });
 };
 
-const getFavoriteDirectors = (userId: number) => {
+export const getFavoriteDirectors = (userId: number) => {
   return User.findAll({
     include: [
       {
@@ -250,7 +250,7 @@ const getFavoriteDirectors = (userId: number) => {
   });
 };
 
-const getFavoriteGenres = (userId: number) => {
+export const getFavoriteGenres = (userId: number) => {
   return User.findAll({
     include: [
       {
@@ -264,40 +264,45 @@ interface movieObj {
   [key:string]: string;
 }
 
-const addMovie = async (movie: movieObj, userId?: number) => {
-  const {movie_id, title, description, release_date, trailer_url, thumbnailUrl} = movie;
-  const actors = movie.actors.split(', ');
-  const directors = movie.directors.split(', ');
-  const genres = movie.genres.split(', ');
+export const addMovie = async (movie: movieObj, userId?: number) => {
+  try {
+    const {movie_id, title, description, release_date, trailer_url, thumbnailUrl} = movie;
+    const actors = movie.actors.split(', ');
+    const directors = movie.directors.split(', ');
+    const genres = movie.genres.split(', ');
 
-  const currentMovie = await Movies.create({
-    movie_id: movie_id,
-    title: title,
-    description: description,
-    release_date: release_date,
-    trailer_url: trailer_url,
-    thumbnailUrl: thumbnailUrl
-  });
+    const currentMovie = await Movies.create({
+      movie_id: movie_id,
+      title: title,
+      description: description,
+      release_date: release_date,
+      trailer_url: trailer_url,
+      thumbnailUrl: thumbnailUrl
+    });
 
-  !!userId && Users_Movies.create({
-    userId: userId,
-    movieId: currentMovie.id
-  });
+    !!userId && Users_Movies.create({
+      userId: userId,
+      movieId: currentMovie.id
+    });
 
-  actors.forEach(actor => {
-    addActor(actor, currentMovie.id);
-  });
+    actors.forEach(actor => {
+      addActor(actor, currentMovie.id);
+    });
 
-  directors.forEach(director => {
-    addDirector(director, currentMovie.id);
-  });
+    directors.forEach(director => {
+      addDirector(director, currentMovie.id);
+    });
 
-  genres.forEach(genre => {
-    addGenre(genre, currentMovie.id);
-  });
+    genres.forEach(genre => {
+      addGenre(genre, currentMovie.id);
+    });
+  }
+  catch (err) {
+    console.error('already added');
+  }
 };
 
-const addActor = async (actor: string, movieId?: number) => {
+export const addActor = async (actor: string, movieId?: number) => {
   const currentActor = await Actors.create(
     {actor_name: actor}
   );
@@ -308,7 +313,7 @@ const addActor = async (actor: string, movieId?: number) => {
   });
 };
 
-const addDirector = async (director: string, movieId?: number) => {
+export const addDirector = async (director: string, movieId?: number) => {
   const currentDirector = await Directors.create(
     {director_name: director}
   );
@@ -319,7 +324,7 @@ const addDirector = async (director: string, movieId?: number) => {
   });
 };
 
-const addGenre = async (genre: string, movieId?: number) => {
+export const addGenre = async (genre: string, movieId?: number) => {
   const currentGenre = await Genre.create(
     {genre: genre}
   );
@@ -330,16 +335,16 @@ const addGenre = async (genre: string, movieId?: number) => {
   });
 };
 
-module.exports = {
-  getAllMovies,
-  getAllMoviesByDirector,
-  getAllMoviesByGenre,
-  getAllMoviesWithActor,
-  getFavoriteActors,
-  getFavoriteDirectors,
-  getFavoriteGenres,
-  addMovie,
-  addActor,
-  addDirector,
-  addGenre
-};
+// module.exports = {
+//   getAllMovies,
+//   getAllMoviesByDirector,
+//   getAllMoviesByGenre,
+//   getAllMoviesWithActor,
+//   getFavoriteActors,
+//   getFavoriteDirectors,
+//   getFavoriteGenres,
+//   addMovie,
+//   addActor,
+//   addDirector,
+//   addGenre
+// };

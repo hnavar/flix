@@ -1,5 +1,3 @@
-import Sequelize from 'sequelize';
-require('dotenv').config();
 const fs = require('fs');
 const axios = require('axios');
 import path from 'path';
@@ -11,27 +9,7 @@ interface movieObj {
 import movieJson from './sampleData.json'
 
 // (async () => {
-const dropDb = async () => {
 
-  const {
-    DATABASE,
-    USER_NAME,
-    USER_PASSWORD,
-    HOST,
-    DB_PORT,
-  } = process.env;
-
-  const db = new Sequelize({
-    username: USER_NAME,
-    password: USER_PASSWORD,
-    host: HOST,
-    port: DB_PORT,
-    dialect: 'postgres',
-    logging: false,
-  });
-
-  db.
-};
 // })();
 // const moviesJson = fs.readFileSync('./sampleData.json', 'utf-8');
 
