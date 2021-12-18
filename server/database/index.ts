@@ -223,7 +223,7 @@ export const getAllDirectors = () => {
 };
 
 export const getAllMoviesByGenre = (genre: number) => {
-  return Genre.findOne({
+  return Genre.findAll({
     include: [
       {
         model: Movies,
@@ -234,10 +234,10 @@ export const getAllMoviesByGenre = (genre: number) => {
 };
 
 export const getAllMoviesByDirector = (director: number) => {
-  return Movies.findAll({
+  return Directors.findAll({
     include: [
       {
-        model: Directors,
+        model: Movies,
         through: {where: {directorId: director}}
       }
     ]
@@ -245,10 +245,10 @@ export const getAllMoviesByDirector = (director: number) => {
 };
 
 export const getAllMoviesWithActor = (actor: number) => {
-  return Movies.findAll({
+  return Actors.findAll({
     include: [
       {
-        model: Actors,
+        model: Movies,
         through: {where: {actorId: actor}}
       }
     ]
@@ -292,13 +292,11 @@ interface movieObj {
 }
 
 export const addMovie = async (movie: movieObj, userId?: number) => {
-  const {movie_id, title, description, release_date, trailer_url, thumbnailUrl} = movie;
-  const actors = movie.actors.split(', ');
-  const directors = movie.directors.split(', ');
-  const genres = movie.genres.split(', ');
-  // let movieId;
-
   try {
+    const {movie_id, title, description, release_date, trailer_url, thumbnailUrl} = movie;
+    const actors = movie.actors.split(', ');
+    const directors = movie.directors.split(', ');
+    const genres = movie.genres.split(', ');
 
     const currentMovie = await Movies.findOrCreate({
       where: {
