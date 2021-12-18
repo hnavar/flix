@@ -1,12 +1,21 @@
 import {Router} from 'express';
 import type {Request, Response} from 'express';
-const {getFavoriteDirectors, addDirector} = require('../database/index')
+import { getFavoriteDirectors, addDirector, getAllDirectors } from '../database/index';
 const DirectorsRouter = Router();
 
 DirectorsRouter.get('/:id', (req: Request, res: Response) => {
-  getFavoriteDirectors(req.params.id)
+  getFavoriteDirectors(Number(req.params.id))
     .then((data: object[]) => res.status(200).send(data))
     .catch((err: object) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+});
+
+DirectorsRouter.get('/', (req: Request, res: Response) => {
+  getAllDirectors()
+    .then((data: object[]) => res.status(200).send(data))
+    .catch((err: any) => {
       console.error(err);
       res.sendStatus(500);
     });

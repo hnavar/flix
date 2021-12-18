@@ -195,6 +195,18 @@ export const getAllMovies = () => {
   return Movies.findAll();
 };
 
+export const getAllGenres = () => {
+  return Genre.findAll();
+};
+
+export const getAllActors = () => {
+  return Actors.findAll();
+};
+
+export const getAllDirectors = () => {
+  return Directors.findAll();
+};
+
 export const getAllMoviesByGenre = (genre: number) => {
   return Genre.findAll({
     include: [
@@ -303,37 +315,54 @@ export const addMovie = async (movie: movieObj, userId?: number) => {
 };
 
 export const addActor = async (actor: string, movieId?: number) => {
-  const currentActor = await Actors.create(
-    {actor_name: actor}
-  );
+  try {
+    const currentActor = await Actors.create(
+      {actor_name: actor}
+    );
 
-  !!movieId && Movie_Actors.create({
-    actorId: currentActor.id,
-    movieId: movieId
-  });
+    !!movieId && Movie_Actors.create({
+      actorId: currentActor.id,
+      movieId: movieId
+    });
+  }
+  catch (err) {
+    console.error(err);
+  }
 };
 
 export const addDirector = async (director: string, movieId?: number) => {
-  const currentDirector = await Directors.create(
-    {director_name: director}
-  );
+  try {
+    const currentDirector = await Directors.create(
+      {director_name: director}
+    );
 
-  !!movieId && Movie_Directors.create({
-    actorId: currentDirector.id,
-    movieId: movieId
-  });
+    !!movieId && Movie_Directors.create({
+      actorId: currentDirector.id,
+      movieId: movieId
+    });
+  }
+  catch (err) {
+    console.error(err);
+  }
 };
 
 export const addGenre = async (genre: string, movieId?: number) => {
+  try {
   const currentGenre = await Genre.create(
-    {genre: genre}
-  );
+      {genre: genre}
+    );
 
-  !!movieId && Movie_Genre.create({
-    genreId: currentGenre.id,
-    movieId: movieId
-  });
+    !!movieId && Movie_Genre.create({
+      genreId: currentGenre.id,
+      movieId: movieId
+    });
+  }
+  catch (err) {
+    console.error(err);
+  }
 };
+
+
 
 // module.exports = {
 //   getAllMovies,

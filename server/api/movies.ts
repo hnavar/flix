@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import type {Request, Response} from 'express';
-const {getAllMovies, getAllMoviesByDirector, getAllMoviesByGenre, getAllMoviesWithActor, addMovie} = require('../database/index')
+import { getAllMovies, getAllMoviesByDirector, getAllMoviesByGenre, getAllMoviesWithActor, addMovie } from '../database/index';
 
 const MoviesRouter = Router();
 interface MovieObj {
@@ -17,7 +17,7 @@ MoviesRouter.get('/', (req: Request, res: Response) => {
 });
 
 MoviesRouter.get('/genres/:id', (req: Request, res: Response) => {
-  getAllMoviesByGenre(req.params.id)
+  getAllMoviesByGenre(Number(req.params.id))
     .then((data: MovieObj[]) => res.status(200).send(data))
     .catch((err: object) => {
       console.error(err);
@@ -26,7 +26,7 @@ MoviesRouter.get('/genres/:id', (req: Request, res: Response) => {
 });
 
 MoviesRouter.get('/actors/:id', (req: Request, res: Response) => {
-  getAllMoviesWithActor(req.params.id)
+  getAllMoviesWithActor(Number(req.params.id))
     .then((data: MovieObj[]) => res.status(200).send(data))
     .catch((err: object) => {
       console.error(err);
@@ -35,7 +35,7 @@ MoviesRouter.get('/actors/:id', (req: Request, res: Response) => {
 });
 
 MoviesRouter.get('/directors/:id', (req: Request, res: Response) => {
-  getAllMoviesByDirector(req.params.id)
+  getAllMoviesByDirector(Number(req.params.id))
     .then((data: MovieObj[]) => res.status(200).send(data))
     .catch((err: object) => {
       console.error(err);
