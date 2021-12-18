@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon --watch server --exec ts-node server/index.ts",
     "build": "webpack --config webpack.config.js --mode production",
-    "dev": "webpack --watch"
+    "dev": "webpack --watch",
+    "seed": "ts-node server/database/seed.ts"
   },
   "author": "",
   "license": "ISC",
@@ -14,6 +15,7 @@
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
     "@types/react": "^17.0.37",
+    "@types/sequelize": "^4.28.10",
     "css-loader": "^6.5.1",
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.4.5",

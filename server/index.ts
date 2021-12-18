@@ -9,11 +9,12 @@ import MoviesRouter from './api/movies';
 import ActorsRouter from './api/actors';
 import DirectorsRouter from './api/directors';
 import GenresRouter from './api/genres';
-
-// const dotenv = require('dotenv');
 const app = express();
 const port = process.env.PORT || 3000;
 const dist = path.resolve(__dirname, '..', 'client/dist');
+app.use(cors({origin: true, credentials: true}));
+app.use(express.static(dist))
+app.use(express.json());
 
 app.use(cors({ credentials: true,
   'allowedHeaders': ['sessionId', 'Content-Type'],
@@ -35,3 +36,4 @@ app.listen(port,()=>{
  console.log(`Listening on port ${port}`);
 });
 
+export default app

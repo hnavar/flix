@@ -19,10 +19,10 @@ const db = new Sequelize({
   username: USER_NAME,
   password: USER_PASSWORD,
   host: HOST,
-  port: DB_PORT,
+  port: Number(DB_PORT),
   dialect: 'postgres',
   logging: false,
-})
+});
 
 db.authenticate()
   .then(() => console.log('connected to database'))
@@ -61,11 +61,15 @@ const Movies = db.define('movies', {
     autoIncrement: true,
     primaryKey: true,
   },
+  movie_id: {
+    type: Sequelize.STRING,
+    unique: true
+  },
   title: Sequelize.STRING,
-  trailer_url: Sequelize.STRING,
-  description: Sequelize.STRING,
-  cast: Sequelize.STRING,
-  release_date: Sequelize.STRING
+  trailer_url: Sequelize.STRING(2048),
+  description: Sequelize.STRING(8192),
+  release_date: Sequelize.STRING,
+  thumbnailUrl: Sequelize.STRING(2048)
 });
 
 const Actors = db.define('actors', {
@@ -74,7 +78,10 @@ const Actors = db.define('actors', {
     autoIncrement: true,
     primaryKey: true,
   },
-  actor_name: Sequelize.STRING
+  actor_name: {
+    type: Sequelize.STRING,
+    unique: true
+  }
 });
 
 const Directors = db.define('directors', {
@@ -83,7 +90,10 @@ const Directors = db.define('directors', {
     autoIncrement: true,
     primaryKey: true,
   },
-  director_name: Sequelize.STRING
+  director_name: {
+    type: Sequelize.STRING,
+    unique: true
+  }
 });
 
 // join tables
@@ -127,6 +137,23 @@ const Movie_Directors = db.define('movie_directors', {
   }
 });
 
+const Users_Directors = db.define('users_directors', {
+  id: {
+    type: Sequelize.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  }
+});
+
+const Users_Actors = db.define('users_actors', {
+  id: {
+    type: Sequelize.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  }
+});
+
+
 // creates userId & genreId columns in users_genre table
 User.belongsToMany(Genre, { through: 'users_genre' });
 Genre.belongsToMany(User, { through: 'users_genre' });
@@ -148,6 +175,14 @@ Actors.belongsToMany(Movies, { through: 'movie_actors' });
 Movies.belongsToMany(Directors, { through: 'movie_directors' });
 Directors.belongsToMany(Movies, { through: 'movie_directors' });
 
+// creates userId & directorsID columns in movie_actors table
+User.belongsToMany(Directors, { through: 'users_directors' });
+Directors.belongsToMany(User, { through: 'users_directors' });
+
+// creates userId & directorsID columns in movie_actors table
+User.belongsToMany(Directors, { through: 'users_actors' });
+Actors.belongsToMany(User, { through: 'users_actors' });
+
 User.sync();
 Genre.sync();
 Movies.sync();
@@ -158,12 +193,26 @@ Users_Movies.sync();
 Movie_Genre.sync();
 Movie_Actors.sync();
 Movie_Directors.sync();
+Users_Actors.sync();
+Users_Directors.sync();
 
-const getAllMovies = () => {
+export const getAllMovies = () => {
   return Movies.findAll();
 };
 
-const getAllMoviesByGenre = (genre: number) => {
+export const getAllGenres = () => {
+  return Genre.findAll();
+};
+
+export const getAllActors = () => {
+  return Actors.findAll();
+};
+
+export const getAllDirectors = () => {
+  return Directors.findAll();
+};
+
+export const getAllMoviesByGenre = (genre: number) => {
   return Genre.findAll({
     include: [
       {
@@ -174,7 +223,7 @@ const getAllMoviesByGenre = (genre: number) => {
   });
 };
 
-const getAllMoviesByDirector = (director: number) => {
+export const getAllMoviesByDirector = (director: number) => {
   return Directors.findAll({
     include: [
       {
@@ -185,7 +234,7 @@ const getAllMoviesByDirector = (director: number) => {
   });
 };
 
-const getAllMoviesWithActor = (actor: number) => {
+export const getAllMoviesWithActor = (actor: number) => {
   return Actors.findAll({
     include: [
       {
@@ -196,7 +245,7 @@ const getAllMoviesWithActor = (actor: number) => {
   });
 };
 
-const getFavoriteActors = (userId: number) => {
+export const getFavoriteActors = (userId: number) => {
   return User.findAll({
     include: [
       {
@@ -207,7 +256,7 @@ const getFavoriteActors = (userId: number) => {
   });
 };
 
-const getFavoriteDirectors = (userId: number) => {
+export const getFavoriteDirectors = (userId: number) => {
   return User.findAll({
     include: [
       {
@@ -218,7 +267,7 @@ const getFavoriteDirectors = (userId: number) => {
   });
 };
 
-const getFavoriteGenres = (userId: number) => {
+export const getFavoriteGenres = (userId: number) => {
   return User.findAll({
     include: [
       {
@@ -229,98 +278,105 @@ const getFavoriteGenres = (userId: number) => {
   });
 };
 
-  const insertMovie = (movie: any) => Movies.create({
-    imdDbID: movie.imDbId,
-      title: movie.title,
-      releaseDate: movie.year,
-      videoDescription : movie.videoDescription,
-      linkEmbed: movie.linkEmbed,
-  }).then((data: any) => {
-    console.log('success', data.toJSON());
-  })
-    .catch((err: any) => {
-    // print the error details
-      console.log(err);
+
+export const addMovie = async (movie: movieObj, userId?: number) => {
+  try {
+    const {movie_id, title, description, release_date, trailer_url, thumbnailUrl} = movie;
+    const actors = movie.actors.split(', ');
+    const directors = movie.directors.split(', ');
+    const genres = movie.genres.split(', ');
+
+    const currentMovie = await Movies.create({
+      movie_id: movie_id,
+      title: title,
+      description: description,
+      release_date: release_date,
+      trailer_url: trailer_url,
+      thumbnailUrl: thumbnailUrl
     });
 
-    const addMovie = async (movie: movieObj, userId?: number) => {
-      console.log('from the database', movie);
-    //  const {imDbID, title, releaseDate, videoDescription, linkEmbed, genres, actors, directors, thumbnailUrl} = movie;
-      const {title, description, releaseDate, linkEmbed, thumbnailUrl, imDbID} = movie;
-      const actors = movie.actors.split(', ');
-      const directors = movie.directors.split(', ');
-      const genres = movie.genres.split(', ');
+    !!userId && Users_Movies.create({
+      userId: userId,
+      movieId: currentMovie.id
+    });
 
-      const currentMovie = await Movies.create({
-        movie_id: imDbID,
-        title: title,
-        description: description,
-        release_date: releaseDate,
-        trailer_url: linkEmbed,
-        thumbnailUrl: thumbnailUrl,
-      });
+    actors.forEach(actor => {
+      addActor(actor, currentMovie.id);
+    });
 
-      !!userId && Users_Movies.create({
-        userId: userId,
-        movieId: currentMovie.id
-      });
+    directors.forEach(director => {
+      addDirector(director, currentMovie.id);
+    });
 
-      actors.forEach(actor => {
-        addActor(actor, currentMovie.id);
-      });
+    genres.forEach(genre => {
+      addGenre(genre, currentMovie.id);
+    });
+  }
+  catch (err) {
+    console.error('already added');
+  }
+};
 
-      directors.forEach(director => {
-        addDirector(director, currentMovie.id);
-      });
+export const addActor = async (actor: string, movieId?: number) => {
+  try {
+    const currentActor = await Actors.create(
+      {actor_name: actor}
+    );
 
-      genres.forEach(genre => {
-        addGenre(genre, currentMovie.id);
-      });
-    };
+    !!movieId && Movie_Actors.create({
+      actorId: currentActor.id,
+      movieId: movieId
+    });
+  }
+  catch (err) {
+    console.error(err);
+  }
+};
 
-    const addActor = async (actor: string, movieId?: number) => {
-      const currentActor = await Actors.create(
-        {actor_name: actor}
-      );
+export const addDirector = async (director: string, movieId?: number) => {
+  try {
+    const currentDirector = await Directors.create(
+      {director_name: director}
+    );
 
-      !!movieId && Movie_Actors.create({
-        actorId: currentActor.id,
-        movieId: movieId
-      });
-    };
+    !!movieId && Movie_Directors.create({
+      actorId: currentDirector.id,
+      movieId: movieId
+    });
+  }
+  catch (err) {
+    console.error(err);
+  }
+};
 
-    const addDirector = async (director: string, movieId?: number) => {
-      const currentDirector = await Directors.create(
-        {director_name: director}
-      );
+export const addGenre = async (genre: string, movieId?: number) => {
+  try {
+  const currentGenre = await Genre.create(
+      {genre: genre}
+    );
 
-      !!movieId && Movie_Directors.create({
-        actorId: currentDirector.id,
-        movieId: movieId
-      });
-    };
-
-    const addGenre = async (genre: string, movieId?: number) => {
-      const currentGenre = await Genre.create(
-        {genre: genre}
-      );
-
-      !!movieId && Movie_Genre.create({
-        genreId: currentGenre.id,
-        movieId: movieId
-      });
-    };
-
+    !!movieId && Movie_Genre.create({
+      genreId: currentGenre.id,
+      movieId: movieId
+    });
+  }
+  catch (err) {
+    console.error(err);
+  }
+};
 
 
-module.exports = {
-  getAllMovies,
-  getAllMoviesByDirector,
-  getAllMoviesByGenre,
-  getAllMoviesWithActor,
-  getFavoriteActors,
-  getFavoriteDirectors,
-  getFavoriteGenres,
-  insertMovie,
-  addMovie
-}
+
+// module.exports = {
+//   getAllMovies,
+//   getAllMoviesByDirector,
+//   getAllMoviesByGenre,
+//   getAllMoviesWithActor,
+//   getFavoriteActors,
+//   getFavoriteDirectors,
+//   getFavoriteGenres,
+//   addMovie,
+//   addActor,
+//   addDirector,
+//   addGenre
+// };

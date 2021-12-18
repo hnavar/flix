@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import type {Request, Response} from 'express';
-const {getAllMovies, getAllMoviesByDirector, getAllMoviesByGenre, getAllMoviesWithActor, addMovie} = require('../database/index')
+import { getAllMovies, getAllMoviesByDirector, getAllMoviesByGenre, getAllMoviesWithActor, addMovie } from '../database/index';
 
 const MoviesRouter = Router();
 interface MovieObj {
@@ -17,7 +17,7 @@ MoviesRouter.get('/', (req: Request, res: Response) => {
 });
 
 MoviesRouter.get('/genres/:id', (req: Request, res: Response) => {
-  getAllMoviesByGenre(req.params.id)
+  getAllMoviesByGenre(Number(req.params.id))
     .then((data: MovieObj[]) => res.status(200).send(data))
     .catch((err: object) => {
       console.error(err);
@@ -26,7 +26,7 @@ MoviesRouter.get('/genres/:id', (req: Request, res: Response) => {
 });
 
 MoviesRouter.get('/actors/:id', (req: Request, res: Response) => {
-  getAllMoviesWithActor(req.params.id)
+  getAllMoviesWithActor(Number(req.params.id))
     .then((data: MovieObj[]) => res.status(200).send(data))
     .catch((err: object) => {
       console.error(err);
@@ -35,7 +35,7 @@ MoviesRouter.get('/actors/:id', (req: Request, res: Response) => {
 });
 
 MoviesRouter.get('/directors/:id', (req: Request, res: Response) => {
-  getAllMoviesByDirector(req.params.id)
+  getAllMoviesByDirector(Number(req.params.id))
     .then((data: MovieObj[]) => res.status(200).send(data))
     .catch((err: object) => {
       console.error(err);
@@ -43,22 +43,35 @@ MoviesRouter.get('/directors/:id', (req: Request, res: Response) => {
     });
 });
 
-MoviesRouter.post('/insertMovie', (req: Request, res: Response) => {
+//gonna use one of these
+MoviesRouter.post('/', (req: Request, res: Response) => {
   type movieData = {imDbID: string; title: string; releaseDate: string; videoDescription: string; linkEmbed: string; genres: string;
     actors: string; directors: string; thumbnailUrl: string};
   const {imDbID, title, releaseDate, videoDescription, linkEmbed, genres, actors, directors, thumbnailUrl}: movieData = req.body;
   const movie = {
-    imdDbID: imDbID,
+    movie_id: imDbID,
     title: title,
-    releaseDate: releaseDate,
-    videoDescription : videoDescription,
-    linkEmbed: linkEmbed,
+    release_date: releaseDate,
+    description : videoDescription,
+    trailer_url: linkEmbed,
     genres: genres,
     actors: actors,
     directors: directors,
     thumbnailUrl: thumbnailUrl
   };
   return addMovie(movie);
+});
+
+//one of these for my save movies
+MoviesRouter.post('/', (req: Request, res: Response) => {
+  addMovie(req.body)
+    .then(() => {;
+      res.sendStatus(201);
+    })
+    .catch((err: any) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
 });
 
 export default MoviesRouter;
