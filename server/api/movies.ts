@@ -57,7 +57,7 @@ MoviesRouter.post('/insertMovie', (req: Request, res: Response) => {
     actors: actors,
     directors: directors,
     thumbnailUrl: thumbnailUrl
-  }
+  };
   return addMovie(movie);
 });
 

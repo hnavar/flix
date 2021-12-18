@@ -35,7 +35,7 @@ const SearchMovie = (props :any) => {
   const addMovieInfo = () => {
     return axios.get(`https://imdb-api.com/en/API/Title/k_4pd82hff/${searchResults?.imDbId}`)
     .then((data: any) => {
-      console.log(data.data);
+      // console.log(data.data);
       const newData = {
         genres: data.data.genres,
         actors: data.data.stars,
@@ -49,17 +49,6 @@ const SearchMovie = (props :any) => {
     })
   }
 
-  // const addNewMovie = () => {
-  //   if (searchResults) {
-  //   axios.post('/api/movies/insertMovie', {
-  //     imdDbID: searchResults.imDbId,
-  //     title: searchResults.title,
-  //     releaseDate: searchResults.year,
-  //     videoDescription : searchResults.videoDescription,
-  //     linkEmbed: searchResults.linkEmbed,
-  //   })
-  //   }
-  // };
 
   const handleChange = (event :any) => {
     const searchVal = event.target.value;
