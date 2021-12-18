@@ -1,7 +1,5 @@
 import {Router} from 'express';
-// import type {Request, Response} from 'express';
 import axios from 'axios';
-// const {getFavoriteActors} = require('../database/index');
 const TwitterRouter = Router();
 
 const {

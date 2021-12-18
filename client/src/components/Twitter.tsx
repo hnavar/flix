@@ -2,7 +2,7 @@ import React, {FC, useState, useEffect} from "react";
 import axios from 'axios';
 import { Button, TextField } from '@material-ui/core';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-import SingleTweet from "./SingleTwet";
+import SingleTweet from "./SingleTweet";
 
 const Twitter:FC = (props: any) => {
     const [title, setTitle] = useState('');

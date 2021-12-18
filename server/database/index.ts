@@ -39,7 +39,7 @@ const User = db.define('user', {
   profile_image_url: Sequelize.STRING,
   age: Sequelize.INTEGER
 });
-
+// insert into users (id, username, email_Oauth, twitter_Oauth, twitter_user_name, first_name, last_name, profile_image_url, age) values (1, 'sbelete01', 'sbelete01@gmail.com', 1234, 'sbelete_twitter', 'sam', 'belete', 'image_url', 21);
 
 const Genre = db.define('genre', {
   id: {
@@ -47,7 +47,10 @@ const Genre = db.define('genre', {
     autoIncrement: true,
     primaryKey: true,
   },
-  genre: Sequelize.STRING,
+  genre: {
+    type: Sequelize.STRING,
+    unique: true
+  }
 });
 
 const Movies = db.define('movies', {
@@ -299,6 +302,34 @@ export const getFavoriteGenres = (userId: number) => {
     ]
   });
 };
+
+interface userObj {
+  [key:string]: string;
+}
+
+export const addUser = async (user: userObj) => {
+  try {
+    const {username, email_Oauth, twitter_Oauth, twitter_user_name, first_name,
+      last_name, profile_image_url, age} = user;
+      console.log(user)
+       User.create(
+        {
+          username: user.username, 
+          email_Oauth: user.email_Oauth, 
+          twitter_Oauth: user.twitter_Oauth,
+          twitter_user_name: user.twitter_user_name,
+          first_name: user.first_name,
+          last_name: user.last_name,
+          profile_image_url: user.profile_image_url,
+          age: user.age
+        }
+      );
+
+  }
+  catch (err) {
+    console.error('already added');
+  }
+};
 interface movieObj {
   [key:string]: string;
 }
@@ -309,7 +340,7 @@ export const addMovie = async (movie: movieObj, userId?: number) => {
     const actors = movie.actors.split(', ');
     const directors = movie.directors.split(', ');
     const genres = movie.genres.split(', ');
-
+    
     const currentMovie = await Movies.create({
       movie_id: movie_id,
       title: title,
@@ -334,7 +365,7 @@ export const addMovie = async (movie: movieObj, userId?: number) => {
 
     genres.forEach(genre => {
       addGenre(genre, currentMovie.id);
-    });
+    });    
   }
   catch (err) {
     console.error('already added');

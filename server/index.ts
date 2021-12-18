@@ -6,6 +6,7 @@ import ActorsRouter from './api/actors';
 import DirectorsRouter from './api/directors';
 import GenresRouter from './api/genres';
 import TwitterRouter from './api/twitter';
+import UsersRouter from './api/users';
 
 const app = express();
 
@@ -20,6 +21,8 @@ app.use('/api/actors', ActorsRouter);
 app.use('/api/directors', DirectorsRouter);
 app.use('/api/genres', GenresRouter);
 app.use('/api/twitter', TwitterRouter);
+app.use('/api/users', UsersRouter);
+
 
 app.listen(port,()=>{
  console.log(`Listening on port ${port}`);
