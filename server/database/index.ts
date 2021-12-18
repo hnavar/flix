@@ -91,6 +91,18 @@ const Directors = db.define('directors', {
   }
 });
 
+const Tweets = db.define('tweets', {
+  id: {
+    type: Sequelize.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  tweet_text: {
+    type: Sequelize.STRING,
+    unique: true
+  }
+})
+
 // join tables
 const Users_Genre = db.define('users_genre', {
   id: {
@@ -148,6 +160,14 @@ const Users_Actors = db.define('users_actors', {
   }
 });
 
+const Users_Tweets = db.define('users_tweets', {
+  id: {
+    type: Sequelize.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  }
+});
+
 
 // creates userId & genreId columns in users_genre table
 User.belongsToMany(Genre, { through: 'users_genre' });
@@ -178,11 +198,17 @@ Directors.belongsToMany(User, { through: 'users_directors' });
 User.belongsToMany(Directors, { through: 'users_actors' });
 Actors.belongsToMany(User, { through: 'users_actors' });
 
+// creates userId & tweetsID columns in movie_actors table
+User.belongsToMany(Tweets, { through: 'users_tweets' });
+Tweets.belongsToMany(User, { through: 'users_tweets' });
+
+
 User.sync();
 Genre.sync();
 Movies.sync();
 Actors.sync();
 Directors.sync();
+Tweets.sync();
 Users_Genre.sync();
 Users_Movies.sync();
 Movie_Genre.sync();
@@ -190,6 +216,7 @@ Movie_Actors.sync();
 Movie_Directors.sync();
 Users_Actors.sync();
 Users_Directors.sync();
+Users_Tweets.sync();
 
 const getAllMovies = () => {
   return Movies.findAll();
