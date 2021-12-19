@@ -6,6 +6,7 @@ import axios from "axios";
 
 
 
+
 const SearchMovie = (props :any) => {
   interface Movie {imDbId: string; title: string; year: string; videoDescription: string; linkEmbed: string};
   const [searchVal, setSearchVal] = useState('');
@@ -15,14 +16,16 @@ const SearchMovie = (props :any) => {
 
 
   const grabMovieInfo = (movieName: string) : any => {
-    return axios.get(`https://imdb-api.com/en/API/SearchMovie/k_0ey76rg5/${movieName}`)
+    // return axios.get(`https://imdb-api.com/en/API/SearchMovie/k_0ey76rg5/${movieName}`)
+    return axios.get(`https://imdb-api.com/en/API/SearchMovie/${key}/${movieName}`)
      .then((data: any) => {
        return {data}
      }).then((data: any) => {
       const {id} = data.data.data.results[0];
       return id;
     }).then((data: any) => {
-      return axios.get(`https://imdb-api.com/en/API/Trailer/k_0ey76rg5/${data}`)
+      // return axios.get(`https://imdb-api.com/en/API/Trailer/k_0ey76rg5/${data}`)
+      return axios.get(`https://imdb-api.com/en/API/Trailer/${key}/${data}`)
     }).then((data: any) => {
     setSearchResults(data.data);
     return data.data
@@ -33,7 +36,8 @@ const SearchMovie = (props :any) => {
 
   // movieObj: object param
   const addMovieInfo = () => {
-    return axios.get(`https://imdb-api.com/en/API/Title/k_4pd82hff/${searchResults?.imDbId}`)
+    // return axios.get(`https://imdb-api.com/en/API/Title/k_4pd82hff/${searchResults?.imDbId}`)
+    return axios.get(`https://imdb-api.com/en/API/Title/${key}/${searchResults?.imDbId}`)
     .then((data: any) => {
       // console.log(data.data);
       const newData = {
@@ -48,6 +52,8 @@ const SearchMovie = (props :any) => {
       axios.post('/api/movies/saveMovie/', fullData)
     })
   }
+
+  const key = 'k_0ey76rg5';
 
 
   const handleChange = (event :any) => {
