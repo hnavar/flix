@@ -40,7 +40,7 @@ const User = db.define('user', {
   profile_image_url: Sequelize.STRING,
   age: Sequelize.INTEGER
 });
-
+// insert into users (id, username, email_Oauth, twitter_Oauth, twitter_user_name, first_name, last_name, profile_image_url, age) values (1, 'sbelete01', 'sbelete01@gmail.com', 1234, 'sbelete_twitter', 'sam', 'belete', 'image_url', 21);
 
 const Genre = db.define('genre', {
   id: {
@@ -98,6 +98,18 @@ const Directors = db.define('directors', {
     unique: true
   }
 });
+
+const Tweets = db.define('tweets', {
+  id: {
+    type: Sequelize.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  tweet_text: {
+    type: Sequelize.STRING,
+    unique: true
+  }
+})
 
 // join tables
 const Users_Genre = db.define('users_genre', {
@@ -163,6 +175,15 @@ const Users_Actors = db.define('users_actors', {
   }
 });
 
+const Users_Tweets = db.define('users_Tweets', {
+  id: {
+    type: Sequelize.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+    allowNull: false
+  }
+});
+
 
 // creates userId & genreId columns in users_genre table
 User.belongsToMany(Genre, { through: 'users_genre' });
@@ -193,11 +214,17 @@ Directors.belongsToMany(User, { through: 'users_directors' });
 User.belongsToMany(Directors, { through: 'users_actors' });
 Actors.belongsToMany(User, { through: 'users_actors' });
 
+// creates userId & tweetsID columns in users_tweets table
+User.belongsToMany(Tweets, { through: 'users_tweets' });
+Tweets.belongsToMany(User, { through: 'users_tweets' });
+
+
 User.sync();
 Genre.sync();
 Movies.sync();
 Actors.sync();
 Directors.sync();
+Tweets.sync();
 Users_Genre.sync();
 Users_Movies.sync();
 Movie_Genre.sync();
@@ -205,6 +232,7 @@ Movie_Actors.sync();
 Movie_Directors.sync();
 Users_Actors.sync();
 Users_Directors.sync();
+Users_Tweets.sync();
 
 export const getAllMovies = () => {
   return Movies.findAll();
@@ -286,6 +314,34 @@ export const getFavoriteGenres = (userId: number) => {
       }
     ]
   });
+};
+
+interface userObj {
+  [key:string]: string;
+}
+
+export const addUser = async (user: userObj) => {
+  try {
+    const {username, email_Oauth, twitter_Oauth, twitter_user_name, first_name,
+      last_name, profile_image_url, age} = user;
+      console.log(user)
+       User.create(
+        {
+          username: user.username, 
+          email_Oauth: user.email_Oauth, 
+          twitter_Oauth: user.twitter_Oauth,
+          twitter_user_name: user.twitter_user_name,
+          first_name: user.first_name,
+          last_name: user.last_name,
+          profile_image_url: user.profile_image_url,
+          age: user.age
+        }
+      );
+
+  }
+  catch (err) {
+    console.error('already added');
+  }
 };
 interface movieObj {
   [key:string]: string;
@@ -381,19 +437,3 @@ export const addGenre = async (genre: string, movieId?: number) => {
     console.error('genre not added');
   }
 };
-
-
-
-// module.exports = {
-//   getAllMovies,
-//   getAllMoviesByDirector,
-//   getAllMoviesByGenre,
-//   getAllMoviesWithActor,
-//   getFavoriteActors,
-//   getFavoriteDirectors,
-//   getFavoriteGenres,
-//   addMovie,
-//   addActor,
-//   addDirector,
-//   addGenre
-// };

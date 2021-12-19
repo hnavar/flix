@@ -5,6 +5,9 @@ import MoviesRouter from './api/movies';
 import ActorsRouter from './api/actors';
 import DirectorsRouter from './api/directors';
 import GenresRouter from './api/genres';
+import TwitterRouter from './api/twitter';
+import UsersRouter from './api/users';
+
 const app = express();
 
 const port = process.env.PORT || 3000;
@@ -17,7 +20,8 @@ app.use('/api/movies', MoviesRouter);
 app.use('/api/actors', ActorsRouter);
 app.use('/api/directors', DirectorsRouter);
 app.use('/api/genres', GenresRouter);
-
+app.use('/api/twitter', TwitterRouter);
+app.use('/api/users', UsersRouter);
 
 
 app.listen(port,()=>{
