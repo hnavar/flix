@@ -50,7 +50,7 @@ TwitterRouter.post('/tweets', (req: any, res: any) => {
   headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer AAAAAAAAAAAAAAAAAAAAAGcNWwEAAAAApGYcLorWLj6YZXdQL6e%2BQRm0agE%3DsPaa6DYSXt1HT9MrCeyga80mW1uuwuCwV6uBIWbTrhwFbEujri'
+      'Authorization': `Bearer ${BEARER_TOKEN}`
     },
   params: {
     query: title + ' Movie'
