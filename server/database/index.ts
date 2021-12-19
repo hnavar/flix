@@ -34,6 +34,7 @@ const User = db.define('user', {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     primaryKey: true,
+    allowNull: false
   },
   username: Sequelize.STRING,
   email_Oauth: Sequelize.STRING,
@@ -44,15 +45,19 @@ const User = db.define('user', {
   profile_image_url: Sequelize.STRING,
   age: Sequelize.INTEGER
 });
-
+// insert into users (id, username, email_Oauth, twitter_Oauth, twitter_user_name, first_name, last_name, profile_image_url, age) values (1, 'sbelete01', 'sbelete01@gmail.com', 1234, 'sbelete_twitter', 'sam', 'belete', 'image_url', 21);
 
 const Genre = db.define('genre', {
   id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     primaryKey: true,
+    allowNull: false
   },
-  genre: Sequelize.STRING,
+  genre: {
+    type: Sequelize.STRING,
+    unique: true
+  }
 });
 
 const Movies = db.define('movies', {
@@ -60,6 +65,7 @@ const Movies = db.define('movies', {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     primaryKey: true,
+    allowNull: false
   },
   movie_id: {
     type: Sequelize.STRING,
@@ -77,6 +83,7 @@ const Actors = db.define('actors', {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     primaryKey: true,
+    allowNull: false
   },
   actor_name: {
     type: Sequelize.STRING,
@@ -89,6 +96,7 @@ const Directors = db.define('directors', {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     primaryKey: true,
+    allowNull: false
   },
   director_name: {
     type: Sequelize.STRING,
@@ -96,12 +104,25 @@ const Directors = db.define('directors', {
   }
 });
 
+const Tweets = db.define('tweets', {
+  id: {
+    type: Sequelize.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  tweet_text: {
+    type: Sequelize.STRING,
+    unique: true
+  }
+})
+
 // join tables
 const Users_Genre = db.define('users_genre', {
   id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     primaryKey: true,
+    allowNull: false
   }
 });
 
@@ -110,6 +131,7 @@ const Users_Movies = db.define('users_movies', {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     primaryKey: true,
+    allowNull: false
   }
 });
 
@@ -118,6 +140,7 @@ const Movie_Genre = db.define('movie_genre', {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     primaryKey: true,
+    allowNull: false
   }
 });
 
@@ -126,6 +149,7 @@ const Movie_Actors = db.define('movie_actors', {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     primaryKey: true,
+    allowNull: false
   }
 });
 
@@ -134,6 +158,7 @@ const Movie_Directors = db.define('movie_directors', {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     primaryKey: true,
+    allowNull: false
   }
 });
 
@@ -142,6 +167,7 @@ const Users_Directors = db.define('users_directors', {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     primaryKey: true,
+    allowNull: false
   }
 });
 
@@ -150,6 +176,16 @@ const Users_Actors = db.define('users_actors', {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     primaryKey: true,
+    allowNull: false
+  }
+});
+
+const Users_Tweets = db.define('users_Tweets', {
+  id: {
+    type: Sequelize.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+    allowNull: false
   }
 });
 
@@ -183,11 +219,17 @@ Directors.belongsToMany(User, { through: 'users_directors' });
 User.belongsToMany(Directors, { through: 'users_actors' });
 Actors.belongsToMany(User, { through: 'users_actors' });
 
+// creates userId & tweetsID columns in users_tweets table
+User.belongsToMany(Tweets, { through: 'users_tweets' });
+Tweets.belongsToMany(User, { through: 'users_tweets' });
+
+
 User.sync();
 Genre.sync();
 Movies.sync();
 Actors.sync();
 Directors.sync();
+Tweets.sync();
 Users_Genre.sync();
 Users_Movies.sync();
 Movie_Genre.sync();
@@ -195,6 +237,7 @@ Movie_Actors.sync();
 Movie_Directors.sync();
 Users_Actors.sync();
 Users_Directors.sync();
+Users_Tweets.sync();
 
 export const getAllMovies = () => {
   return Movies.findAll();
@@ -278,6 +321,34 @@ export const getFavoriteGenres = (userId: number) => {
   });
 };
 
+interface userObj {
+  [key:string]: string;
+}
+
+export const addUser = async (user: userObj) => {
+  try {
+    const {username, email_Oauth, twitter_Oauth, twitter_user_name, first_name,
+      last_name, profile_image_url, age} = user;
+      console.log(user)
+       User.create(
+        {
+          username: user.username, 
+          email_Oauth: user.email_Oauth, 
+          twitter_Oauth: user.twitter_Oauth,
+          twitter_user_name: user.twitter_user_name,
+          first_name: user.first_name,
+          last_name: user.last_name,
+          profile_image_url: user.profile_image_url,
+          age: user.age
+        }
+      );
+
+  }
+  catch (err) {
+    console.error('already added');
+  }
+};
+
 
 export const addMovie = async (movie: movieObj, userId?: number) => {
   try {
@@ -286,97 +357,86 @@ export const addMovie = async (movie: movieObj, userId?: number) => {
     const directors = movie.directors.split(', ');
     const genres = movie.genres.split(', ');
 
-    const currentMovie = await Movies.create({
-      movie_id: movie_id,
-      title: title,
-      description: description,
-      release_date: release_date,
-      trailer_url: trailer_url,
-      thumbnailUrl: thumbnailUrl
+    const currentMovie = await Movies.findOrCreate({
+      where: {
+        movie_id: movie_id,
+        title: title,
+        description: description,
+        release_date: release_date,
+        trailer_url: trailer_url,
+        thumbnailUrl: thumbnailUrl
+      }
     });
+    const movieId = currentMovie[0].dataValues.id;
 
     !!userId && Users_Movies.create({
       userId: userId,
-      movieId: currentMovie.id
+      movieId: movieId
     });
 
     actors.forEach(actor => {
-      addActor(actor, currentMovie.id);
+      addActor(actor, movieId);
     });
 
     directors.forEach(director => {
-      addDirector(director, currentMovie.id);
+      addDirector(director, movieId);
     });
 
     genres.forEach(genre => {
-      addGenre(genre, currentMovie.id);
+      addGenre(genre, movieId);
     });
   }
   catch (err) {
-    console.error('already added');
+    console.error('movie not added');
   }
 };
 
 export const addActor = async (actor: string, movieId?: number) => {
   try {
-    const currentActor = await Actors.create(
-      {actor_name: actor}
+    const currentActor = await Actors.findOrCreate(
+      {where: {actor_name: actor}}
     );
-
+  
+    const actorId = currentActor[0].dataValues.id;
     !!movieId && Movie_Actors.create({
-      actorId: currentActor.id,
+      actorId: actorId,
       movieId: movieId
     });
   }
   catch (err) {
-    console.error(err);
+    console.error('actor not added');
   }
 };
 
 export const addDirector = async (director: string, movieId?: number) => {
   try {
-    const currentDirector = await Directors.create(
-      {director_name: director}
+    const currentDirector = await Directors.findOrCreate(
+      {where: {director_name: director}}
     );
 
+    const directorId = currentDirector[0].dataValues.id;
     !!movieId && Movie_Directors.create({
-      actorId: currentDirector.id,
+      directorId: directorId,
       movieId: movieId
     });
   }
   catch (err) {
-    console.error(err);
+    console.error('director not added');
   }
 };
 
 export const addGenre = async (genre: string, movieId?: number) => {
   try {
-  const currentGenre = await Genre.create(
-      {genre: genre}
+    const currentGenre = await Genre.findOrCreate(
+      {where: {genre: genre}}
     );
-
+    const genreId = currentGenre[0].dataValues.id;
     !!movieId && Movie_Genre.create({
-      genreId: currentGenre.id,
+      genreId: genreId,
       movieId: movieId
     });
   }
   catch (err) {
-    console.error(err);
+    console.error('genre not added');
   }
 };
-
-
-
-// module.exports = {
-//   getAllMovies,
-//   getAllMoviesByDirector,
-//   getAllMoviesByGenre,
-//   getAllMoviesWithActor,
-//   getFavoriteActors,
-//   getFavoriteDirectors,
-//   getFavoriteGenres,
-//   addMovie,
-//   addActor,
-//   addDirector,
-//   addGenre
-// };

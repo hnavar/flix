@@ -17,8 +17,12 @@ MoviesRouter.get('/', (req: Request, res: Response) => {
 });
 
 MoviesRouter.get('/genres/:id', (req: Request, res: Response) => {
-  getAllMoviesByGenre(Number(req.params.id))
-    .then((data: MovieObj[]) => res.status(200).send(data))
+  const genreId = Number(req.params.id);
+  getAllMoviesByGenre(genreId)
+  .then((data: any) => {
+    const movies = data[0].dataValues.movies.map((elem: any) => elem.dataValues);
+      res.status(200).send(movies);
+    })
     .catch((err: object) => {
       console.error(err);
       res.sendStatus(500);
@@ -27,7 +31,10 @@ MoviesRouter.get('/genres/:id', (req: Request, res: Response) => {
 
 MoviesRouter.get('/actors/:id', (req: Request, res: Response) => {
   getAllMoviesWithActor(Number(req.params.id))
-    .then((data: MovieObj[]) => res.status(200).send(data))
+    .then((data: any) => {
+      const movies = data[0].dataValues.movies.map((elem: any) => elem.dataValues);
+      res.status(200).send(movies);
+    })
     .catch((err: object) => {
       console.error(err);
       res.sendStatus(500);
@@ -36,7 +43,10 @@ MoviesRouter.get('/actors/:id', (req: Request, res: Response) => {
 
 MoviesRouter.get('/directors/:id', (req: Request, res: Response) => {
   getAllMoviesByDirector(Number(req.params.id))
-    .then((data: MovieObj[]) => res.status(200).send(data))
+    .then((data: any) => {
+      const movies = data[0].dataValues.movies.map((elem: any) => elem.dataValues);
+      res.status(200).send(movies);
+    })
     .catch((err: object) => {
       console.error(err);
       res.sendStatus(500);

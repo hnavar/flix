@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import SearchMovie from './movieSearch';
 import Home from './Home';
-
+import Twitter from './Twitter';
 
 const App:FC = () => {
 
@@ -9,6 +9,8 @@ const App:FC = () => {
     <div className ='App'>
       <SearchMovie/>
       <Home />
+      {/* <Home /> */}
+      <Twitter/>
     </div>
   );
 };
