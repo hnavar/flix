@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-
+import { Button } from '@mui/material';
+import GoogleLogin from './GoogleLogin';
 import axios from 'axios';
 
 export const Login = () => {
@@ -29,8 +30,11 @@ export const Login = () => {
 
   return (
     <div>
-      Login
+      <Button>
+        <GoogleLogin />
+      </Button>
     </div>
   );
 };
 
+export default Login;

@@ -45,7 +45,7 @@ function sleep(delay = 0) {
 };
 
 const pages = ['Movies', 'Actors', 'Directors', 'Genres'];
-const settings = ['Home', 'Profile', 'Log out'];
+const settings = ['Home', 'Profile', 'Account', 'Log out'];
 
 const Profile:FC = () => {
   const [currentUser, setCurrentUser] = useState<UserProps | null>(null);
@@ -121,13 +121,27 @@ const Profile:FC = () => {
       }).catch((err) => { console.log('Unable to retrieve user favorites', err); });
   };
 
+  //alt
+
+  const getFavActors = () => {};
+
+  const getFavDirectors = () => {};
+
+  const getFavGenres = () => {};
+
+  const getFavMovies = () => {};
+
+
   //is there a way to set this up so that depending on whatever is clicked, that clicked item will be identified and passed
   //into the axios put request, instead of creating a request for each item type
   const updateFavorite = () => {
     //on target click, remove favorite
   };
 
+  const handleClick = (e: any) => {
+    e.preventDefault();
 
+  };
 
   useEffect(() => {
     setCurrentUser(bubby);
