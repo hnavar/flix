@@ -1,12 +1,17 @@
 const Sequelize = require('sequelize');
 require('dotenv').config();
 
+interface movieObj {
+  [key:string]: string;
+}
+
 const {
   DATABASE,
   USER_NAME,
   USER_PASSWORD,
   HOST,
   DB_PORT,
+
 } = process.env;
 
 const db = new Sequelize({
@@ -343,9 +348,7 @@ export const addUser = async (user: userObj) => {
     console.error('already added');
   }
 };
-interface movieObj {
-  [key:string]: string;
-}
+
 
 export const addMovie = async (movie: movieObj, userId?: number) => {
   try {

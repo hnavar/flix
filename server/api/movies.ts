@@ -53,6 +53,27 @@ MoviesRouter.get('/directors/:id', (req: Request, res: Response) => {
     });
 });
 
+//gonna use one of these
+MoviesRouter.post('/saveMovie', (req: Request, res: Response) => {
+  console.log(req.body);
+  type movieData = {imDbID: string; title: string; releaseDate: string; videoDescription: string; linkEmbed: string; genres: string;
+    actors: string; directors: string; thumbnailUrl: string};
+  const {imDbID, title, releaseDate, videoDescription, linkEmbed, genres, actors, directors, thumbnailUrl}: movieData = req.body;
+  const movie = {
+    movie_id: imDbID,
+    title: title,
+    release_date: releaseDate,
+    description : videoDescription,
+    trailer_url: linkEmbed,
+    genres: genres,
+    actors: actors,
+    directors: directors,
+    thumbnailUrl: thumbnailUrl
+  };
+  return addMovie(movie);
+});
+
+//one of these for my save movies
 MoviesRouter.post('/', (req: Request, res: Response) => {
   addMovie(req.body)
     .then(() => {;

@@ -1,3 +1,7 @@
+const bodyParser = require('body-parser');
+const axios = require('axios');
+require('dotenv').config();
+
 import path from 'path';
 import express from 'express';
 import cors from 'cors';
@@ -9,13 +13,21 @@ import TwitterRouter from './api/twitter';
 import UsersRouter from './api/users';
 
 const app = express();
-
 const port = process.env.PORT || 3000;
 const dist = path.resolve(__dirname, '..', 'client/dist');
 app.use(cors({origin: true, credentials: true}));
 app.use(express.static(dist))
 app.use(express.json());
 
+app.use(cors({ credentials: true,
+  'allowedHeaders': ['sessionId', 'Content-Type'],
+  'exposedHeaders': ['sessionId'],
+  'origin': '*',
+  'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  'preflightContinue': false}));
+
+app.use(express.static(dist));
+app.use(bodyParser.json());
 app.use('/api/movies', MoviesRouter);
 app.use('/api/actors', ActorsRouter);
 app.use('/api/directors', DirectorsRouter);
