@@ -31,10 +31,10 @@ const Twitter:FC = (props: any) => {
             .then(() => {
                 // console.log(tweets)
                 setTitle('');
-            })
-
-       
+            })       
     }
+
+    
     
     return (
       <>

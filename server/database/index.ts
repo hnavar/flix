@@ -419,19 +419,3 @@ export const addGenre = async (genre: string, movieId?: number) => {
     console.error(err);
   }
 };
-
-
-
-// module.exports = {
-//   getAllMovies,
-//   getAllMoviesByDirector,
-//   getAllMoviesByGenre,
-//   getAllMoviesWithActor,
-//   getFavoriteActors,
-//   getFavoriteDirectors,
-//   getFavoriteGenres,
-//   addMovie,
-//   addActor,
-//   addDirector,
-//   addGenre
-// };
