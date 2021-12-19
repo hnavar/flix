@@ -175,11 +175,12 @@ const Users_Actors = db.define('users_actors', {
   }
 });
 
-const Users_Tweets = db.define('users_tweets', {
+const Users_Tweets = db.define('users_Tweets', {
   id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     primaryKey: true,
+    allowNull: false
   }
 });
 
@@ -213,7 +214,7 @@ Directors.belongsToMany(User, { through: 'users_directors' });
 User.belongsToMany(Directors, { through: 'users_actors' });
 Actors.belongsToMany(User, { through: 'users_actors' });
 
-// creates userId & tweetsID columns in movie_actors table
+// creates userId & tweetsID columns in users_tweets table
 User.belongsToMany(Tweets, { through: 'users_tweets' });
 Tweets.belongsToMany(User, { through: 'users_tweets' });
 
