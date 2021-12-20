@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import SearchMovie from './movieSearch';
 import Home from './Home';
 import Profile from './Profile';
 import Login from './Login';
@@ -6,6 +7,7 @@ import Login from './Login';
 interface Props {
   id?: number;
 }
+import Twitter from './Twitter';
 
 const App:FC<Props> = (props) => {
 
@@ -14,6 +16,10 @@ const App:FC<Props> = (props) => {
       {/* <Home /> */}
       <Profile />
       <Login />
+      <SearchMovie/>
+      <Home />
+      {/* <Home /> */}
+      <Twitter/>
     </div>
   );
 };

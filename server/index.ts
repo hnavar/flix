@@ -1,3 +1,7 @@
+const bodyParser = require('body-parser');
+const axios = require('axios');
+require('dotenv').config();
+
 import path from 'path';
 import express from 'express';
 import cors from 'cors';
@@ -13,6 +17,8 @@ import formData from 'express-form-data';
 // const dotenv = require('dotenv');
 const app = express();
 import { Response, Request } from 'express';
+import TwitterRouter from './api/twitter';
+import UsersRouter from './api/users';
 
 const port = process.env.PORT || 3000;
 const dist = path.resolve(__dirname, '..', 'client/dist');
@@ -22,6 +28,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(dist))
 app.use(express.json());
 
+app.use(cors({ credentials: true,
+  'allowedHeaders': ['sessionId', 'Content-Type'],
+  'exposedHeaders': ['sessionId'],
+  'origin': '*',
+  'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  'preflightContinue': false}));
+
+app.use(express.static(dist));
+app.use(bodyParser.json());
 app.use('/api/movies', MoviesRouter);
 app.use('/api/actors', ActorsRouter);
 app.use('/api/directors', DirectorsRouter);
@@ -72,6 +87,8 @@ app.use('/api/genres', GenresRouter);
 // })
 
 
+app.use('/api/twitter', TwitterRouter);
+app.use('/api/users', UsersRouter);
 
 
 app.listen(port,()=>{
