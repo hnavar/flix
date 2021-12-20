@@ -95,7 +95,7 @@ const GoogleLogin:FC = () => {
         // login success tracking...
     }
 
-        const clientConfig = { client_id: '' };
+        const clientConfig = { client_id: '757941118163-kftmst9av0n673t48c6e1te2444fa4b1.apps.googleusercontent.com' };
 
         return (
         <div>

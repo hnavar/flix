@@ -49,7 +49,7 @@ const settings = ['Home', 'Profile', 'Account', 'Log out'];
 
 const Profile:FC = () => {
   const [currentUser, setCurrentUser] = useState<UserProps | null>(null);
-  const [favActors, setFavActors] = useState<any>([]);
+  const [favActors, setFavActors] = useState<any>();
   const [favDirectors, setFavDirectors] = useState<any>([]);
   const [favGenres, setFavGenres] = useState<any>([]);
   const [favMovies, setFavMovies] = useState<any>([]);
@@ -105,31 +105,63 @@ const Profile:FC = () => {
   //default profile obj, to be removed when Login works
 
 
-
-  const getAllFavorites = () => {
-    const id = currentUser?.id;
-    const getActors = axios.get('/api/actors/');
-    const getDirectors = axios.get('/api/directors/');
-    const getGenres = axios.get('/api/genres/');
+  //this currently just gets everything, need to incorporate id
+  const getAllFavorites = (userId: number) => {
+    const getActors = axios.get(`/api/actors/${userId}`);
+    const getDirectors = axios.get(`/api/directors/${userId}`);
+    const getGenres = axios.get(`/api/genres/${userId}`);
 
     axios.all([getActors, getDirectors, getGenres])
       .then(responseArr => {
-        setFavActors(responseArr[0])
+        setFavActors(responseArr[0]);
         setFavDirectors(responseArr[1]);
         setFavGenres(responseArr[2]);
-        console.log(responseArr[0]);
-      }).catch((err) => { console.log('Unable to retrieve user favorites', err); });
+        console.log('User actors retrieved', responseArr[0]);
+        console.log('User directors retrieved', responseArr[1]);
+        console.log('User genres retrieved', responseArr[2]);
+      }).catch((err) => { console.log('Unable to retrieve user favorites', err); })
   };
 
   //alt
+  interface Actor {
+    id: number;
+    actor_name: string;
+  }
+  interface ActorStorage {
+    [key: string]: Actor[];
+  }
 
-  const getFavActors = () => {};
+  const getFavActors = (userId: number) => {
+    axios.get(`/api/actors/${userId}`)
+    .then(({data}) => {
+        console.log('data', data)
+        setFavActors(data)})
+      .catch(() => console.log('Failed to get favorite actors'));
+  };
 
-  const getFavDirectors = () => {};
+  const getFavDirectors = (userId: number) => {
+    axios.get(`/api/directors/${userId}`)
+    .then(({data}) => {
+      console.log('data', data)
+      setFavDirectors(data)})
+    .catch(() => console.log('Failed to get favorite actors'));
+  };
 
-  const getFavGenres = () => {};
+  const getFavGenres = (userId: number) => {
+    axios.get(`/api/genres/${userId}`)
+    .then(({data}) => {
+      console.log('data', data)
+      setFavGenres(data)})
+    .catch(() => console.log('Failed to get favorite actors'));
+  };
 
-  const getFavMovies = () => {};
+  const getFavMovies = (userId: number) => {
+    axios.get(`/api/movies/${userId}`)
+    .then(({data}) => {
+      console.log('data', data[userId])
+      setFavMovies(data[userId])})
+    .catch(() => console.log('Failed to get favorite actors'));
+  };
 
 
   //is there a way to set this up so that depending on whatever is clicked, that clicked item will be identified and passed
@@ -145,7 +177,8 @@ const Profile:FC = () => {
 
   useEffect(() => {
     setCurrentUser(bubby);
-    getAllFavorites();
+    getAllFavorites(1);
+    // getFavActors(2);
   }, []);
 
 
@@ -256,3 +289,4 @@ const Profile:FC = () => {
 };
 
 export default Profile;
+
