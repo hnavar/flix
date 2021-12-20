@@ -18,7 +18,8 @@ import {
   Typography,
   Skeleton,
   Box } from '@mui/material';
-  import MenuIcon from '@mui/icons-material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
+import { withStyles } from '@material-ui/core/styles';
 import { mapFinderOptions } from 'sequelize/dist/lib/utils';
 
 
@@ -59,6 +60,11 @@ const bubby = {
   age: 60
 };
 
+const WhiteTextTypography = withStyles({
+  root: {
+    color: '#FFFFFF'
+  }
+})(Typography);
 
 const Profile:FC = () => {
   const [currentUser, setCurrentUser] = useState<any>(bubby);
@@ -126,31 +132,31 @@ const Profile:FC = () => {
         setFavActors(data)})
       .catch(() => console.log('Failed to get favorite actors'));
   };
-  // useEffect(() => {
-  //   getFavActors(currentUser?.id);
-  // }, [favActors.length])
+  useEffect(() => {
+    getFavActors(currentUser?.id);
+  }, [favActors])
 
 
   const getFavDirectors = (userId: number) => {
     axios.get(`/api/directors/${userId}`)
     .then(({data}) => {
       setFavDirectors(data)})
-    .catch(() => console.log('Failed to get favorite actors'));
+    .catch(() => console.log('Failed to get favorite directors'));
   };
-  // useEffect(() => {
-  //   getFavDirectors(currentUser?.id);
-  // }, [favDirectors.length])
+  useEffect(() => {
+    getFavDirectors(currentUser?.id);
+  }, [favDirectors])
 
 
   const getFavGenres = (userId: number) => {
     axios.get(`/api/genres/${userId}`)
     .then(({data}) => {
       setFavGenres(data)})
-    .catch(() => console.log('Failed to get favorite actors'));
+    .catch(() => console.log('Failed to get favorite genres'));
   };
-  // useEffect(() => {
-  //   getFavGenres(currentUser?.id);
-  // }, [favGenres.length])
+  useEffect(() => {
+    getFavGenres(currentUser?.id);
+  }, [favGenres])
 
 
   //TODO: Movies needs backend routes for user favorites
@@ -158,11 +164,11 @@ const Profile:FC = () => {
     axios.get(`/api/movies/${userId}`)
     .then(({data}) => {
       setFavMovies(data[userId])})
-    .catch(() => console.log('Failed to get favorite actors'));
+    .catch(() => console.log('Failed to get favorite movies'));
   };
-  // useEffect(() => {
-  //   getFavMovies(currentUser?.id);
-  // }, [favMovies.length])
+  useEffect(() => {
+    getFavMovies(currentUser?.id);
+  }, [favMovies])
 
 
   //is there a way to set this up so that depending on whatever is clicked, that clicked item will be identified and passed

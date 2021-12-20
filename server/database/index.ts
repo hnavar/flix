@@ -326,7 +326,7 @@ export const getFavoriteGenres = (userId: number) => {
 //   return User.findOne({
 //     include: [
 //       {
-//         model: Genre,
+//         model: Movies,
 //         through: {where: {userId: userId}}
 //       }
 //     ]
