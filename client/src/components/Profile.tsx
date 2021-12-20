@@ -47,8 +47,21 @@ function sleep(delay = 0) {
 const pages = ['Movies', 'Actors', 'Directors', 'Genres'];
 const settings = ['Home', 'Profile', 'Account', 'Log out'];
 
+const bubby = {
+  id: 1,
+  username: 'Dr.Bubby',
+  email_Oauth: 'bubs@blackmesa.gov',
+  twitter_Oauth: 'stringhere',
+  twitter_user_name: 'beelzebubby',
+  first_name: 'Dr.',
+  last_name: 'Bubby',
+  profile_image_url: 'http://pm1.narvii.com/7756/2bf459ecf1955ebe30273acddac73085eb60ccb6r1-385-385v2_00.jpg',
+  age: 60
+};
+
+
 const Profile:FC = () => {
-  const [currentUser, setCurrentUser] = useState<UserProps | null>(null);
+  const [currentUser, setCurrentUser] = useState<any>(bubby);
   const [favActors, setFavActors] = useState<any>();
   const [favDirectors, setFavDirectors] = useState<any>([]);
   const [favGenres, setFavGenres] = useState<any>([]);
@@ -78,34 +91,10 @@ const Profile:FC = () => {
   };
 
 
-  const bubby = {
-    id: 0,
-    username: 'Dr.Bubby',
-    email_Oauth: 'bubs@blackmesa.gov',
-    twitter_Oauth: 'stringhere',
-    twitter_user_name: 'beelzebubby',
-    first_name: 'Dr.',
-    last_name: 'Bubby',
-    profile_image_url: 'http://pm1.narvii.com/7756/2bf459ecf1955ebe30273acddac73085eb60ccb6r1-385-385v2_00.jpg',
-    age: 60
-  };
-  /*
-  * 0. set basic default profile
-  * 1. get favorite genres by user id
-  * 2. get favorite movies by user id
-  * 3. get favorite actors by user id
-  * In the requests, should I be making one chained request, or individual requests for when favorites
-  * need to update?
-  *
-  * 4. Update each category individually when user favorites/unfavorites them.
-  *   4.5 - getAllFavorites runs once on load and gets everything. get{whatever}Favorite just gets the one after a change
-  *
-  * genres.split(', ') to get individual genres
-  */
-  //default profile obj, to be removed when Login works
 
 
-  //this currently just gets everything, need to incorporate id
+
+  //Works
   const getAllFavorites = (userId: number) => {
     const getActors = axios.get(`/api/actors/${userId}`);
     const getDirectors = axios.get(`/api/directors/${userId}`);
@@ -122,46 +111,58 @@ const Profile:FC = () => {
       }).catch((err) => { console.log('Unable to retrieve user favorites', err); })
   };
 
-  //alt
-  interface Actor {
-    id: number;
-    actor_name: string;
-  }
-  interface ActorStorage {
-    [key: string]: Actor[];
-  }
+  useEffect(() => {
+    // setCurrentUser(bubby);
+    getAllFavorites(currentUser.id);
+  }, []);
 
+
+  /*
+  * These run only when individual data sets change.
+  */
   const getFavActors = (userId: number) => {
     axios.get(`/api/actors/${userId}`)
-    .then(({data}) => {
-        console.log('data', data)
+      .then(({data}) => {
         setFavActors(data)})
       .catch(() => console.log('Failed to get favorite actors'));
   };
+  // useEffect(() => {
+  //   getFavActors(currentUser?.id);
+  // }, [favActors.length])
+
 
   const getFavDirectors = (userId: number) => {
     axios.get(`/api/directors/${userId}`)
     .then(({data}) => {
-      console.log('data', data)
       setFavDirectors(data)})
     .catch(() => console.log('Failed to get favorite actors'));
   };
+  // useEffect(() => {
+  //   getFavDirectors(currentUser?.id);
+  // }, [favDirectors.length])
+
 
   const getFavGenres = (userId: number) => {
     axios.get(`/api/genres/${userId}`)
     .then(({data}) => {
-      console.log('data', data)
       setFavGenres(data)})
     .catch(() => console.log('Failed to get favorite actors'));
   };
+  // useEffect(() => {
+  //   getFavGenres(currentUser?.id);
+  // }, [favGenres.length])
 
+
+  //TODO: Movies needs backend routes for user favorites
   const getFavMovies = (userId: number) => {
     axios.get(`/api/movies/${userId}`)
     .then(({data}) => {
-      console.log('data', data[userId])
       setFavMovies(data[userId])})
     .catch(() => console.log('Failed to get favorite actors'));
   };
+  // useEffect(() => {
+  //   getFavMovies(currentUser?.id);
+  // }, [favMovies.length])
 
 
   //is there a way to set this up so that depending on whatever is clicked, that clicked item will be identified and passed
@@ -175,11 +176,7 @@ const Profile:FC = () => {
 
   };
 
-  useEffect(() => {
-    setCurrentUser(bubby);
-    getAllFavorites(1);
-    // getFavActors(2);
-  }, []);
+
 
 
   return (
