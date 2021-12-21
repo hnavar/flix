@@ -14,10 +14,11 @@ UsersRouter.post('/', (req: any, res: any) => {
         .catch((err: any) => {
             console.log('error')
         })
-
-
 })
 
+
+
+//check if user exists
 
 
 

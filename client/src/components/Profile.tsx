@@ -105,6 +105,7 @@ const Profile:FC = () => {
     const getActors = axios.get(`/api/actors/${userId}`);
     const getDirectors = axios.get(`/api/directors/${userId}`);
     const getGenres = axios.get(`/api/genres/${userId}`);
+    // const getMovies = axios.get(`/api/movies/${userId}`);
 
     axios.all([getActors, getDirectors, getGenres])
       .then(responseArr => {

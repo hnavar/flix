@@ -13,7 +13,7 @@
     "strict": true,
     "sourceMap": true,
     "target": "esnext",
-    "types": ["gapi", "gapi.auth2"],
+    "types": ["gapi", "gapi.auth2", "node"],
   },
   "include": [
     "server/types/*.d.ts"

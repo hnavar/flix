@@ -3,7 +3,7 @@ const axios = require('axios');
 require('dotenv').config();
 
 import path from 'path';
-import express from 'express';
+import express, { response } from 'express';
 import cors from 'cors';
 import MoviesRouter from './api/movies';
 import ActorsRouter from './api/actors';
@@ -16,7 +16,7 @@ import session from 'express-session';
 import formData from 'express-form-data';
 // const dotenv = require('dotenv');
 const app = express();
-import { Response, Request } from 'express';
+import type { Response, Request } from 'express';
 import TwitterRouter from './api/twitter';
 import UsersRouter from './api/users';
 

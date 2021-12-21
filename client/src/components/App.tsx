@@ -13,12 +13,10 @@ const App:FC<Props> = (props) => {
 
   return (
     <div className ='App'>
-      {/* <Home /> */}
       <Profile />
       <Login />
       <SearchMovie/>
       <Home />
-      {/* <Home /> */}
       <Twitter/>
     </div>
   );
