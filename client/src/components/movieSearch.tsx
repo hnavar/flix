@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, FC} from "react";
 import Button from '@mui/material/Button';
 import { TextField } from '@material-ui/core';
 import axios from "axios";
@@ -7,7 +7,7 @@ import axios from "axios";
 
 
 
-const SearchMovie = (props :any) => {
+const SearchMovie:FC = (props :any) => {
   interface Movie {imDbId: string; title: string; year: string; videoDescription: string; linkEmbed: string};
   const [searchVal, setSearchVal] = useState('');
   const [searchResults, setSearchResults] = useState<Movie | null>(null);
