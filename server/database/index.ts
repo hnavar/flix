@@ -442,17 +442,38 @@ export const addGenre = async (genre: string, movieId?: number) => {
   }
 };
 
-export const grabMovieIdWithRating = (rating: string) => {
-  return axios.get(`https://imdb-api.com/API/AdvancedSearch/k_0ey76rg5?title_type=tv_movie&certificates=us:${rating}`)
-  .then(({data}: any) => {
-    console.log(data);
-     let movieIdArray = []
+export const grabMovieIdWithRating = async (rating: string) => {
+  return await axios.get(`https://imdb-api.com/API/AdvancedSearch/${IMDB_KEY}?title_type=tv_movie&certificates=us:${rating}`)
+    .then(({data}: any) => {
+    // console.log(data);
+    let movieIdArray = []
     for (let i = 0; i < data.results.length; i++) {
       let movieId = data.results[i].id;
         movieIdArray.push(movieId);
     }
     return movieIdArray;
-  }) .catch((error: any) => {
-        console.log(error);
-    });
+    })
+    .then((data: any) => {
+    const getMovieInfo = async () => {
+      const movieInfoArray = [];
+      // console.log(data);
+      for (let i = 0; i < 5; i++) {
+           movieInfoArray.push(await axios.get(`https://imdb-api.com/en/API/Trailer/${IMDB_KEY}/${data[i]}`));
+      }
+      // console.log(movieInfoArray);
+      return movieInfoArray;
+    }
+    return getMovieInfo()
+  })
+  .then((data: any) => {
+    let movieData = [];
+    for (let i = 0; i < data.length; i++) {
+      let movie = data[i].data;
+      movieData.push(movie);
+    }
+    // console.log(movieData);
+    return movieData;
+  }).catch((error: any) => {
+    console.log(error);
+  });
 }
