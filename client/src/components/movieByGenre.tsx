@@ -14,7 +14,10 @@ function displayMoviesByGenre() {
   const getMovieData = () => {
     return axios.get(`api/movies/moviesByRating${rating}`)
     .then(({data}: any) => {
-      setMovieData(data)
+      let filteredArray = data.filter(function(movie: any) {
+        return movie.linkEmbed !== null;
+      })
+      setMovieData(filteredArray);
     })
     .catch(() => console.log('failed to get movies'));
   };

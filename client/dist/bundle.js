@@ -80177,7 +80177,10 @@ function displayMoviesByGenre() {
     const getMovieData = () => {
         return axios_1.default.get(`api/movies/moviesByRating${rating}`)
             .then(({ data }) => {
-            setMovieData(data);
+            let filteredArray = data.filter(function (movie) {
+                return movie.linkEmbed !== null;
+            });
+            setMovieData(filteredArray);
         })
             .catch(() => console.log('failed to get movies'));
     };
