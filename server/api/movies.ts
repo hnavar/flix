@@ -88,7 +88,6 @@ MoviesRouter.post('/', (req: Request, res: Response) => {
 MoviesRouter.get('/moviesByRatingPG', (req: Request, res: Response) => {
   grabMovieIdWithRating("PG")
      .then((data: any) => {
-      //  console.log(data);
        res.send(data);
      }).catch((error: string) => {
        console.log(error);
@@ -99,7 +98,6 @@ MoviesRouter.get('/moviesByRatingPG', (req: Request, res: Response) => {
    MoviesRouter.get('/moviesByRatingPG-13', (req: Request, res: Response) => {
   grabMovieIdWithRating("PG-13")
      .then((data: any) => {
-       console.log(data);
        res.send(data);
      }).catch((error: any) => {
        console.log(error);
