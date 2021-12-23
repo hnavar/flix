@@ -1,33 +1,8 @@
-import React, {FC} from 'react';
-import Home from './components/Home'
-import Twitter from './components/Twitter';
-import SearchMovie from './components/movieSearch';
+import Home from "./components/Home";
+import SearchMovie from "./components/movieSearch";
+import Twitter from "./components/Twitter";
 
-// const Home:FC = () => {
-//   return (
-//     <h1>Home</h1>
-//   );
-// };
-
-// const Search:FC = () => {
-//   return (
-//     <h1>Search</h1>
-//   );
-// };
-
-// const Twitter:FC = () => {
-//   return (
-//     <h1>Twitter</h1>
-//   );
-// };
-
-// const Profile:FC = () => {
-//   return (
-//     <h1>Profile</h1>
-//   );
-// };
-
-const Routes = [
+const Paths = [
   {
     path: '/',
     sidebarName: 'Home',
@@ -44,10 +19,10 @@ const Routes = [
     component: Twitter
   },
   // {
-  //   path: 'profile',
+  //   path: '/profile',
   //   sidebarName: 'Profile',
   //   component: Profile
   // }
 ];
 
-export default Routes;
+export default Paths;

@@ -1,20 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, FC } from 'react';
 
 import { NavLink } from 'react-router-dom';
-import { withRouter } from 'react-router';
-import Routes from '../Routes';
+import { useNavigate } from 'react-router';
+import Paths from '../Routes';
 
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  IconButton,
-  Drawer,
-  MenuList,
-  MenuItem,
-  ListItemText,
- } from '@material-ui/core';
+import { AppBar, Toolbar, Typography, IconButton, Drawer, MenuList, MenuItem, ListItemText, } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -37,7 +28,20 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const NavigationBar: React.FC = (props: any) => {
+const withRouter = (Component: FC) => {
+  const Wrapper = (props: any) => {
+    const history = useNavigate();
+    return (
+      <Component
+        history={history}
+        {...props}
+        />
+    );
+  };
+  return Wrapper;
+};
+
+const NavigationBar:FC = (props: any) => {
   const classes = useStyles();
   const [isOpen, setIsOpen] = useState(false);
   const toggleDrawer = (open: boolean) => (
@@ -54,8 +58,8 @@ const NavigationBar: React.FC = (props: any) => {
     setIsOpen(open);
   };
 
-  const activeRoute = (routeName: any) => {
-    return props.location.pathname === routeName ? true : false;
+  const activeRoute = (routeName: string) => {
+    return props.history.name === routeName;
   }
 
   return (
@@ -80,7 +84,7 @@ const NavigationBar: React.FC = (props: any) => {
           onKeyDown={toggleDrawer(false)}
         >
           <MenuList>
-            {Routes.map((prop, key) => {
+            {Paths.map((prop, key) => {
               return (
                 <NavLink to={prop.path} style={{ textDecoration: 'none' }} key={key}>
                   <MenuItem selected={activeRoute(prop.path)}>
