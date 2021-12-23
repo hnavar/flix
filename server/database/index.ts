@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 require('dotenv').config();
-
+import axios from 'axios';
+const { IMDB_KEY } = process.env;
 interface movieObj {
   [key:string]: string;
 }
@@ -440,3 +441,18 @@ export const addGenre = async (genre: string, movieId?: number) => {
     console.error('genre not added');
   }
 };
+
+export const grabMovieIdWithRating = (rating: string) => {
+  return axios.get(`https://imdb-api.com/API/AdvancedSearch/k_0ey76rg5?title_type=tv_movie&certificates=us:${rating}`)
+  .then(({data}: any) => {
+    console.log(data);
+     let movieIdArray = []
+    for (let i = 0; i < data.results.length; i++) {
+      let movieId = data.results[i].id;
+        movieIdArray.push(movieId);
+    }
+    return movieIdArray;
+  }) .catch((error: any) => {
+        console.log(error);
+    });
+}

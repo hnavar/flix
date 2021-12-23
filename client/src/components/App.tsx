@@ -8,9 +8,9 @@ const App:FC = () => {
   return (
     <div className ='App'>
       <SearchMovie/>
-      <Home />
       {/* <Home /> */}
-      <Twitter/>
+      {/* <Home /> */}
+      {/* <Twitter/> */}
     </div>
   );
 };

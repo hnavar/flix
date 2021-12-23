@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import type {Request, Response} from 'express';
-import { getAllMovies, getAllMoviesByDirector, getAllMoviesByGenre, getAllMoviesWithActor, addMovie } from '../database/index';
+import { getAllMovies, getAllMoviesByDirector, getAllMoviesByGenre, getAllMoviesWithActor, addMovie, grabMovieIdWithRating } from '../database/index';
 
 const MoviesRouter = Router();
 interface MovieObj {
@@ -76,7 +76,7 @@ MoviesRouter.post('/saveMovie', (req: Request, res: Response) => {
 //one of these for my save movies
 MoviesRouter.post('/', (req: Request, res: Response) => {
   addMovie(req.body)
-    .then(() => {;
+    .then(() => {
       res.sendStatus(201);
     })
     .catch((err: any) => {
@@ -84,5 +84,51 @@ MoviesRouter.post('/', (req: Request, res: Response) => {
       res.sendStatus(500);
     });
 });
+
+MoviesRouter.get('/moviesByRatingPG', (req: Request, res: Response) => {
+  grabMovieIdWithRating("PG")
+     .then((data: any) => {
+       res.send(data);
+     }).catch((error: string) => {
+       console.log(error);
+       res.status(500).end();
+     });
+   });
+
+   MoviesRouter.get('/moviesByRatingPG-13', (req: Request, res: Response) => {
+  grabMovieIdWithRating("PG-13")
+     .then((data: any) => {
+       res.send(data);
+     }).catch((error: any) => {
+       console.log(error);
+       res.status(500).end();
+     });
+   });
+
+   MoviesRouter.get('/moviesByRatingR', (req: Request, res: Response) => {
+  grabMovieIdWithRating("R")
+     .then((data: any) => {
+       res.send(data);
+     }).catch((error: any) => {
+       console.log(error);
+       res.status(500).end();
+     });
+   });
+
+   MoviesRouter.get('/moviesByRatingNC-17', (req: Request, res: Response) => {
+  grabMovieIdWithRating("NC-17")
+     .then((data: any) => {
+       res.send(data);
+     }).catch((error: any) => {
+       console.log(error);
+       res.status(500).end();
+     });
+   });
+
+
+
+
+
+
 
 export default MoviesRouter;
