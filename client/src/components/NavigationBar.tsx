@@ -1,4 +1,4 @@
-import React, { useState, FC } from 'react';
+import React, { useState, FC, KeyboardEvent, MouseEvent } from 'react';
 
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router';
@@ -45,12 +45,12 @@ const NavigationBar:FC = (props: any) => {
   const classes = useStyles();
   const [isOpen, setIsOpen] = useState(false);
   const toggleDrawer = (open: boolean) => (
-    event: React.KeyboardEvent | React.MouseEvent,
+    event: KeyboardEvent | MouseEvent,
   ) => {
     if (
       event.type === 'keydown' &&
-      ((event as React.KeyboardEvent).key === 'Tab' ||
-        (event as React.KeyboardEvent).key === 'Shift')
+      ((event as KeyboardEvent).key === 'Tab' ||
+        (event as KeyboardEvent).key === 'Shift')
     ) {
       return;
     }

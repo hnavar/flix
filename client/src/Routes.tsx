@@ -2,6 +2,7 @@ import Home from "./components/Home";
 import SearchMovie from "./components/movieSearch";
 import Twitter from "./components/Twitter";
 
+
 const Paths = [
   {
     path: '/',
@@ -9,12 +10,12 @@ const Paths = [
     component: Home
   },
   {
-    path: '/search',
+    path: 'search',
     sidebarName: 'Search',
     component: SearchMovie
   },
   {
-    path: '/twitter',
+    path: 'twitter',
     sidebarName: 'Twitter',
     component: Twitter
   },
