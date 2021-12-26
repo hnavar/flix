@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import Paths from '../Routes';
 import NavigationBar from './NavigationBar';
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 const App:FC = () => {
 

@@ -1,12 +1,11 @@
 import React, { useState, FC, KeyboardEvent, MouseEvent } from 'react';
-
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router';
-import Paths from '../Routes';
-
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { AppBar, Toolbar, Typography, IconButton, Drawer, MenuList, MenuItem, ListItemText, } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
+
+import Paths from '../Routes';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
