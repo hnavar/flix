@@ -1,5 +1,5 @@
 import React, {FC, useState, useEffect, SyntheticEvent} from "react";
-import {Card, CardHeader, CardMedia, CardContent, CardActions, Collapse, Typography} from '@mui/material'
+import {Card, CardHeader, CardMedia, CardContent, CardActions, Collapse, Typography} from '@mui/material';
 import { useNavigate } from 'react-router';
 
 interface MovieObj {
@@ -13,7 +13,7 @@ interface MovieObj {
   createdAt: string;
   updatedAt: string;
 }
-type CarouselItemProps = {item: MovieObj}
+type CarouselItemProps = {item: MovieObj};
 
 const CarouselItem:FC<CarouselItemProps> = ({item}: {item: MovieObj}) => {
   const {id, title, trailer_url, description, release_date, thumbnailUrl} = item;
@@ -23,7 +23,8 @@ const CarouselItem:FC<CarouselItemProps> = ({item}: {item: MovieObj}) => {
   const handleClick = (e: SyntheticEvent) => {
     e.preventDefault();
     navigate('/movies/' + id);
-  }
+  };
+
   return (
     <div onClick={handleClick}>
       <Card
@@ -42,7 +43,7 @@ const CarouselItem:FC<CarouselItemProps> = ({item}: {item: MovieObj}) => {
         />
       </Card>
     </div>
-  )
+  );
 
 };
 
