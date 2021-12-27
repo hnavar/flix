@@ -87,7 +87,7 @@ MoviesRouter.post('/', (req: Request, res: Response) => {
 
 MoviesRouter.get('/:id', (req: Request, res: Response) => {
   getMovieById(parseInt(req.params.id))
-    .then((data: any) => {
+    .then((data: MovieObj) => {
       res.status(200).send(data);
     })
     .catch((err: any) => {

@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import Paths from '../Routes';
 import NavigationBar from './NavigationBar';
 import { Routes, Route } from 'react-router-dom';
+import MovieDetail from './MovieDetail';
 
 const App:FC = () => {
 
@@ -16,7 +17,8 @@ const App:FC = () => {
             element={<route.component />}
           />
         })}
-        <Route path ="*" element={<h2>404: Not found</h2>}/>
+        <Route path='movies/:id' element={<MovieDetail />} />
+        <Route path="*" element={<h2>404: Not found</h2>}/>
       </Routes>
     </>
   );
