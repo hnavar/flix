@@ -38,7 +38,11 @@ app.use('/api/users', UsersRouter);
 
 // fixes the "CANNOT GET component" on page refresh
 app.get('/*', (req: Request, res: Response) => {
-  res.sendFile(path.join(dist, 'index.html'));
+  res.sendFile(path.join(dist, 'index.html'), (err: any) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+  });
 });
 
 
