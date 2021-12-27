@@ -36,6 +36,7 @@ app.use('/api/genres', GenresRouter);
 app.use('/api/twitter', TwitterRouter);
 app.use('/api/users', UsersRouter);
 
+// fixes the "CANNOT GET component" on page refresh
 app.get('/*', (req: Request, res: Response) => {
   res.sendFile(path.join(dist, 'index.html'));
 });
