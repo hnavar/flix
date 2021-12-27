@@ -1,6 +1,7 @@
 import {Router} from 'express';
 import type {Request, Response} from 'express';
-import { getAllMovies, getAllMoviesByDirector, getAllMoviesByGenre, getAllMoviesWithActor, addMovie, grabMovieIdWithRating } from '../database/index';
+import { getAllMovies, getAllMoviesByDirector, getAllMoviesByGenre, getAllMoviesWithActor, addMovie, grabMovieIdWithRating, grabMoviesByActorsOrDirectors } from '../database/index';
+import { REAL } from 'sequelize';
 
 const MoviesRouter = Router();
 interface MovieObj {
@@ -125,6 +126,16 @@ MoviesRouter.get('/moviesByRatingPG', (req: Request, res: Response) => {
      });
    });
 
+   MoviesRouter.get('/moviesByActorOrDirectors', (req: Request, res: Response) => {
+    grabMoviesByActorsOrDirectors('nm0001497')
+     .then((data: any) => {
+       console.log(data);
+       res.send(data);
+     }).catch((error: any) => {
+       console.log(error);
+       res.status(500).end();
+     });
+   });
 
 
 

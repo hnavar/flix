@@ -494,3 +494,18 @@ export const grabMovieIdWithRating = async (rating: string) => {
     console.log(error);
   });
 }
+
+export const grabMoviesByActorsOrDirectors = (actorID: string) => {
+    return axios.get(`https://imdb-api.com/API/Name/${IMDB_KEY}/${actorID}`)
+      .then(({data}: any) => {
+        let moviesArray = []
+        console.log(data);
+        for (let i = 0; i < data.knownFor.length; i++) {
+              let otherMovies = data.knownFor[i]
+              moviesArray.push(otherMovies);
+        }
+        return moviesArray;
+      }).catch((error: any) => {
+        console.log(error);
+      });
+}

@@ -4,8 +4,10 @@ import { useState, FC } from "react";
 import { Button } from "@material-ui/core";
 import {Card, CardHeader, CardMedia, CardContent, Typography} from '@mui/material';
 const displayMoviesByRating:FC = () => {
+
   const [movieData, setMovieData] = useState<any>([]);
   const [count, setCounter] = useState(0);
+
   const getMovieData =  (rating: string) => {
     return axios.get(`api/movies/moviesByRating${rating}`)
     .then(({data}: any) => {
@@ -17,9 +19,11 @@ const displayMoviesByRating:FC = () => {
     .catch(() => console.log('failed to get movies'));
   };
 
+
   if (movieData.length === 0) {
     return (
   <div>
+    <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('G')}}>Find G rated movies</Button>
     <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('PG')}}>Find PG rated movies</Button>
     <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('PG-13')}}>Find PG-13 rated movies</Button>
     <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('R')}}>Find NC-17 rated movies</Button>
