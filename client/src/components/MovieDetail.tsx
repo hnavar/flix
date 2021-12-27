@@ -33,7 +33,7 @@ const MovieDetail:FC = () => {
   }, []);
 
   if (!currentMovie) {
-    return <h2>Loading</h2>
+    return <h2>Loading</h2>;
   } else {
     const {movie_id, title, release_date, description, trailer_url} = currentMovie;
     return (
@@ -43,7 +43,7 @@ const MovieDetail:FC = () => {
         <iframe width='1000' height='600' src={trailer_url} frameBorder='0'></iframe>
         <p>{description}</p>
       </>
-    )
+    );
   }
 };
 
