@@ -1,6 +1,7 @@
 import Home from "./components/Home";
 import SearchMovie from "./components/movieSearch";
 import Twitter from "./components/Twitter";
+import MovieRating from "./components/MovieByRating";
 
 
 const Paths = [
@@ -19,6 +20,11 @@ const Paths = [
     sidebarName: 'Twitter',
     component: Twitter
   },
+  {
+    path: 'rating',
+    sidebarName: 'Rating',
+    component: MovieRating
+  }
   // {
   //   path: '/profile',
   //   sidebarName: 'Profile',
