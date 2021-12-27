@@ -22,7 +22,7 @@ const CarouselItem:FC<CarouselItemProps> = ({item}: {item: MovieObj}) => {
 
   const handleClick = (e: SyntheticEvent) => {
     e.preventDefault();
-    navigate('/movies/' + id);
+    navigate(`/movies/${id}`);
   };
 
   return (
