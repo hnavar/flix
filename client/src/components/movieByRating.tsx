@@ -4,10 +4,9 @@ import { useEffect, useState } from "react";
 import { Button } from "@material-ui/core";
 import {Card, CardHeader, CardMedia, CardContent, Typography} from '@mui/material';
 function displayMoviesByRating() {
-  // interface Movie {thumbnailUrl: string; title: string; year: string; videoDescription: string; linkEmbed: string};
-  const [movieData, setMovieData] = useState([]);
+  const [movieData, setMovieData] = useState<any>([]);
   const [count, setCounter] = useState(0);
-  const getMovieData =  (rating) => {
+  const getMovieData =  (rating: string) => {
     return axios.get(`api/movies/moviesByRating${rating}`)
     .then(({data}: any) => {
       let filteredArray = data.filter(function(movie: any) {
