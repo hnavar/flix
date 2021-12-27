@@ -1,9 +1,9 @@
 import axios from "axios";
 import React from "react";
-import { useEffect, useState } from "react";
+import { useState, FC } from "react";
 import { Button } from "@material-ui/core";
 import {Card, CardHeader, CardMedia, CardContent, Typography} from '@mui/material';
-function displayMoviesByRating() {
+const displayMoviesByRating:FC = () => {
   const [movieData, setMovieData] = useState<any>([]);
   const [count, setCounter] = useState(0);
   const getMovieData =  (rating: string) => {

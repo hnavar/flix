@@ -217,7 +217,7 @@ User.belongsToMany(Directors, { through: 'users_directors' });
 Directors.belongsToMany(User, { through: 'users_directors' });
 
 // creates userId & directorsID columns in movie_actors table
-User.belongsToMany(Directors, { through: 'users_actors' });
+User.belongsToMany(Actors, { through: 'users_actors' });
 Actors.belongsToMany(User, { through: 'users_actors' });
 
 // creates userId & tweetsID columns in users_tweets table
@@ -330,17 +330,17 @@ export const addUser = async (user: userObj) => {
   try {
     const {username, email_Oauth, twitter_Oauth, twitter_user_name, first_name,
       last_name, profile_image_url, age} = user;
-      console.log(user)
+      // console.log(user)
        User.create(
         {
-          username: user.username, 
-          email_Oauth: user.email_Oauth, 
-          twitter_Oauth: user.twitter_Oauth,
-          twitter_user_name: user.twitter_user_name,
-          first_name: user.first_name,
-          last_name: user.last_name,
-          profile_image_url: user.profile_image_url,
-          age: user.age
+          username: username, 
+          email_Oauth: email_Oauth, 
+          twitter_Oauth: twitter_Oauth,
+          twitter_user_name: twitter_user_name,
+          first_name: first_name,
+          last_name: last_name,
+          profile_image_url: profile_image_url,
+          age: age
         }
       );
 
@@ -376,15 +376,15 @@ export const addMovie = async (movie: movieObj, userId?: number) => {
     });
 
     actors.forEach(actor => {
-      addActor(actor, movieId);
+      addActor(actor, movieId, userId);
     });
 
     directors.forEach(director => {
-      addDirector(director, movieId);
+      addDirector(director, movieId, userId);
     });
 
     genres.forEach(genre => {
-      addGenre(genre, movieId);
+      addGenre(genre, movieId, userId);
     });
   }
   catch (err) {
@@ -392,8 +392,9 @@ export const addMovie = async (movie: movieObj, userId?: number) => {
   }
 };
 
-export const addActor = async (actor: string, movieId?: number) => {
+export const addActor = async (actor: string, movieId?: number, userId?: number) => {
   try {
+    
     const currentActor = await Actors.findOrCreate(
       {where: {actor_name: actor}}
     );
@@ -403,13 +404,19 @@ export const addActor = async (actor: string, movieId?: number) => {
       actorId: actorId,
       movieId: movieId
     });
+
+    !!userId && Users_Actors.create({
+      userId: userId,
+      actorId: actorId
+    });
+
   }
   catch (err) {
     console.error('actor not added');
   }
 };
 
-export const addDirector = async (director: string, movieId?: number) => {
+export const addDirector = async (director: string, movieId?: number, userId?: number) => {
   try {
     const currentDirector = await Directors.findOrCreate(
       {where: {director_name: director}}
@@ -420,13 +427,18 @@ export const addDirector = async (director: string, movieId?: number) => {
       directorId: directorId,
       movieId: movieId
     });
+
+    !!userId && Users_Directors.create({
+      userId: userId,
+      directorId: directorId
+    });
   }
   catch (err) {
     console.error('director not added');
   }
 };
 
-export const addGenre = async (genre: string, movieId?: number) => {
+export const addGenre = async (genre: string, movieId?: number, userId?: number) => {
   try {
     const currentGenre = await Genre.findOrCreate(
       {where: {genre: genre}}
@@ -435,6 +447,11 @@ export const addGenre = async (genre: string, movieId?: number) => {
     !!movieId && Movie_Genre.create({
       genreId: genreId,
       movieId: movieId
+    });
+
+    !!userId && Users_Genre.create({
+      userId: userId,
+      directorId: genreId
     });
   }
   catch (err) {
