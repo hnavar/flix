@@ -2,13 +2,13 @@ import React, { FC } from 'react';
 import SearchMovie from './movieSearch';
 import Home from './Home';
 import Twitter from './Twitter';
-import DisplayMoviesByGenre from './movieByGenre';
+import DisplayMoviesByRating from './movieByRating';
 
 const App:FC = () => {
 
   return (
     <div className ='App'>
-      <DisplayMoviesByGenre/>
+      <DisplayMoviesByRating/>
       {/* <SearchMovie/> */}
       {/* <Home /> */}
       {/* <Home /> */}
