@@ -7,15 +7,22 @@ import axios from "axios";
 
 
 
-const MoviesByPerson:FC = (props :any) => {
-  interface Movie {imDbId: string; title: string; year: string; videoDescription: string; linkEmbed: string};
+const MoviesByPerson = () => {
+  interface Person {name: string};
   const [searchVal, setSearchVal] = useState('');
-  const [searchResults, setSearchResults] = useState<Movie | null>(null);
+  const [searchValObject, setSearchValObject] = useState({name: ''});
+  const [searchResults, setSearchResults] = useState<Person | null>(null);
 
 
 
-const grabMovies = (actorOrDirector: string) => {
-    return axios.post('/api/movies/getMoviesByPerson/', {actorOrDirector})
+const grabMovies = (actorOrDirector: {name: string}) => {
+    return axios.post('/api/movies/getMoviesByPerson/', actorOrDirector)
+    .then((data: any) => {
+      console.log(data);
+      setSearchResults(data);
+    }).catch((error: any) => {
+      console.log(error);
+  });
 };
 
 
@@ -24,23 +31,25 @@ const grabMovies = (actorOrDirector: string) => {
   const handleChange = (event :any) => {
     const searchVal = event.target.value;
     setSearchVal(searchVal);
+    setSearchValObject({name: searchVal});
   };
 
-  // const handleClick = (event :any) => {
-  //   event.preventDefault();
-  //   grabMovies(searchVal);
-  //   setSearchVal('');
-  // };
+  const handleClick = (event :any) => {
+    event.preventDefault();
+    grabMovies(searchValObject);
+    setSearchVal('');
+  };
 
-
+if (!searchResults) {
   return (
     <div>
       <div>
         <TextField value={searchVal} onChange={handleChange} id="outlined-basic" label="Search Actor or Director" variant="outlined" size="small" />
-        <Button type="submit" variant="contained" id="outlined-basic" color="primary">Search</Button>
+        <Button type="submit" onClick={handleClick} variant="contained" id="outlined-basic" color="primary">Search</Button>
       </div>
     </div>
-  );
+    );
+  }
 };
 
 export default MoviesByPerson;
