@@ -126,14 +126,13 @@ MoviesRouter.get('/moviesByRatingPG', (req: Request, res: Response) => {
      });
    });
 
-   MoviesRouter.get('/moviesByActorOrDirectors', (req: Request, res: Response) => {
-    return grabActorOrDirectorID('Tobey Maguire')
+   MoviesRouter.post('/moviesByActorOrDirectors', (req: Request, res: Response) => {
+    //  console.log(req.body.name);
+    return grabActorOrDirectorID(req.body.name)
         .then((data: any) => {
-          // console.log(data);
           return data;
         })
         .then((data: any) => {
-      //  console.log(grabMoviesByActorsOrDirectors(data));
        return grabMoviesByActorsOrDirectors(data);
      }).then((data: any) => {
        console.log(data);

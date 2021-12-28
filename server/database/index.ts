@@ -499,7 +499,7 @@ export const grabMoviesByActorsOrDirectors = (actorID: string) => {
     return axios.get(`https://imdb-api.com/API/Name/${IMDB_KEY}/${actorID}`)
       .then(({data}: any) => {
         let moviesArray = []
-        console.log(data);
+        // console.log(data);
         for (let i = 0; i < data.knownFor.length; i++) {
               let otherMovies = data.knownFor[i]
               moviesArray.push(otherMovies);
