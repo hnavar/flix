@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import type {Request, Response} from 'express';
-import { getAllMovies, getAllMoviesByDirector, getAllMoviesByGenre, getAllMoviesWithActor, addMovie, grabMovieIdWithRating, grabMoviesByActorsOrDirectors } from '../database/index';
+import { getAllMovies, getAllMoviesByDirector, getAllMoviesByGenre, getAllMoviesWithActor, addMovie, grabMovieIdWithRating, grabMoviesByActorsOrDirectors, grabActorOrDirectorID } from '../database/index';
 import { REAL } from 'sequelize';
 
 const MoviesRouter = Router();
@@ -127,11 +127,19 @@ MoviesRouter.get('/moviesByRatingPG', (req: Request, res: Response) => {
    });
 
    MoviesRouter.get('/moviesByActorOrDirectors', (req: Request, res: Response) => {
-    grabMoviesByActorsOrDirectors('nm0001497')
-     .then((data: any) => {
+    return grabActorOrDirectorID('Tobey Maguire')
+        .then((data: any) => {
+          // console.log(data);
+          return data;
+        })
+        .then((data: any) => {
+      //  console.log(grabMoviesByActorsOrDirectors(data));
+       return grabMoviesByActorsOrDirectors(data);
+     }).then((data: any) => {
        console.log(data);
        res.send(data);
-     }).catch((error: any) => {
+     })
+     .catch((error: any) => {
        console.log(error);
        res.status(500).end();
      });

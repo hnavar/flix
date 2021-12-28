@@ -509,3 +509,14 @@ export const grabMoviesByActorsOrDirectors = (actorID: string) => {
         console.log(error);
       });
 }
+
+export const grabActorOrDirectorID = (actorOrDirector: string) => {
+  return axios.get(`https://imdb-api.com/en/API/SearchAll/${IMDB_KEY}/${actorOrDirector}`)
+   .then(({data}: any) => {
+    //  console.log(data.results[0].id);
+    let actorOrDirectorID = data.results[0].id;
+    return actorOrDirectorID;
+   }).catch((error: any) => {
+    console.log(error);
+   });
+}

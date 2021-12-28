@@ -2,6 +2,7 @@ import Home from "./components/Home";
 import SearchMovie from "./components/movieSearch";
 import Twitter from "./components/Twitter";
 import MovieRating from "./components/MovieByRating";
+import MoviesByPerson from "./components/MoviesByPerson";
 
 
 const Paths = [
@@ -24,6 +25,11 @@ const Paths = [
     path: 'rating',
     sidebarName: 'Rating',
     component: MovieRating
+  },
+  {
+    path: 'person',
+    sidebarName: 'Actors/Directors',
+    component: MoviesByPerson
   }
   // {
   //   path: '/profile',
