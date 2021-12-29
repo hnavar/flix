@@ -1,7 +1,7 @@
 
 import React, { FC, useState, useEffect } from 'react';
 
-import React, { FC } from 'react';
+
 
 import Paths from '../Routes';
 import NavigationBar from './NavigationBar';
