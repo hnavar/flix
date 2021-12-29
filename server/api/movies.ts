@@ -135,7 +135,7 @@ MoviesRouter.get('/moviesByRatingPG', (req: Request, res: Response) => {
         .then((data: any) => {
        return grabMoviesByActorsOrDirectors(data);
      }).then((data: any) => {
-       console.log(data);
+      //  console.log(data);
        res.send(data);
      })
      .catch((error: any) => {
