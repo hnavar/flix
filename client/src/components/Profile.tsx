@@ -44,15 +44,11 @@ const Profile:FC<any> = ({user}) => {
         setFavoriteActors(responseArr[0]);
         setFavoriteDirectors(responseArr[1]);
         setFavoriteGenres(responseArr[2]);
-        console.log('User actors retrieved', responseArr[0]);
-        console.log('User directors retrieved', responseArr[1]);
-        console.log('User genres retrieved', responseArr[2]);
       }).catch((err) => { console.log('Unable to retrieve user favorites', err); })
   };
 
     useEffect(() => {
       setTimeout(() => {
-        console.log('children', user)
         setCurrentUser(user);
         getAllFavorites(user.id);
       }, 2000)

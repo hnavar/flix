@@ -99,7 +99,6 @@ passport.use(new GoogleStrategy({
                           age: profile.age
                      }
                     });
-                    console.log('newUser',newUser[0]);
                     return done(null, newUser[0]);
 
   //Keeping for reference until final cleanup, just in case.
@@ -114,19 +113,16 @@ passport.use(new GoogleStrategy({
   //   sessionID: profile.number,
   //   age: profile.age
   // }).save().then((newUser: any) => {
-  //   console.log('new user object', newUser)
   // })
   // return done(null, profile);
 
 }))
 
 passport.serializeUser((user: any, done: any) => {
-  console.log('serialize', user)
   return done(null, user);
 })
 
 passport.deserializeUser((user: any, done: any) => {
-  console.log('deserialize', user)
   return done(null, user)
 })
 

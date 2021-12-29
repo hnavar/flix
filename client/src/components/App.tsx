@@ -13,7 +13,6 @@ const App:FC = (props) => {
   const getLoggedInUser = () => {
     axios.get('/verify')
       .then(({data}) => {
-        console.log('Current User', data);
         setCurrentUser(data);
       })
   };

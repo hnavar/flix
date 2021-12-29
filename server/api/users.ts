@@ -6,7 +6,6 @@ const {addUser, updateUser, getUserById} = require('../database/index');
 const UsersRouter = Router();
 
 UsersRouter.get('/:id', (req: Request, res: Response) => {
-    console.log(req.body)
     getUserById(req.body)
         .then((data: object[]) => { res.send(200).send(data) })
         .catch((err: object[]) => { res.sendStatus(500) })
@@ -14,7 +13,6 @@ UsersRouter.get('/:id', (req: Request, res: Response) => {
 
 
 UsersRouter.post('/', (req: any, res: any) => {
-    console.log(req.body);
     addUser(req.body)
         .then(() => {
             console.log('Router: Added new user.');
@@ -26,7 +24,6 @@ UsersRouter.post('/', (req: any, res: any) => {
 })
 
 UsersRouter.patch('/:id', (req: Request, res: Response) => {
-    console.log(req.body)
     updateUser(req.body)
         .then(() => {
             console.log('Router: Updated User successfully');
