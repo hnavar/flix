@@ -142,6 +142,7 @@ const Home:FC = (props: any) => {
             infinite={true}
             showDots={true}
             partialVisible={true}
+            ssr={true}
           >
             {
               moviesObj[key].map((movie: MovieObj) => <CarouselItem item={movie} key={movie.movie_id} />)
