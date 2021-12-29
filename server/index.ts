@@ -21,12 +21,14 @@ const app = express();
 import type { Response, Request } from 'express';
 import TwitterRouter from './api/twitter';
 import UsersRouter from './api/users';
+
 import { addUser, getUserById } from './database';
 import { profile } from 'console';
 import { any } from 'sequelize/dist/lib/operators';
 // const auth = require('./helpers/auth');
 // const authroutes = require('./api/authroutes');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+
 
 const port = process.env.PORT || 3000;
 const dist = path.resolve(__dirname, '..', 'client/dist');
@@ -167,6 +169,15 @@ app.get('/logout', (req: Request, res: Response) => {
     console.log('logged out hit');
     res.clearCookie('Flix');
     res.redirect('/');
+});
+
+// fixes the "CANNOT GET component" on page refresh
+app.get('/*', (req: Request, res: Response) => {
+  res.sendFile(path.join(dist, 'index.html'), (err: any) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+  });
 });
 
 // fixes the "CANNOT GET component" on page refresh

@@ -1,11 +1,17 @@
+
 import React, { FC, useState, useEffect } from 'react';
+
+
+
 import Paths from '../Routes';
 import NavigationBar from './NavigationBar';
 import { Routes, Route } from 'react-router-dom';
 import MovieDetail from './MovieDetail';
+
 import axios from 'axios';
 import Login from './Login';
 import Profile from './Profile';
+
 
 const App:FC = (props) => {
   const [currentUser, setCurrentUser] = useState<any>();
@@ -25,15 +31,21 @@ const App:FC = (props) => {
 
   return (
     <>
+
     <Profile user={currentUser} />
     <Login user={currentUser}/>
+
       <NavigationBar />
       <Routes>
         {Paths.map((route: any, index: number) => {
           return <Route
             path={route.path}
             key={index}
+
             element={<route.component user={currentUser}/>}
+
+        
+
           />
         })}
         <Route path='movies/:id' element={<MovieDetail />} />
