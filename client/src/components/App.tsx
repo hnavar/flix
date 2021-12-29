@@ -1,26 +1,26 @@
 import React, { FC } from 'react';
-import SearchMovie from './movieSearch';
-import Home from './Home';
-import Profile from './Profile';
-import Login from './Login';
+import Paths from '../Routes';
+import NavigationBar from './NavigationBar';
+import { Routes, Route } from 'react-router-dom';
+import MovieDetail from './MovieDetail';
 
-interface Props {
-  id?: number;
-}
-import Twitter from './Twitter';
-
-const App:FC<Props> = (props) => {
+const App:FC = (props) => {
 
   return (
-    <div className ='App'>
-      {/* <Home /> */}
-      <Profile />
-      <Login />
-      <SearchMovie/>
-      <Home />
-      {/* <Home /> */}
-      <Twitter/>
-    </div>
+    <>
+      <NavigationBar />
+      <Routes>
+        {Paths.map((route: any, index: number) => {
+          return <Route
+            path={route.path}
+            key={index}
+            element={<route.component />}
+          />
+        })}
+        <Route path='movies/:id' element={<MovieDetail />} />
+        <Route path="*" element={<h2>404: Not found</h2>}/>
+      </Routes>
+    </>
   );
 };
 
