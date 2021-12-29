@@ -82,42 +82,14 @@ passport.use(new GoogleStrategy({
   clientSecret:`${google_clientSecret}`,
   callbackURL: `${passportCallbackURL}`
 },
-  async function(request: any, accessToken: any, refreshToken: any, profile: any, done: any) {
-
+async function(request: any, accessToken: any, refreshToken: any, profile: any, done: any) {
   //Find or Create a user
   //returns [{}, boolean]
   // [0] = user object
   // [1] = true if created, false if found
-  const newUser = await User.findOrCreate({where: {email_Oauth: profile.id},
-                     defaults: {
-                          username: profile.displayName,
-                          email_Oauth: profile.id,
-                          twitter_Oauth: profile.twitterId,
-                          twitter_user_name: profile.twitterUsername,
-                          first_name: profile.name.givenName,
-                          last_name: profile.name.familyName,
-                          profile_image_url: profile.photos[0].value,
-                          sessionID: profile.number,
-                          age: profile.age
-                     }
-                    });
-                    return done(null, newUser[0]);
-
-  //Keeping for reference until final cleanup, just in case.
-  // new User({
-  //   username: profile.displayName,
-  //   email_Oauth: profile.id,
-  //   twitter_Oauth: profile.twitterId,
-  //   twitter_user_name: profile.twitterUsername,
-  //   first_name: profile.name.givenName,
-  //   last_name: profile.name.familyName,
-  //   profile_image_url: profile.photos[0].value,
-  //   sessionID: profile.number,
-  //   age: profile.age
-  // }).save().then((newUser: any) => {
-  // })
-  // return done(null, profile);
-
+    const newUser = await addUser(profile);
+    console.log('newUser', newUser)
+    return done(null, newUser[0]);
 }))
 
 passport.serializeUser((user: any, done: any) => {

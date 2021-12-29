@@ -1,4 +1,5 @@
-import {Router, Response, Request} from 'express';
+import type { Response, Request } from 'express';
+import { Router } from 'express';
 import axios from 'axios';
 import { userInfo } from 'os';
 // import type {Request, Response} from 'express';

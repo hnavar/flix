@@ -1,4 +1,5 @@
 import { Movie } from "@material-ui/icons";
+import { profile } from "console";
 import { response } from "express";
 
 
@@ -350,43 +351,40 @@ interface userObj {
 }
 
 export const getUserById = async (userId: number) => {
+  return User.findByPk(userId);
+};
+
+
+export const addUser = async (user: any) => {
   try {
-    const oneUser = await User.findOne({where: {id: userId}})
-    return response.status(200).json(oneUser);
+    const newUser = await User.findOrCreate(
+    {where: { email_Oauth: user.id },
+      defaults: {
+      username: user.displayName,
+      email_Oauth: user.id,
+      twitter_Oauth: user.twitterId,
+      twitter_user_name: user.twitterUsername,
+      first_name: user.name.givenName,
+      last_name: user.name.familyName,
+      profile_image_url: user.photos[0].value,
+      sessionID: user.number,
+      age: user.age
+      }
+    });
+    return newUser;
   }
   catch (err) {
-    console.log('Index: Unable to find user.')
+    console.log('Unable to find or create user.');
   }
 };
 
-//this is getting replaced with the passport function in server/index.ts
-export const addUser = async (user: userObj) => {
-  try {
-    const {username, email_Oauth, twitter_Oauth, twitter_user_name, first_name,
-      last_name, profile_image_url, age} = user;
-       const newUser = await User.create(
-        {
-          username: username,
-          email_Oauth: email_Oauth,
-          twitter_Oauth: twitter_Oauth,
-          twitter_user_name: twitter_user_name,
-          first_name: first_name,
-          last_name: last_name,
-          profile_image_url: profile_image_url,
-          age: age
-        }
-      );
-      return newUser;
-  }
-  catch (err) {
-    console.error('already added');
-  }
-};
 
 export const updateUser = async (updateElement: any, userId?: number) => {
+  //update element is the object passed back that must have the key prop we want to update
+  //ex: updateElement = { number: newNumber }, to update property 'number' on the user object where id = userId
   try {
-    const updatedUser = await User.update({ where: { id: userId }})
-    return {updatedUser, created: false};
+    const updatedUser = await User.update(updateElement, { where: { id: userId }})
+    return updatedUser;
   }
   catch(err) { console.log('Index: failed to update user.')}
 };

@@ -1,5 +1,6 @@
 import express from 'express';
-import {Router, Response, Request} from 'express';
+import type { Response, Request } from 'express';
+import { Router } from 'express';
 const router = Router();
 const auth = require('../helpers/auth');
 

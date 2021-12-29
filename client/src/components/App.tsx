@@ -21,6 +21,9 @@ const App:FC = (props) => {
       .then(({data}) => {
         setCurrentUser(data);
       })
+      .catch((err) => {
+        console.log('Unable to verify user', err);
+      })
   };
 
 // currentUser.photos[0].value
@@ -44,7 +47,7 @@ const App:FC = (props) => {
 
             element={<route.component user={currentUser}/>}
 
-        
+
 
           />
         })}
