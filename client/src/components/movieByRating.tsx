@@ -3,7 +3,7 @@ import React from "react";
 import { useState, FC } from "react";
 import { Button } from "@material-ui/core";
 import {Card, CardHeader, CardMedia, CardContent, Typography} from '@mui/material';
-const displayMoviesByRating:FC = () => {
+const MovieByRating:FC = () => {
 
   const [movieData, setMovieData] = useState<any>([]);
   const [count, setCounter] = useState(0);
@@ -63,4 +63,4 @@ const displayMoviesByRating:FC = () => {
   }
 }
 
-export default displayMoviesByRating;
+export default MovieByRating;
