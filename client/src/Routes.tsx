@@ -1,7 +1,7 @@
 import Home from "./components/Home";
 import SearchMovie from "./components/movieSearch";
 import Twitter from "./components/Twitter";
-import MovieByRating from "./components/MovieByRating";
+import MovieByRating from "./components/MovieByRatings";
 import MoviesByPerson from "./components/MoviesByPerson";
 import Profile from './components/Profile';
 
