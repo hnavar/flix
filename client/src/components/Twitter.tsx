@@ -34,6 +34,32 @@ const Twitter:FC = (props: any) => {
             })       
     }
 
+      // grab tweets for random movie on load
+    useEffect(() => {
+      console.log('did load');
+      axios('http://localhost:3000/api/movies')
+        .then((movies: any) => {
+          return movies.data[Math.floor(Math.random() * movies.data.length)].title
+        })
+        .then((title) => {
+          const options: any = {
+            url: 'http://localhost:3000/api/twitter/tweets',
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+            params: {
+              title: title
+            }
+        }
+        axios(options)
+            .then((res) => {
+                setTweets(res.data.data)
+            })
+        })
+    }, []);
+
     
     
     return (

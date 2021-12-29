@@ -6,7 +6,9 @@ type TweetProps = {text: string}
 const SingleTweet:FC<TweetProps> = ({text}) => {
     
     return (
-      <div className="SingleTweet">
+      <div className="SingleTweet"
+      style ={{border: '2px solid blue'}}
+      >
            {text}
       </div>
     )
