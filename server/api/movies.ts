@@ -1,7 +1,8 @@
 import {Router} from 'express';
 import type {Request, Response} from 'express';
-import { getAllMovies, getAllMoviesByDirector, getAllMoviesByGenre, getAllMoviesWithActor, addMovie, grabMovieIdWithRating, grabMoviesByActorsOrDirectors, grabActorOrDirectorID } from '../database/index';
+import { getAllMovies, getAllMoviesByDirector, getAllMoviesByGenre, getAllMoviesWithActor, addMovie, grabMovieIdWithRating, grabMoviesByActorsOrDirectors, grabActorOrDirectorID, getMovieById } from '../database/index';
 import { REAL } from 'sequelize';
+
 
 const MoviesRouter = Router();
 interface MovieObj {
@@ -21,7 +22,7 @@ MoviesRouter.get('/genres/:id', (req: Request, res: Response) => {
   const genreId = Number(req.params.id);
   getAllMoviesByGenre(genreId)
   .then((data: any) => {
-    const movies = data[0].dataValues.movies.map((elem: any) => elem.dataValues);
+    const movies = data.dataValues.movies.map((elem: any) => elem.dataValues);
       res.status(200).send(movies);
     })
     .catch((err: object) => {
@@ -33,7 +34,7 @@ MoviesRouter.get('/genres/:id', (req: Request, res: Response) => {
 MoviesRouter.get('/actors/:id', (req: Request, res: Response) => {
   getAllMoviesWithActor(Number(req.params.id))
     .then((data: any) => {
-      const movies = data[0].dataValues.movies.map((elem: any) => elem.dataValues);
+      const movies = data.dataValues.movies.map((elem: any) => elem.dataValues);
       res.status(200).send(movies);
     })
     .catch((err: object) => {
@@ -45,7 +46,7 @@ MoviesRouter.get('/actors/:id', (req: Request, res: Response) => {
 MoviesRouter.get('/directors/:id', (req: Request, res: Response) => {
   getAllMoviesByDirector(Number(req.params.id))
     .then((data: any) => {
-      const movies = data[0].dataValues.movies.map((elem: any) => elem.dataValues);
+      const movies = data.dataValues.movies.map((elem: any) => elem.dataValues);
       res.status(200).send(movies);
     })
     .catch((err: object) => {
@@ -148,5 +149,15 @@ MoviesRouter.get('/moviesByRatingPG', (req: Request, res: Response) => {
 
 
 
+MoviesRouter.get('/:id', (req: Request, res: Response) => {
+  getMovieById(parseInt(req.params.id))
+    .then((data: MovieObj) => {
+      res.status(200).send(data);
+    })
+    .catch((err: any) => {
+      console.error(err);
+      res.sendStatus(500);
+    })
+});
 
 export default MoviesRouter;

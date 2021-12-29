@@ -1,3 +1,8 @@
+import { Movie } from "@material-ui/icons";
+import { profile } from "console";
+import { response } from "express";
+
+
 const Sequelize = require('sequelize');
 require('dotenv').config();
 import axios from 'axios';
@@ -44,6 +49,7 @@ const User = db.define('user', {
   first_name: Sequelize.STRING,
   last_name: Sequelize.STRING,
   profile_image_url: Sequelize.STRING,
+  sessionID: Sequelize.STRING,
   age: Sequelize.INTEGER
 });
 // insert into users (id, username, email_Oauth, twitter_Oauth, twitter_user_name, first_name, last_name, profile_image_url, age) values (1, 'sbelete01', 'sbelete01@gmail.com', 1234, 'sbelete_twitter', 'sam', 'belete', 'image_url', 21);
@@ -257,7 +263,8 @@ export const getAllDirectors = () => {
 };
 
 export const getAllMoviesByGenre = (genre: number) => {
-  return Genre.findAll({
+  return Genre.findOne({
+    where: {id: genre},
     include: [
       {
         model: Movies,
@@ -268,7 +275,8 @@ export const getAllMoviesByGenre = (genre: number) => {
 };
 
 export const getAllMoviesByDirector = (director: number) => {
-  return Directors.findAll({
+  return Directors.findOne({
+    where: {id: director},
     include: [
       {
         model: Movies,
@@ -279,7 +287,8 @@ export const getAllMoviesByDirector = (director: number) => {
 };
 
 export const getAllMoviesWithActor = (actor: number) => {
-  return Actors.findAll({
+  return Actors.findOne({
+    where: {id: actor},
     include: [
       {
         model: Movies,
@@ -290,7 +299,8 @@ export const getAllMoviesWithActor = (actor: number) => {
 };
 
 export const getFavoriteActors = (userId: number) => {
-  return User.findAll({
+  return User.findOne({
+    where: {id: userId},
     include: [
       {
         model: Actors,
@@ -301,7 +311,8 @@ export const getFavoriteActors = (userId: number) => {
 };
 
 export const getFavoriteDirectors = (userId: number) => {
-  return User.findAll({
+  return User.findOne({
+    where: {id: userId},
     include: [
       {
         model: Directors,
@@ -312,10 +323,24 @@ export const getFavoriteDirectors = (userId: number) => {
 };
 
 export const getFavoriteGenres = (userId: number) => {
-  return User.findAll({
+  return User.findOne({
+    where: {id: userId},
     include: [
       {
         model: Genre,
+        through: {where: {userId: userId}}
+      }
+    ]
+  });
+};
+
+// Movies needs a get favorites
+export const getFavoriteMovies = (userId: number) => {
+  return User.findAll({
+    where: {userId: userId},
+    include: [
+      {
+        model: Movies,
         through: {where: {userId: userId}}
       }
     ]
@@ -326,28 +351,43 @@ interface userObj {
   [key:string]: string;
 }
 
-export const addUser = async (user: userObj) => {
-  try {
-    const {username, email_Oauth, twitter_Oauth, twitter_user_name, first_name,
-      last_name, profile_image_url, age} = user;
-      // console.log(user)
-       User.create(
-        {
-          username: username, 
-          email_Oauth: email_Oauth, 
-          twitter_Oauth: twitter_Oauth,
-          twitter_user_name: twitter_user_name,
-          first_name: first_name,
-          last_name: last_name,
-          profile_image_url: profile_image_url,
-          age: age
-        }
-      );
+export const getUserById = async (userId: number) => {
+  return User.findByPk(userId);
+};
 
+
+export const addUser = async (user: any) => {
+  try {
+    const newUser = await User.findOrCreate(
+    {where: { email_Oauth: user.id },
+      defaults: {
+      username: user.displayName,
+      email_Oauth: user.id,
+      twitter_Oauth: user.twitterId,
+      twitter_user_name: user.twitterUsername,
+      first_name: user.name.givenName,
+      last_name: user.name.familyName,
+      profile_image_url: user.photos[0].value,
+      sessionID: user.number,
+      age: user.age
+      }
+    });
+    return newUser;
   }
   catch (err) {
-    console.error('already added');
+    console.log('Unable to find or create user.');
   }
+};
+
+
+export const updateUser = async (updateElement: any, userId?: number) => {
+  //update element is the object passed back that must have the key prop we want to update
+  //ex: updateElement = { number: newNumber }, to update property 'number' on the user object where id = userId
+  try {
+    const updatedUser = await User.update(updateElement, { where: { id: userId }})
+    return updatedUser;
+  }
+  catch(err) { console.log('Index: failed to update user.')}
 };
 
 
@@ -394,11 +434,11 @@ export const addMovie = async (movie: movieObj, userId?: number) => {
 
 export const addActor = async (actor: string, movieId?: number, userId?: number) => {
   try {
-    
+
     const currentActor = await Actors.findOrCreate(
       {where: {actor_name: actor}}
     );
-  
+
     const actorId = currentActor[0].dataValues.id;
     !!movieId && Movie_Actors.create({
       actorId: actorId,
@@ -520,3 +560,9 @@ export const grabActorOrDirectorID = (actorOrDirector: string) => {
     console.log(error);
    });
 }
+export const getMovieById = (id: number) => {
+  return Movies.findByPk(id);
+};
+
+export default User;
+
