@@ -1,6 +1,7 @@
 import { Movie } from "@material-ui/icons";
 import { response } from "express";
 
+
 const Sequelize = require('sequelize');
 require('dotenv').config();
 
@@ -502,4 +503,6 @@ export const addGenre = async (genre: string, movieId?: number, userId?: number)
 export const getMovieById = (id: number) => {
   return Movies.findByPk(id);
 };
+
 export default User;
+
