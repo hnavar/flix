@@ -1,38 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import { Button } from '@mui/material';
-import GoogleLogin from './GoogleLogin';
+import React, { useEffect, useState, FC } from 'react';
+
 import axios from 'axios';
 
-export const Login = () => {
+export const Login:FC = ({children}) => {
   const [currentUser, setCurrentUser] = useState<any>();
 
 
 
-  // const onSuccess = (res: Request) => {
-  //   axios.post((user: any) => {
-  //     console.log('User saved');
-  //   })
-  //   .catch((err) => { console.log('Unable to save user', err) })
-  //   .finally(setCurrentUser(res.profileObj));
-  //   // refreshTokenSetup(res);
-  // };
-
-  // const onFailure = (res: Request) => {
-  //   console.log('Login failed, res: ', res);
-  //   alert('Failed to login.');
-  // }
-
-
-  // useEffect(() => {
-  // }, [currentUser]);
-
   //profile button that lets me see profile, that lets me see my favorite genres/movies/actors
+  //conditional render of log-in vs log-out depending if the user object is present
+
+  useEffect(() => {
+    //setTimeout b/c will throw 'unmounted' error without it.
+    setTimeout(() => {
+      setCurrentUser(children);
+    })
+  }, [children]);
+
 
   return (
     <div>
-      <Button>
-        <GoogleLogin />
-      </Button>
+      {!currentUser ? <a href="/auth/google">Login with Google</a> : <a href="/logout">Logout</a> }
+      <br/>
     </div>
   );
 };

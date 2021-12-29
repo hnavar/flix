@@ -1,3 +1,5 @@
+import { response } from "express";
+
 const Sequelize = require('sequelize');
 require('dotenv').config();
 
@@ -43,6 +45,7 @@ const User = db.define('user', {
   first_name: Sequelize.STRING,
   last_name: Sequelize.STRING,
   profile_image_url: Sequelize.STRING,
+  sessionID: Sequelize.STRING,
   age: Sequelize.INTEGER
 });
 // insert into users (id, username, email_Oauth, twitter_Oauth, twitter_user_name, first_name, last_name, profile_image_url, age) values (1, 'sbelete01', 'sbelete01@gmail.com', 1234, 'sbelete_twitter', 'sam', 'belete', 'image_url', 21);
@@ -322,27 +325,38 @@ export const getFavoriteGenres = (userId: number) => {
 };
 
 // Movies needs a get favorites
-// export const getFavoriteMovies = (userId: number) => {
-//   return User.findOne({
-//     include: [
-//       {
-//         model: Movies,
-//         through: {where: {userId: userId}}
-//       }
-//     ]
-//   });
-// };
+export const getFavoriteMovies = (userId: number) => {
+  return User.findAll({
+    where: {userId: userId},
+    include: [
+      {
+        model: Movies,
+        through: {where: {userId: userId}}
+      }
+    ]
+  });
+};
 
 interface userObj {
   [key:string]: string;
 }
 
+export const getUserById = async (userId: number) => {
+  try {
+    const oneUser = await User.findOne({where: {id: userId}})
+    return response.status(200).json(oneUser);
+  }
+  catch (err) {
+    console.log('Index: Unable to find user.')
+  }
+};
+
+//this is getting replaced with the passport function in server/index.ts
 export const addUser = async (user: userObj) => {
   try {
     const {username, email_Oauth, twitter_Oauth, twitter_user_name, first_name,
       last_name, profile_image_url, age} = user;
-      // console.log(user)
-       User.create(
+       const newUser = await User.create(
         {
           username: username,
           email_Oauth: email_Oauth,
@@ -354,11 +368,19 @@ export const addUser = async (user: userObj) => {
           age: age
         }
       );
-
+      return newUser;
   }
   catch (err) {
     console.error('already added');
   }
+};
+
+export const updateUser = async (updateElement: any, userId?: number) => {
+  try {
+    const updatedUser = await User.update({ where: { id: userId }})
+    return {updatedUser, created: false};
+  }
+  catch(err) { console.log('Index: failed to update user.')}
 };
 
 
@@ -469,3 +491,5 @@ export const addGenre = async (genre: string, movieId?: number, userId?: number)
     console.error('genre not added');
   }
 };
+
+export default User;
