@@ -13,7 +13,7 @@ import Login from './Login';
 import Profile from './Profile';
 
 
-const App:FC = (props) => {
+const App:FC = () => {
   const [currentUser, setCurrentUser] = useState<any>();
 
   const getLoggedInUser = () => {
@@ -35,7 +35,7 @@ const App:FC = (props) => {
   return (
     <>
 
-    <Profile user={currentUser} />
+    {/* <Profile user={currentUser} /> */}
     <Login user={currentUser}/>
 
       <NavigationBar />

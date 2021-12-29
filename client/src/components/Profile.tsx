@@ -44,6 +44,7 @@ const Profile:FC<any> = ({user}) => {
         setFavoriteActors(responseArr[0]);
         setFavoriteDirectors(responseArr[1]);
         setFavoriteGenres(responseArr[2]);
+        console.log('Favorite Actors', responseArr[0])
       }).catch((err) => { console.log('Unable to retrieve user favorites', err); })
   };
 
