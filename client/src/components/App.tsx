@@ -45,7 +45,7 @@ const App:FC = (props) => {
 
             element={<route.component user={currentUser}/>}
 
-            element={<route.component />}
+        
 
           />
         })}
