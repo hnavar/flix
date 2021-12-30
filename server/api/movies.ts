@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import type {Request, Response} from 'express';
-import { getAllMovies, getAllMoviesByDirector, getAllMoviesByGenre, getAllMoviesWithActor, addMovie, getMovieById } from '../database/index';
+import { getAllMovies, getAllMoviesByDirector, getAllMoviesByGenre, getAllMoviesWithActor, addMovie, getMovieById, getFavoriteMovies } from '../database/index';
 
 const MoviesRouter = Router();
 interface MovieObj {
@@ -52,6 +52,16 @@ MoviesRouter.get('/directors/:id', (req: Request, res: Response) => {
       res.sendStatus(500);
     });
 });
+
+MoviesRouter.get('/movies/:id', (req: Request, res: Response) => {
+  getFavoriteMovies(Number(req.params.id))
+  .then((data: any) => {
+    // const movies = data.dataValues.movies.map((elem: any) => elem.dataValues);
+    res.status(200).send(data)
+  })
+  .catch((err: any) => { res.sendStatus(500) });
+});
+
 
 //gonna use one of these
 MoviesRouter.post('/saveMovie', (req: Request, res: Response) => {

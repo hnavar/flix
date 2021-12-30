@@ -1,6 +1,7 @@
 import { Movie } from "@material-ui/icons";
 import { profile } from "console";
 import { response } from "express";
+import { userInfo } from "os";
 
 
 const Sequelize = require('sequelize');
@@ -333,18 +334,31 @@ export const getFavoriteGenres = (userId: number) => {
   });
 };
 
-// Movies needs a get favorites
+
 export const getFavoriteMovies = (userId: number) => {
   return User.findAll({
-    where: {userId: userId},
+    attributes: {
     include: [
       {
         model: Movies,
         through: {where: {userId: userId}}
       }
     ]
+  }
   });
 };
+
+// export const getFavoriteMovies = (userId: number) => {
+//   return User.findOne({
+//     where: { id: userId },
+//     include: [
+//       {
+//         model: Movies,
+//         through: {where: {userId: userId}}
+//       }
+//     ]
+//   });
+// };
 
 interface userObj {
   [key:string]: string;
@@ -389,6 +403,15 @@ export const updateUser = async (updateElement: any, userId?: number) => {
   catch(err) { console.log('Index: failed to update user.')}
 };
 
+export const addFavoriteMovie = async (userId: any, movie_id: any) => {
+  try {
+      const newFavoriteMovie = await Users_Movies.create({
+        userId: userId,
+        movieId: movie_id
+      })
+  }
+  catch (err) { console.log('Unable to add favorite movie to user') };
+};
 
 export const addMovie = async (movie: movieObj, userId?: number) => {
   try {

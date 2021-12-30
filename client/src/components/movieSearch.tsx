@@ -12,7 +12,7 @@ const SearchMovie:FC = (props :any) => {
   const [searchVal, setSearchVal] = useState('');
   const [searchResults, setSearchResults] = useState<Movie | null>(null);
 
-
+  const [currentUser, setCurrentUser] = useState<any>();
 
 
   const grabMovieInfo = (movieName: string) : any => {
