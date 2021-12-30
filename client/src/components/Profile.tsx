@@ -1,5 +1,7 @@
 import React, {useState, FC, useEffect} from 'react';
 import axios from 'axios';
+import useStyles from "../styles/profile.styles";
+import { PropTypes } from '@material-ui/core';
 
 //MUI
 import {
@@ -14,6 +16,7 @@ import {
   TextField,
   Autocomplete,
   CircularProgress,
+  CardActionArea,
   Avatar,
   Stack,
   Typography,
@@ -56,6 +59,10 @@ interface ActorsObj {
 interface UserObj {
   [key: string] : any;
 }
+
+
+
+
 
 
 const Profile:FC<any> = ({user}) => {
@@ -169,10 +176,44 @@ const Profile:FC<any> = ({user}) => {
 
   };
 
-
+  const classes = useStyles();
   return(
     <>
       Profile
+      <div>
+      {!currentUser ? null :
+      <Card className={classes.root}>
+      <CardMedia className={classes.media} image={currentUser.profile_image_url} title="Cover" />
+      <Avatar src={currentUser.profile_image_url} className={classes.profileImage} />
+      <div className={classes.profileInfoContainer}>
+        <Typography
+          align={"center"}
+          className={currentUser.username}
+          variant="h4"
+          gutterBottom
+        >
+          {currentUser.username}
+        </Typography>
+        <Typography
+          align={"center"}
+          variant="subtitle2"
+          gutterBottom
+          className={currentUser.username}
+        >
+          @{currentUser.username}
+        </Typography>
+      </div>
+      <CardContent className="user-contentcontainer">
+        <Typography variant="body2" color="textSecondary" component="p">
+          test
+        </Typography>
+      </CardContent>
+    </Card>
+}
+      </div>
+
+
+      <div>
       <Avatar alt="Ben" src={!currentUser ? null : currentUser.profile_image_url}/>
       <div>
         Favorite Actors row
@@ -195,17 +236,26 @@ const Profile:FC<any> = ({user}) => {
         <Stack direction='row' spacing ={2}>
           {!favoriteMovies ? null : favoriteMovies.map((movie: any, key: number) => {
             return (
-          <Card>
-            <CardContent>
-              <Typography>
-                {movie.title}
-              </Typography>
-            </CardContent>
+          <Card sx = {{ maxWidth: 345 }}>
+            <CardActionArea>
+                <CardMedia
+                    component="img"
+                    height="140"
+                    image={movie.thumbnailUrl}
+                    alt="movie image"
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h6" component="div">
+                      {movie.title}
+                  </Typography>
+                </CardContent>
+            </CardActionArea>
           </Card>
             )
           })}
         </Stack>
       </div>
+    </div>
     </>
   );
 };
