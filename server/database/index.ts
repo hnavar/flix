@@ -334,31 +334,17 @@ export const getFavoriteGenres = (userId: number) => {
   });
 };
 
-
 export const getFavoriteMovies = (userId: number) => {
-  return User.findAll({
-    attributes: {
+  return User.findOne({
+    where: { id: userId },
     include: [
       {
         model: Movies,
         through: {where: {userId: userId}}
       }
     ]
-  }
   });
 };
-
-// export const getFavoriteMovies = (userId: number) => {
-//   return User.findOne({
-//     where: { id: userId },
-//     include: [
-//       {
-//         model: Movies,
-//         through: {where: {userId: userId}}
-//       }
-//     ]
-//   });
-// };
 
 interface userObj {
   [key:string]: string;

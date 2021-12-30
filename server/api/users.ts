@@ -4,7 +4,7 @@ import axios from 'axios';
 import { userInfo } from 'os';
 import { addFavoriteMovie } from '../database';
 // import type {Request, Response} from 'express';
-const {addUser, updateUser, getUserById} = require('../database/index');
+const {addUser, updateUser, getUserById, getFavoriteMovies, getFavoriteActors, getFavoriteDirectors, getFavoriteGenres} = require('../database/index');
 const UsersRouter = Router();
 
 UsersRouter.get('/:id', (req: Request, res: Response) => {
@@ -48,5 +48,41 @@ UsersRouter.post('/', (req: Request, res: Response) => {
         })
 })
 
+// GET USER FAVORITES //
+UsersRouter.get('/movies/:id', (req: Request, res: Response) => {
+    getFavoriteMovies(Number(req.params.id))
+    .then((data: object[]) => {
+      res.status(200).send(data)
+    })
+    .catch((err: object) => { res.sendStatus(500) });
+  });
+
+UsersRouter.get('/actors/:id', (req: Request, res: Response) => {
+    getFavoriteActors(Number(req.params.id))
+        .then((data: object[]) => res.status(200).send(data))
+        .catch((err: object) => {
+        console.error(err);
+        res.sendStatus(500);
+        });
+});
+
+UsersRouter.get('/directors/:id', (req: Request, res: Response) => {
+    getFavoriteDirectors(Number(req.params.id))
+      .then((data: object[]) => res.status(200).send(data))
+      .catch((err: object) => {
+        console.error(err);
+        res.sendStatus(500);
+      });
+  });
+
+UsersRouter.get('/genres/:id', (req: Request, res: Response) => {
+    getFavoriteGenres(Number(req.params.id))
+        .then((data: object[]) => res.status(200).send(data))
+        .catch((err: object) => {
+        console.error(err);
+        res.sendStatus(500);
+        });
+});
+// END GET USER FAVORITES //
 
 export default UsersRouter;

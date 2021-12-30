@@ -78,21 +78,21 @@ const Profile:FC<any> = ({user}) => {
 
   //Used to get all favorites upon initial load.
   const getAllFavorites = (userId: number) => {
-    const getActors = axios.get(`/api/actors/${userId}`);
-    const getDirectors = axios.get(`/api/directors/${userId}`);
-    const getGenres = axios.get(`/api/genres/${userId}`);
-    const getMovies = axios.get(`/api/movies/${userId}`);
+    const getActors = axios.get(`/api/users/actors/${userId}`);
+    const getDirectors = axios.get(`/api/users/directors/${userId}`);
+    const getGenres = axios.get(`/api/users/genres/${userId}`);
+    const getMovies = axios.get(`/api/users/movies/${userId}`);
 
     axios.all([getActors, getDirectors, getGenres, getMovies])
       .then(responseArr => {
         setFavoriteActors(responseArr[0].data.actors);
         setFavoriteDirectors(responseArr[1].data.directors);
         setFavoriteGenres(responseArr[2].data.genres);
-        setFavoriteMovies(responseArr[3].data)
+        setFavoriteMovies(responseArr[3].data.movies)
         console.log('Favorite Actors', responseArr[0].data.actors)
         console.log('Favorite directors', responseArr[1].data.directors)
         console.log('Favorite genres', responseArr[2].data.genres)
-        console.log('favorite movies', responseArr[3].data)
+        console.log('favorite movies', responseArr[3].data.movies)
 
       }).catch((err) => { console.log('Unable to retrieve user favorites', err); })
   };
@@ -193,15 +193,17 @@ const Profile:FC<any> = ({user}) => {
       <div>
         Favorite Movies row
         <Stack direction='row' spacing ={2}>
-
+          {!favoriteMovies ? null : favoriteMovies.map((movie: any, key: number) => {
+            return (
           <Card>
             <CardContent>
               <Typography>
-                test
-                {!favoriteMovies ? null : favoriteMovies.title}
+                {movie.title}
               </Typography>
             </CardContent>
           </Card>
+            )
+          })}
         </Stack>
       </div>
     </>

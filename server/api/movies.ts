@@ -53,14 +53,6 @@ MoviesRouter.get('/directors/:id', (req: Request, res: Response) => {
     });
 });
 
-MoviesRouter.get('/movies/:id', (req: Request, res: Response) => {
-  getFavoriteMovies(Number(req.params.id))
-  .then((data: any) => {
-    // const movies = data.dataValues.movies.map((elem: any) => elem.dataValues);
-    res.status(200).send(data)
-  })
-  .catch((err: any) => { res.sendStatus(500) });
-});
 
 
 //gonna use one of these
