@@ -49,6 +49,7 @@ const User = db.define('user', {
   first_name: Sequelize.STRING,
   last_name: Sequelize.STRING,
   profile_image_url: Sequelize.STRING,
+  profile_cover_photo_url: Sequelize.STRING,
   sessionID: Sequelize.STRING,
   age: Sequelize.INTEGER
 });

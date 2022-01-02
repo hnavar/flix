@@ -177,6 +177,7 @@ const Profile:FC<any> = ({user}) => {
   };
 
   const classes = useStyles();
+  //Cover photo is static, requires s3 integration for this part
   return(
     <>
       Profile
@@ -200,7 +201,7 @@ const Profile:FC<any> = ({user}) => {
           gutterBottom
           className={currentUser.username}
         >
-          @{currentUser.username}
+          {!currentUser.twitter_user_name ? null : `@${currentUser.twitter_user_name}`}
         </Typography>
       </div>
       <CardContent className="user-contentcontainer">
