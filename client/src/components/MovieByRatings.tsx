@@ -23,7 +23,7 @@ const MovieByRating:FC = () => {
   if (movieData.length === 0) {
     return (
   <div>
-    <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('G')}}>Find G rated movies</Button>
+    {/* <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('G')}}>Find G rated movies</Button> */}
     <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('PG')}}>Find PG rated movies</Button>
     <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('PG-13')}}>Find PG-13 rated movies</Button>
     <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('R')}}>Find NC-17 rated movies</Button>
@@ -35,7 +35,15 @@ const MovieByRating:FC = () => {
   } else {
     return (
       <div>
+        {/* <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('G')}}>Find G rated movies</Button> */}
+        <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('PG')}}>Find PG rated movies</Button>
+        <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('PG-13')}}>Find PG-13 rated movies</Button>
+        <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('R')}}>Find NC-17 rated movies</Button>
+        <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('NC-17')}}>Find R rated movies</Button>
+        <div>
         <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {setCounter(count + 1)}}>Show Next Movie</Button>
+        <Button variant="contained" id="outlined-basic" color="secondary" onClick={() => {setCounter(count - 1)}}>Show Previous Movie</Button>
+        </div>
     <div>
       <Card
         variant='outlined'
@@ -44,7 +52,7 @@ const MovieByRating:FC = () => {
         <CardMedia
           component="img"
           height="194"
-          src={movieData[count].thumbnailUrl}
+          src={count < movieData.length ? movieData[count].thumbnailUrl : setCounter(0) }
           title="movie trailer"
         />
         <CardHeader

@@ -54,8 +54,13 @@ if (searchResults.length === 0) {
     {console.log(searchResults)}
     return (
     <div>
-      <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {setCounter(count + 1)}}>Show Next Movie</Button>
-      <div>
+       <TextField value={searchVal} onChange={handleChange} id="outlined-basic" label="Search Actor or Director" variant="outlined" size="small" />
+       <Button type="submit" onClick={handleClick} variant="contained" id="outlined-basic" color="primary">Search</Button>
+        <div>
+          <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {setCounter(count + 1)}}>Show Next Movies</Button>
+          <Button variant="contained" id="outlined-basic" color="secondary" onClick={() => {setCounter(count - 1)}}>Show Previous Movies</Button>
+        </div>
+    <div>
             <Card
         variant='outlined'
         sx={{ maxWidth: 400 }}
@@ -93,26 +98,6 @@ if (searchResults.length === 0) {
         <CardContent>
           <Typography>
             Role: {searchResults[count + 1].role}
-          </Typography>
-        </CardContent>
-      </Card>
-      <Card
-        variant='outlined'
-        sx={{ maxWidth: 400 }}
-      >
-        <CardMedia
-          component="img"
-          height="400"
-          src={searchResults[count + 2].image}
-          title="movie trailer"
-        />
-        <CardHeader
-          title={searchResults[count + 2].title}
-          subheader={searchResults[count + 2].year}
-        />
-        <CardContent>
-          <Typography>
-            Role: {searchResults[count + 2].role}
           </Typography>
         </CardContent>
       </Card>

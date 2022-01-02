@@ -514,7 +514,7 @@ export const grabMovieIdWithRating = async (rating: string) => {
     const getMovieInfo = async () => {
       const movieInfoArray = [];
       // console.log(data);
-      for (let i = 0; i < 7; i++) {
+      for (let i = 0; i < 50; i++) {
            movieInfoArray.push(await axios.get(`https://imdb-api.com/en/API/Trailer/${IMDB_KEY}/${data[i]}`));
       }
       // console.log(movieInfoArray);

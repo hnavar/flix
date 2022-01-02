@@ -160,4 +160,24 @@ MoviesRouter.get('/:id', (req: Request, res: Response) => {
     })
 });
 
+MoviesRouter.get('/moviesByRatingPG', (req: Request, res: Response) => {
+  grabMovieIdWithRating("PG")
+     .then((data: any) => {
+       res.send(data);
+     }).catch((error: string) => {
+       console.log(error);
+       res.status(500).end();
+     });
+   });
+
+   MoviesRouter.get('/moviesByRatingG', (req: Request, res: Response) => {
+    grabMovieIdWithRating("G")
+       .then((data: any) => {
+         res.send(data);
+       }).catch((error: string) => {
+         console.log(error);
+         res.status(500).end();
+       });
+     });
+
 export default MoviesRouter;
