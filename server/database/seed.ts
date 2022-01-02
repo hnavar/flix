@@ -35,10 +35,11 @@ Promise.all(movies.map((elem: movieObj, idx: number) => {
   // };
   // axios(options)
 
-  Promise.all(movies.slice(0,5).map((elem: movieObj, idx: number) => {
-    return addMovie(elem, 1);
-  }))
-    .then(() => console.log('all should be saved?'));
+  // Promise.all(movies.slice(0,5).map((elem: movieObj, idx: number) => {
+  //   return addMovie(elem, 1);
+  // }))
+  //   .then(() => console.log('all should be saved?'));
 
 // console.log(movies);
+//
 
