@@ -420,7 +420,7 @@ export const addMovie = async (movie: movieObj, userId?: number) => {
     });
     const movieId = currentMovie[0].dataValues.id;
 
-    !!userId && Users_Movies.create({
+    userId && Users_Movies.create({
       userId: userId,
       movieId: movieId
     });
@@ -438,8 +438,15 @@ export const addMovie = async (movie: movieObj, userId?: number) => {
     });
   }
   catch (err) {
-    console.error('movie not added');
+    console.error('Movie not added');
   }
+};
+
+export const removeFavoriteMovie = async (movie_id: any, userId: any) => {
+  try {
+    await Users_Movies.destroy({where: { movie_id: movie_id }})
+  }
+  catch (err) { console.log('Unable to remove movie from user favorites.') }
 };
 
 export const addActor = async (actor: string, movieId?: number, userId?: number) => {

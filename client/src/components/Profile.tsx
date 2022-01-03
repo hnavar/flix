@@ -1,7 +1,8 @@
-import React, {useState, FC, useEffect} from 'react';
+import React, {useState, FC, useEffect, SyntheticEvent} from 'react';
 import axios from 'axios';
 import useStyles from "../styles/profile.styles";
 import { PropTypes } from '@material-ui/core';
+import { useNavigate } from 'react-router';
 
 //MUI
 import {
@@ -31,6 +32,7 @@ import {
   Box } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import ClearIcon from '@mui/icons-material/Clear';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { styled } from '@mui/material/styles';
@@ -167,13 +169,28 @@ const Profile:FC<any> = ({user}) => {
 
   //is there a way to set this up so that depending on whatever is clicked, that clicked item will be identified and passed
   //into the axios put request, instead of creating a request for each item type
-  const updateFavorite = () => {
-    //on target click, remove favorite
+  const removeFavorite = () => {
+    console.log('hello');
+    console.log('target title', favoriteMovies.title);
+    axios.delete(`/api/users/movies/${currentUser.id}`)
+    .then(() => { console.log('Removed favorite')})
+    .catch(() => {console.log('Failed to remove')})
+  };
+  //
+
+
+
+  const handleClick = (e: SyntheticEvent) => {
+    e.preventDefault();
+    console.log(e);
+    removeFavorite();
+
   };
 
-  const handleClick = (e: any) => {
+  const navigate = useNavigate();
+  const handleNavigate = (e: SyntheticEvent) => {
     e.preventDefault();
-
+    // navigate(`/movies/${favoriteMovies.id}`);
   };
 
   const classes = useStyles();
@@ -183,81 +200,78 @@ const Profile:FC<any> = ({user}) => {
       Profile
       <div>
       {!currentUser ? null :
-      <Card className={classes.root}>
-      <CardMedia className={classes.media} image={currentUser.profile_image_url} title="Cover" />
-      <Avatar src={currentUser.profile_image_url} className={classes.profileImage} />
-      <div className={classes.profileInfoContainer}>
-        <Typography
-          align={"center"}
-          className={currentUser.username}
-          variant="h4"
-          gutterBottom
-        >
-          {currentUser.username}
-        </Typography>
-        <Typography
-          align={"center"}
-          variant="subtitle2"
-          gutterBottom
-          className={currentUser.username}
-        >
-          {!currentUser.twitter_user_name ? null : `@${currentUser.twitter_user_name}`}
-        </Typography>
-      </div>
-      <CardContent className="user-contentcontainer">
-        <Typography variant="body2" color="textSecondary" component="p">
-          test
-        </Typography>
-      </CardContent>
-    </Card>
-}
-      </div>
-
-
-      <div>
-      <Avatar alt="Ben" src={!currentUser ? null : currentUser.profile_image_url}/>
-      <div>
-        Favorite Actors row
-        <Stack direction='row' spacing ={2}>
-          {!favoriteActors ? null : favoriteActors.map((actor: any, key: number) => {
-            return (
-          <Card>
-            <CardContent>
-              <Typography>
-                {actor.actor_name}
+      <><Card className={classes.root}>
+            <CardMedia className={classes.media} image={currentUser.profile_image_url} title="Cover" />
+            <Avatar src={currentUser.profile_image_url} className={classes.profileImage} />
+            <div className={classes.profileInfoContainer}>
+              <Typography
+                align={"center"}
+                className={currentUser.username}
+                variant="h4"
+                gutterBottom
+              >
+                {currentUser.username}
               </Typography>
+              <Typography
+                align={"center"}
+                variant="subtitle2"
+                gutterBottom
+                className={currentUser.username}
+              >
+                {!currentUser.twitter_user_name ? null : `@${currentUser.twitter_user_name}`}
+              </Typography>
+            </div>
+            <CardContent className="user-contentcontainer">
+              <div>
+                Favorite Movies row
+                <Stack direction='row' spacing={2}>
+                  {!favoriteMovies ? null : favoriteMovies.map((movie: any, key: number) => {
+                    return (
+                      <div>
+                        <ClearIcon onClick={() => handleClick(movie.id)} />
+                        <Card sx={{ maxWidth: 345 }}>
+                          <CardActionArea onClick={handleNavigate} >
+                            <CardMedia
+                              component="img"
+                              height="140"
+                              image={movie.thumbnailUrl}
+                              alt="movie image" />
+                            <CardContent>
+                              <Typography gutterBottom variant="h6" component="div">
+                                {movie.title}
+                              </Typography>
+                            </CardContent>
+                          </CardActionArea>
+                        </Card>
+                      </div>
+                    );
+                  })}
+                </Stack>
+              </div>
             </CardContent>
           </Card>
-            )
-          })}
-        </Stack>
-      </div>
-      <div>
-        Favorite Movies row
-        <Stack direction='row' spacing ={2}>
-          {!favoriteMovies ? null : favoriteMovies.map((movie: any, key: number) => {
-            return (
-          <Card sx = {{ maxWidth: 345 }}>
-            <CardActionArea>
-                <CardMedia
-                    component="img"
-                    height="140"
-                    image={movie.thumbnailUrl}
-                    alt="movie image"
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h6" component="div">
-                      {movie.title}
-                  </Typography>
-                </CardContent>
-            </CardActionArea>
-          </Card>
-            )
-          })}
-        </Stack>
-      </div>
-    </div>
-    </>
+
+          <div>
+              Favorite Actors row
+              <Stack direction='row' spacing={2}>
+                {!favoriteActors ? null : favoriteActors.map((actor: any, key: number) => {
+                  return (
+                    <Card>
+                      <CardContent>
+                        <Typography>
+                          {actor.actor_name}
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+              </Stack>
+            </div></>
+}
+</div>
+</>
+
+
   );
 };
 
