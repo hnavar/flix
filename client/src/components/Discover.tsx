@@ -15,7 +15,9 @@ interface currentMovie {
 }
 
 
-const Discover:FC = (props: any) => {
+const Discover:FC<any> = ({user}) => {
+  const [currentUser, setCurrentUser] = useState<any>(user);
+
   const [currentMovie, setCurrentMovie] = useState<null | currentMovie >(null);
   const [genresList, setGenresList] = useState([]);
   const [directorsList, setDirectorsList] = useState([]);
@@ -26,6 +28,10 @@ const Discover:FC = (props: any) => {
 
   const handleNextClick = () => {
     getRandomMovie();
+  }
+
+  const handleSaveClick = () => {
+    saveMovie();
   }
   const getGenresList = () => {
     axios('/api/genres/')
@@ -68,14 +74,23 @@ const Discover:FC = (props: any) => {
           })
     }
   
-    const saveMovie = (movie: any) => {
-      axios.post('/api/movies/saveMovie/', movie)
+    const saveMovie = () => {
+      if(user) {
+        axios({
+          method: 'post',
+          url: '/api/users/user-movies',
+          data: {
+            movieId: currentMovie?.id,
+            userId: user.id
+          }
+        });
+      }
     }
   
   
       useEffect(() => {
         getRandomMovie()
-  
+        setCurrentUser(user);
       }, [])
       return (
         <div>
@@ -92,6 +107,13 @@ const Discover:FC = (props: any) => {
           onClick={() => handleNextClick()}
         >
             Get a New Movie
+        </Button>
+        <Button 
+          variant="contained" 
+          color="secondary" 
+          onClick={() => handleSaveClick()}
+        >
+            Save movie
         </Button>
       </div>
     )

@@ -3,7 +3,7 @@ import { Router } from 'express';
 import axios from 'axios';
 import { userInfo } from 'os';
 // import type {Request, Response} from 'express';
-const {addUser, updateUser, getUserById} = require('../database/index');
+const {addUser, updateUser, getUserById, addUser_Movie} = require('../database/index');
 const UsersRouter = Router();
 
 UsersRouter.get('/:id', (req: Request, res: Response) => {
@@ -32,6 +32,17 @@ UsersRouter.patch('/:id', (req: Request, res: Response) => {
         })
         .catch((err: any) => {
             console.log('Router: failed to update user.', err)
+        })
+})
+
+UsersRouter.post('/user-movies', (req: any, res: any) => {
+    addUser_Movie(req.body.movieId, req.body.userId)
+        .then(() => {
+            console.log('Router: Added new user.');
+            res.sendStatus(200);
+        })
+        .catch((err: any) => {
+            console.log('Router: Failed to add new user.', err)
         })
 })
 
