@@ -5,7 +5,8 @@ import { response } from "express";
 
 const Sequelize = require('sequelize');
 require('dotenv').config();
-
+import axios from 'axios';
+const { IMDB_KEY } = process.env;
 interface movieObj {
   [key:string]: string;
 }
@@ -498,6 +499,67 @@ export const addGenre = async (genre: string, movieId?: number, userId?: number)
   }
 };
 
+export const grabMovieIdWithRating = async (rating: string) => {
+  return await axios.get(`https://imdb-api.com/API/AdvancedSearch/${IMDB_KEY}?title_type=tv_movie&certificates=us:${rating}`)
+    .then(({data}: any) => {
+    // console.log(data);
+    let movieIdArray = []
+    for (let i = 0; i < data.results.length; i++) {
+      let movieId = data.results[i].id;
+        movieIdArray.push(movieId);
+    }
+    return movieIdArray;
+    })
+    .then((data: any) => {
+    const getMovieInfo = async () => {
+      const movieInfoArray = [];
+      // console.log(data);
+      for (let i = 0; i < 50; i++) {
+           movieInfoArray.push(await axios.get(`https://imdb-api.com/en/API/Trailer/${IMDB_KEY}/${data[i]}`));
+      }
+      // console.log(movieInfoArray);
+      return movieInfoArray;
+    }
+    return getMovieInfo()
+  })
+  .then((data: any) => {
+    let movieData = [];
+    for (let i = 0; i < data.length; i++) {
+      let movie = data[i].data;
+      movieData.push(movie);
+    }
+    // console.log(movieData);
+    return movieData;
+  }).catch((error: any) => {
+    console.log(error);
+  });
+}
+
+export const grabMoviesByActorsOrDirectors = (actorID: string) => {
+    return axios.get(`https://imdb-api.com/API/Name/${IMDB_KEY}/${actorID}`)
+      .then(({data}: any) => {
+        let moviesArray = []
+        // console.log(data);
+        for (let i = 0; i < data.knownFor.length; i++) {
+              let otherMovies = data.knownFor[i]
+              moviesArray.push(otherMovies);
+        }
+        return moviesArray;
+      }).catch((error: any) => {
+        console.log(error);
+      });
+}
+
+export const grabActorOrDirectorID = (actorOrDirector: string) => {
+  return axios.get(`https://imdb-api.com/en/API/SearchAll/${IMDB_KEY}/${actorOrDirector}`)
+   .then(({data}: any) => {
+    //  console.log(data.results[0].id);
+    let actorOrDirectorID = data.results[0].id;
+    return actorOrDirectorID;
+   }).catch((error: any) => {
+    console.log(error);
+   });
+}
 export const getMovieById = (id: number) => {
   return Movies.findByPk(id);
 };
