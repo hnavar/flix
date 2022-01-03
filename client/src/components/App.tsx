@@ -11,6 +11,7 @@ import MovieDetail from './MovieDetail';
 import axios from 'axios';
 import Login from './Login';
 import Profile from './Profile';
+import TsParticles from './tsParticle/tsParticles';
 
 
 const App:FC = () => {
@@ -26,6 +27,8 @@ const App:FC = () => {
       })
   };
 
+
+
 // currentUser.photos[0].value
   //this only needs to run once, will update when the user logs out and is redirected to login page.
   useEffect(() => {
@@ -35,25 +38,18 @@ const App:FC = () => {
   return (
     <>
 
-    {/* <Profile user={currentUser} /> */}
-    <Login user={currentUser}/>
-
-      <NavigationBar />
-      <Routes>
-        {Paths.map((route: any, index: number) => {
-          return <Route
-            path={route.path}
-            key={index}
-
-            element={<route.component user={currentUser}/>}
-
-
-
-          />
-        })}
-        <Route path='movies/:id' element={<MovieDetail />} />
-        <Route path="*" element={<h2>404: Not found</h2>}/>
-      </Routes>
+    {!currentUser ?  <Login /> :
+    <><Login user={currentUser} /><NavigationBar /><Routes>
+          {Paths.map((route: any, index: number) => {
+            return <Route
+              path={route.path}
+              key={index}
+              element={<route.component user={currentUser} />} />;
+          })}
+          <Route path='movies/:id' element={<MovieDetail />} />
+          <Route path="*" element={<h2>404: Not found</h2>} />
+        </Routes></>
+}
     </>
   );
 };
