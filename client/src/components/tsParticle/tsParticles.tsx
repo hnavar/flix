@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
 import Particles, { tsParticles } from 'react-tsparticles';
+import './tsStyle.css';
 
 
 const TsParticles:FC<any> = () => {
@@ -11,43 +12,6 @@ const TsParticles:FC<any> = () => {
     console.log(container);
   }
 
-//   tsParticles.loadJSON("tsparticles", "presets/default.json")
-//     .then((container: any) => {
-//       console.log("calback - tsparticles config loaded")
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     })
-
-
-//   tsParticles.load("tsparticles", {
-
-//   });
-
-//   tsParticles.loadFromArray("tsparticles", [
-//     {
-
-//     },
-//     {
-
-//     }
-//   ]);
-
-//   // after initialization this can be used.
-
-// /* tsParticles.setOnClickHandler(@callback); */
-
-// /* this will be fired from all particles loaded */
-
-// tsParticles.setOnClickHandler((event, particles) => {
-//   /* custom on click handler */
-// });
-
-// const particles = tsParticles.domItem(0);
-
-// particles.play();
-
-// particles.pause();
 
 
   return (
@@ -64,6 +28,7 @@ const TsParticles:FC<any> = () => {
         },
         fpsLimit: 45,
         interactivity: {
+          detect_on: 'window',
           events: {
             onClick: {
               enable: true,

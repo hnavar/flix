@@ -172,7 +172,9 @@ const Profile:FC<any> = ({user}) => {
   const removeFavorite = () => {
     console.log('hello');
     console.log('target title', favoriteMovies.title);
-    // axios.delete(`/api/users/movies/${favoriteMovies.id}/${currentUser.id}`)
+    axios.delete(`/api/users/movies/${currentUser.id}`)
+    .then(() => { console.log('Removed favorite')})
+    .catch(() => {console.log('Failed to remove')})
   };
   //
 
@@ -181,8 +183,14 @@ const Profile:FC<any> = ({user}) => {
   const handleClick = (e: SyntheticEvent) => {
     e.preventDefault();
     console.log(e);
-    // removeFavorite();
+    removeFavorite();
 
+  };
+
+  const navigate = useNavigate();
+  const handleNavigate = (e: SyntheticEvent) => {
+    e.preventDefault();
+    // navigate(`/movies/${favoriteMovies.id}`);
   };
 
   const classes = useStyles();
@@ -220,9 +228,9 @@ const Profile:FC<any> = ({user}) => {
                   {!favoriteMovies ? null : favoriteMovies.map((movie: any, key: number) => {
                     return (
                       <div>
-                        <ClearIcon onClick={handleClick} />
+                        <ClearIcon onClick={() => handleClick(movie.id)} />
                         <Card sx={{ maxWidth: 345 }}>
-                          <CardActionArea>
+                          <CardActionArea onClick={handleNavigate} >
                             <CardMedia
                               component="img"
                               height="140"

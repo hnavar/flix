@@ -96,7 +96,9 @@ UsersRouter.get('/genres/:id', (req: Request, res: Response) => {
 
 UsersRouter.delete('/movies/:id', (req: Request, res: Response) => {
     removeFavoriteMovie(Number(req.params.id))
-    .then(() => { res.sendStatus(200) })
+    .then(() => {
+        console.log('HIITTTTT')
+        res.sendStatus(200) })
     .catch((err: any) => { res.sendStatus(500) })
 })
 

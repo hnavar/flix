@@ -9,6 +9,9 @@ const UserPreferences:FC<any> = ({user}) => {
 
   const verifyLoggedIn = () => {};
 
+  const handleChange = () => {};
+
+
   return(
     <div>
       User Preferences

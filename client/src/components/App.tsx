@@ -38,8 +38,13 @@ const App:FC = () => {
   return (
     <>
 
-    {!currentUser ?  <Login /> :
-    <><Login user={currentUser} /><NavigationBar /><Routes>
+    {!currentUser ?  <Login />
+    :
+    <>
+    <Login user={currentUser} />
+    <NavigationBar />
+    <TsParticles />
+    <Routes>
           {Paths.map((route: any, index: number) => {
             return <Route
               path={route.path}
