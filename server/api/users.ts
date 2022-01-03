@@ -11,7 +11,8 @@ const { addUser,
         getFavoriteActors,
         getFavoriteDirectors,
         getFavoriteGenres,
-        removeFavoriteMovie } = require('../database/index');
+        removeFavoriteMovie,
+        addUser_Movie } = require('../database/index');
 const UsersRouter = Router();
 
 UsersRouter.get('/:id', (req: Request, res: Response) => {
@@ -101,6 +102,19 @@ UsersRouter.delete('/movies/:id', (req: Request, res: Response) => {
         res.sendStatus(200) })
     .catch((err: any) => { res.sendStatus(500) })
 })
+
+UsersRouter.post('/user-movies', (req: any, res: any) => {
+    addUser_Movie(req.body.movieId, req.body.userId)
+        .then(() => {
+            console.log('Router: Added new user.');
+            res.sendStatus(201);
+        })
+        .catch((err: any) => {
+            console.log('Router: Failed to add new user.', err)
+            res.sendStatus(500);
+        })
+})
+
 
 
 export default UsersRouter;
