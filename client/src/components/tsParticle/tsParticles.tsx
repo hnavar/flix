@@ -23,7 +23,7 @@ const TsParticles:FC<any> = () => {
       options={{
         background: {
           color: {
-            value: "#0d47a1",
+            value: '#000000',
           },
         },
         fpsLimit: 45,
@@ -58,10 +58,10 @@ const TsParticles:FC<any> = () => {
         },
         particles: {
           color: {
-            value: "#ffffff",
+            value: '#CF5C36',
           },
           links: {
-            color: "#ffffff",
+            color: '#EFC88B',
             distance: 150,
             enable: true,
             opacity: 0.5,
@@ -75,7 +75,7 @@ const TsParticles:FC<any> = () => {
             enable: true,
             outMode: "bounce",
             random: false,
-            speed: 6,
+            speed: 2,
             straight: false,
           },
           number: {
