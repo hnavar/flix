@@ -32,6 +32,7 @@ const Discover:FC<any> = ({user}) => {
 
   const handleSaveClick = () => {
     saveMovie();
+    getRandomMovie();
   }
   const getGenresList = () => {
     axios('/api/genres/')
