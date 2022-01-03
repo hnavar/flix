@@ -4,7 +4,14 @@ import axios from 'axios';
 import { userInfo } from 'os';
 import { addFavoriteMovie } from '../database';
 // import type {Request, Response} from 'express';
-const {addUser, updateUser, getUserById, getFavoriteMovies, getFavoriteActors, getFavoriteDirectors, getFavoriteGenres} = require('../database/index');
+const { addUser,
+        updateUser,
+        getUserById,
+        getFavoriteMovies,
+        getFavoriteActors,
+        getFavoriteDirectors,
+        getFavoriteGenres,
+        removeFavoriteMovie } = require('../database/index');
 const UsersRouter = Router();
 
 UsersRouter.get('/:id', (req: Request, res: Response) => {
@@ -84,5 +91,14 @@ UsersRouter.get('/genres/:id', (req: Request, res: Response) => {
         });
 });
 // END GET USER FAVORITES //
+
+// USER DESTROY FAVORITES //
+
+UsersRouter.delete('/movies/:id', (req: Request, res: Response) => {
+    removeFavoriteMovie(Number(req.params.id))
+    .then(() => { res.sendStatus(200) })
+    .catch((err: any) => { res.sendStatus(500) })
+})
+
 
 export default UsersRouter;

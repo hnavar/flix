@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     top: "-110px",
     justifyContent: "center",
-    width: theme.spacing(HEIGHT / 40),
+    width: theme.spacing(HEIGHT / 2),
     height: theme.spacing(HEIGHT / 40),
     border: "5px solid white",
     margin: "auto"
