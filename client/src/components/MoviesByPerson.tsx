@@ -57,8 +57,8 @@ if (searchResults.length === 0) {
        <TextField value={searchVal} onChange={handleChange} id="outlined-basic" label="Search Actor or Director" variant="outlined" size="small" />
        <Button type="submit" onClick={handleClick} variant="contained" id="outlined-basic" color="primary">Search</Button>
         <div>
-          <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {setCounter(count + 1)}}>Show Next Movies</Button>
-          <Button variant="contained" id="outlined-basic" color="secondary" onClick={() => {setCounter(count - 1)}}>Show Previous Movies</Button>
+          <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {setCounter(count + 1)}}>Show Next Movie</Button>
+          <Button variant="contained" id="outlined-basic" color="secondary" onClick={() => {setCounter(count - 1)}}>Show Previous Movie</Button>
         </div>
     <div>
             <Card
@@ -81,7 +81,7 @@ if (searchResults.length === 0) {
           </Typography>
         </CardContent>
       </Card>
-      <Card
+      {/* <Card
         variant='outlined'
         sx={{ maxWidth: 400 }}
       >
@@ -100,7 +100,7 @@ if (searchResults.length === 0) {
             Role: {searchResults[count + 1].role}
           </Typography>
         </CardContent>
-      </Card>
+      </Card> */}
     </div>
   </div>
     );
