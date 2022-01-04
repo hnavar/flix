@@ -4,6 +4,7 @@ import Twitter from "./components/Twitter";
 import MovieByRating from "./components/MovieByRatings";
 import MoviesByPerson from "./components/MoviesByPerson";
 import Profile from './components/Profile';
+import Discover from "./components/Discover";
 
 
 const Paths = [
@@ -21,6 +22,11 @@ const Paths = [
     path: 'twitter',
     sidebarName: 'Twitter',
     component: Twitter
+  },
+  {
+    path: '/discover',
+    sidebarName: 'Discover',
+    component: Discover
   },
   {
     path: 'rating',

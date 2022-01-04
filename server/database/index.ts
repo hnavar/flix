@@ -433,6 +433,14 @@ export const addMovie = async (movie: movieObj, userId?: number) => {
   }
 };
 
+export const addUser_Movie = async (movieId: number, userId: number) => {
+  !!userId && Users_Movies.findOrCreate({
+    where: 
+      {userId: userId,
+       movieId: movieId}
+    });
+};
+
 export const addActor = async (actor: string, movieId?: number, userId?: number) => {
   try {
 
