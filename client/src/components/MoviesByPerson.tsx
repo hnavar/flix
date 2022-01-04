@@ -57,6 +57,7 @@ if (searchResults.length === 0) {
        <TextField value={searchVal} onChange={handleChange} id="outlined-basic" label="Search Actor or Director" variant="outlined" size="small" />
        <Button type="submit" onClick={handleClick} variant="contained" id="outlined-basic" color="primary">Search</Button>
         <div>
+          <Button type="submit" variant="contained" id="outlined-basic" color="primary">Add movie</Button>
           <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {setCounter(count + 1)}}>Show Next Movie</Button>
           <Button variant="contained" id="outlined-basic" color="secondary" onClick={() => {setCounter(count - 1)}}>Show Previous Movie</Button>
         </div>
