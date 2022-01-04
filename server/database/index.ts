@@ -393,7 +393,7 @@ export const updateUser = async (updateElement: any, userId?: number) => {
 
 export const addMovie = async (movie: movieObj, userId?: number) => {
   try {
-    const {movie_id, title, description, release_date, trailer_url, thumbnailUrl, uploadDate} = movie;
+    const {movie_id, title, description, release_date, trailer_url, thumbnailUrl} = movie;
     const actors = movie.actors.split(', ');
     const directors = movie.directors.split(', ');
     const genres = movie.genres.split(', ');
@@ -405,8 +405,7 @@ export const addMovie = async (movie: movieObj, userId?: number) => {
         description: description,
         release_date: release_date,
         trailer_url: trailer_url,
-        thumbnailUrl: thumbnailUrl,
-        uploadDate: uploadDate
+        thumbnailUrl: thumbnailUrl
       }
     });
     const movieId = currentMovie[0].dataValues.id;

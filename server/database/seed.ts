@@ -13,8 +13,8 @@ const movies: movieObj[] = movieJson;
 Promise.all(movies.map((elem: movieObj, idx: number) => {
   return addMovie(elem);
 }))
-  .then(() => console.log('all should be saved?'));
-
+  .then(() => console.log('all should be saved?'))
+.catch((err) => console.log(err));
   // const options: any = {
   //   url: 'http://localhost:3000/api/users',
   //   method: 'POST',

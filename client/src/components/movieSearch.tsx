@@ -34,28 +34,33 @@ const SearchMovie:FC<any> = ({user}) => {
      });
   }
 
-  // // movieObj: object param
-  // const addMovieInfo = () => {
-  //   // return axios.get(`https://imdb-api.com/en/API/Title/k_4pd82hff/${searchResults?.imDbId}`)
-  //   return axios.get(`https://imdb-api.com/en/API/Title/${key}/${searchResults?.imDbId}`)
-  //   .then((data: any) => {
-  //     // console.log(data.data);
-  //     const newData = {
-  //       genres: data.data.genres,
-  //       actors: data.data.stars,
-  //       directors: data.data.directors,
-  //       thumbnailUrl: data.data.thumbnailUrl,
-  //     }
+  // movieObj: object param
+  const addMovieInfo = () => {
+    // return axios.get(`https://imdb-api.com/en/API/Title/k_4pd82hff/${searchResults?.imDbId}`)
+    return axios.get(`https://imdb-api.com/en/API/Title/${key}/${searchResults?.imDbId}`)
+    .then((data: any) => {
+      console.log(data.data);
+      const newData = {
+        genres: data.data.genres,
+        actors: data.data.stars,
+        directors: data.data.directors,
+        thumbnailUrl: data.data.thumbnailUrl,
+      }
 
-  //     const fullData = {...newData, ...searchResults}
-  //     console.log(fullData);
-  //     axios.post('/api/movies/saveMovie/', fullData)
-  //   })
-  // }
+      const fullData = {...newData, ...searchResults}
+      console.log(fullData);
+      axios.post('/api/movies/saveMovie/', fullData)
+    })
+  }
 
 
   const saveMovie = () => {
+    addMovieInfo();
     if(user) {
+      console.log(
+        {movieId: searchResults?.imDbId,
+        userId: user.id}
+        )
       axios({
         method: 'post',
         url: '/api/users/user-movies',
