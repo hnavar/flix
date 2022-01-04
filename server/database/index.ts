@@ -1,6 +1,7 @@
 import { Movie } from "@material-ui/icons";
 import { profile } from "console";
 import { response } from "express";
+import { userInfo } from "os";
 
 
 const Sequelize = require('sequelize');
@@ -49,6 +50,7 @@ const User = db.define('user', {
   first_name: Sequelize.STRING,
   last_name: Sequelize.STRING,
   profile_image_url: Sequelize.STRING,
+  profile_cover_photo_url: Sequelize.STRING,
   sessionID: Sequelize.STRING,
   age: Sequelize.INTEGER
 });
@@ -334,10 +336,9 @@ export const getFavoriteGenres = (userId: number) => {
   });
 };
 
-// Movies needs a get favorites
 export const getFavoriteMovies = (userId: number) => {
-  return User.findAll({
-    where: {userId: userId},
+  return User.findOne({
+    where: { id: userId },
     include: [
       {
         model: Movies,
@@ -390,6 +391,15 @@ export const updateUser = async (updateElement: any, userId?: number) => {
   catch(err) { console.log('Index: failed to update user.')}
 };
 
+export const addFavoriteMovie = async (userId: any, movie_id: any) => {
+  try {
+      const newFavoriteMovie = await Users_Movies.create({
+        userId: userId,
+        movieId: movie_id
+      })
+  }
+  catch (err) { console.log('Unable to add favorite movie to user') };
+};
 
 export const addMovie = async (movie: movieObj, userId?: number) => {
   try {
@@ -410,7 +420,7 @@ export const addMovie = async (movie: movieObj, userId?: number) => {
     });
     const movieId = currentMovie[0].dataValues.id;
 
-    !!userId && Users_Movies.create({
+    userId && Users_Movies.create({
       userId: userId,
       movieId: movieId
     });
@@ -428,8 +438,15 @@ export const addMovie = async (movie: movieObj, userId?: number) => {
     });
   }
   catch (err) {
-    console.error('movie not added');
+    console.error('Movie not added');
   }
+};
+
+export const removeFavoriteMovie = async (movie_id: any, userId: any) => {
+  try {
+    await Users_Movies.destroy({where: { movie_id: movie_id }})
+  }
+  catch (err) { console.log('Unable to remove movie from user favorites.') }
 };
 
 export const addUser_Movie = async (movieId: number, userId: number) => {

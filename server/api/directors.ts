@@ -3,14 +3,6 @@ import type {Request, Response} from 'express';
 import { getFavoriteDirectors, addDirector, getAllDirectors } from '../database/index';
 const DirectorsRouter = Router();
 
-DirectorsRouter.get('/:id', (req: Request, res: Response) => {
-  getFavoriteDirectors(Number(req.params.id))
-    .then((data: object[]) => res.status(200).send(data))
-    .catch((err: object) => {
-      console.error(err);
-      res.sendStatus(500);
-    });
-});
 
 DirectorsRouter.get('/', (req: Request, res: Response) => {
   getAllDirectors()
