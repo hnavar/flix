@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import type {Request, Response} from 'express';
-import { getAllMovies, getAllMoviesByDirector, getAllMoviesByGenre, getAllMoviesWithActor, addMovie, grabMovieIdWithRating, grabMoviesByActorsOrDirectors, grabActorOrDirectorID, getMovieById } from '../database/index';
+import { getAllMovies, getAllMoviesByDirector, getAllMoviesByGenre, getAllMoviesWithActor, addMovie, grabMovieIdWithRating, grabMoviesByActorsOrDirectors, grabActorOrDirectorID, getMovieById, getFavoriteMovies } from '../database/index';
 import { REAL } from 'sequelize';
 
 
@@ -54,6 +54,8 @@ MoviesRouter.get('/directors/:id', (req: Request, res: Response) => {
       res.sendStatus(500);
     });
 });
+
+
 
 //gonna use one of these
 MoviesRouter.post('/saveMovie', (req: Request, res: Response) => {
