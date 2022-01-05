@@ -55,7 +55,8 @@ if (searchResults.length === 0) {
   return (
     <div>
       <div>
-        <TextField value={searchVal} onChange={handleChange} id="outlined-basic" label="Search Actor or Director" variant="outlined" size="small" />
+        <TextField   inputProps={{ style: { fontFamily: 'Arial', color: 'blue'}}}
+          style={{ flex: 1, margin: '0 20px 0 0', color: 'blue', backgroundColor: 'white'}} value={searchVal} onChange={handleChange} id="outlined-basic" label="Search Actor or Director" variant="outlined" size="small" />
         <Button type="submit" onClick={handleClick} variant="contained" id="outlined-basic" color="primary">Search</Button>
       </div>
     </div>
@@ -64,7 +65,8 @@ if (searchResults.length === 0) {
     {console.log(searchResults)}
     return (
     <div>
-       <TextField value={searchVal} onChange={handleChange} id="outlined-basic" label="Search Actor or Director" variant="outlined" size="small" />
+       <TextField inputProps={{ style: { fontFamily: 'Arial', color: 'blue'}}}
+          style={{ flex: 1, margin: '0 20px 0 0', color: 'blue', backgroundColor: 'white'}} value={searchVal} onChange={handleChange} id="outlined-basic" label="Search Actor or Director" variant="outlined" size="small" />
        <Button type="submit" onClick={handleClick} variant="contained" id="outlined-basic" color="primary">Search</Button>
         <div>
           <Button type="submit" onClick={() => {saveMovie()}} variant="contained" id="outlined-basic" color="primary">Add movie to Favorites</Button>

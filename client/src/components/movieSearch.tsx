@@ -90,7 +90,8 @@ const SearchMovie:FC<any> = ({user}) => {
   return (
     <div>
       <div>
-        <TextField value={searchVal} onChange={handleChange} id="outlined-basic" label="Search Movie" variant="outlined" size="small" />
+        <TextField inputProps={{ style: { fontFamily: 'Arial', color: 'blue'}}}
+          style={{ flex: 1, margin: '0 20px 0 0', color: 'blue', backgroundColor: 'white'}} value={searchVal} onChange={handleChange} id="outlined-basic" label="Search Movie" variant="outlined" size="small" />
         <Button type="submit" onClick={handleClick} variant="contained" id="outlined-basic" color="primary">Search</Button>
       </div>
     </div>
@@ -99,16 +100,17 @@ const SearchMovie:FC<any> = ({user}) => {
     return (
       <div>
         <div> {console.log(searchResults)}
-          <TextField value={searchVal} onChange={handleChange} id="outlined-basic" label="Search Movie" variant="outlined" size="small" />
+          <TextField inputProps={{ style: { fontFamily: 'Arial', color: 'blue'}}}
+          style={{ flex: 1, margin: '0 20px 0 0', color: 'blue', backgroundColor: 'white'}} value={searchVal} onChange={handleChange} id="outlined-basic" label="Search Movie" variant="outlined" size="small" />
           <Button type="submit" onClick={handleClick} variant="contained" id="outlined-basic" color="primary">Search</Button>
         </div>
         <div>
           <div>
-            <h1>Title: {searchResults.title}</h1>
+            <h1 style={{color: 'white'}}> Title: {searchResults.title}</h1>
             <iframe width="1000" height="600" src={searchResults.linkEmbed} frameBorder="0"></iframe>
             <Button type="submit" onClick={saveMovie} variant="contained" id="outlined-basic" color="primary">Add movie to favorites</Button>
-            <h2>Plot: {searchResults.videoDescription}</h2>
-            <h2>Release: {searchResults.year}</h2>
+            <h2 style={{color: 'white'}}>Plot: {searchResults.videoDescription}</h2>
+            <h2 style={{color: 'white'}}>Release: {searchResults.year}</h2>
           </div>
         </div>
       </div>
