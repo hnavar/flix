@@ -1,12 +1,10 @@
-const bodyParser = require('body-parser');
-const axios = require('axios');
 require('dotenv').config();
 const { google_clientID, google_clientSecret, passportCallbackURL } = process.env;
 import User from './database/index';
 
 
 import path from 'path';
-import express, { response } from 'express';
+import express from 'express';
 import cors from 'cors';
 import MoviesRouter from './api/movies';
 import ActorsRouter from './api/actors';
@@ -21,7 +19,7 @@ const app = express();
 import type { Response, Request } from 'express';
 import TwitterRouter from './api/twitter';
 import UsersRouter from './api/users';
-
+import PhotosRouter from './api/photos';
 import { addUser, getUserById } from './database';
 import { profile } from 'console';
 import { any } from 'sequelize/dist/lib/operators';
@@ -33,10 +31,8 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const port = process.env.PORT || 3000;
 const dist = path.resolve(__dirname, '..', 'client/dist');
 app.use(cors({origin: true, credentials: true}));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(dist))
-app.use(express.json());
+app.use(express.urlencoded({ extended: true, limit: '50mb', parameterLimit: 50000}));
+app.use(express.json({limit: '50mb'}));
 
 
 app.use(cors({ credentials: true,
@@ -46,30 +42,30 @@ app.use(cors({ credentials: true,
   'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
   'preflightContinue': false}));
 
-  app.use(express.static(dist));
-  app.use(bodyParser.json());
-  //Routers
-  app.use('/api/movies', MoviesRouter);
-  app.use('/api/actors', ActorsRouter);
-  app.use('/api/directors', DirectorsRouter);
-  app.use('/api/genres', GenresRouter);
-  app.use('/api/twitter', TwitterRouter);
-  app.use('/api/users', UsersRouter);
+app.use(express.static(dist));
+//Routers
+app.use('/api/movies', MoviesRouter);
+app.use('/api/actors', ActorsRouter);
+app.use('/api/directors', DirectorsRouter);
+app.use('/api/genres', GenresRouter);
+app.use('/api/twitter', TwitterRouter);
+app.use('/api/users', UsersRouter);
+app.use('/api/photos', PhotosRouter);
 
 
-  //Start of Passport
-  app.use(cookieParser());
-  app.use(formData.parse());
+//Start of Passport
+app.use(cookieParser());
+app.use(formData.parse());
 
-  app.use(session({
-    secret: `${process.env.google_clientID}`,
-    saveUninitialized: false,
-    resave: true
-  }));
+app.use(session({
+  secret: `${process.env.google_clientID}`,
+  saveUninitialized: false,
+  resave: true
+}));
 
 
-  app.use(passport.initialize());
-  app.use(passport.session());
+app.use(passport.initialize());
+app.use(passport.session());
 
 // this is not getting used, but may be useful later when integrating the twitter strategy
 
