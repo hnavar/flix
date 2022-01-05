@@ -64,7 +64,7 @@ const NavigationBar:FC = (props: any) => {
   return (
     <div>
       <div className={classes.root}>
-        <AppBar position="static">
+        <AppBar style={{color: 'gold'}} position="static">
           <Toolbar>
             <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={toggleDrawer(true)}>
               <MenuIcon />
