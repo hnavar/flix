@@ -53,7 +53,6 @@ const SearchMovie:FC<any> = ({user}) => {
     })
   }
 
-
   const saveMovie = () => {
     addMovieInfo();
     if(user) {
@@ -65,8 +64,8 @@ const SearchMovie:FC<any> = ({user}) => {
         method: 'post',
         url: '/api/users/user-movies',
         data: {
-          movieId: searchResults?.imDbId,
-          userId: user.id
+          userId: user.id,
+          movieId: searchResults?.imDbId
         }
       });
     }
