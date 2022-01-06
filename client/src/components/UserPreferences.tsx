@@ -42,25 +42,9 @@ const UserPreferences:FC<any> = ({user}) => {
 
   return(
     <>
-      <h1>Upload a Movie Poster to find More Details</h1>
-      {!!userPhoto && (
-        <div>
-        <img alt="not found" width={"250px"} src={userPhoto} />
-        <br />
-        <Button onClick={handleRemove}>Remove</Button>
-        </div>
-      )}
-      <br />
-      <br />
-      <form
-        encType="multipart/form-data"
-      >
-        <input
-          type="file"
-          name="userImage"
-          onChange={handleUserPhotoChange}
-        />
-      </form>;
+    <div>
+      User prefs
+    </div>
     </>
   );
 
