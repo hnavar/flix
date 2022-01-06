@@ -59,7 +59,6 @@ MoviesRouter.get('/directors/:id', (req: Request, res: Response) => {
 
 //gonna use one of these
 MoviesRouter.post('/saveMovie', (req: Request, res: Response) => {
-  console.log(req.body);
   type movieData = {imDbId: string; title: string; year: string; videoDescription: string; linkEmbed: string; genres: string;
     actors: string; directors: string; thumbnailUrl: string};
   const {imDbId, title, year, videoDescription, linkEmbed, genres, actors, directors, thumbnailUrl}: movieData = req.body;
@@ -74,7 +73,6 @@ MoviesRouter.post('/saveMovie', (req: Request, res: Response) => {
     directors: directors,
     thumbnailUrl: thumbnailUrl
   };
-  console.log(movie);
   return addMovie(movie);
 });
 
@@ -131,7 +129,6 @@ MoviesRouter.get('/moviesByRatingPG', (req: Request, res: Response) => {
    });
 
    MoviesRouter.post('/moviesByActorOrDirectors', (req: Request, res: Response) => {
-    //  console.log(req.body.name);
     return grabActorOrDirectorID(req.body.name)
         .then((data: any) => {
           return data;
@@ -139,7 +136,6 @@ MoviesRouter.get('/moviesByRatingPG', (req: Request, res: Response) => {
         .then((data: any) => {
        return grabMoviesByActorsOrDirectors(data);
      }).then((data: any) => {
-      //  console.log(data);
        res.send(data);
      })
      .catch((error: any) => {

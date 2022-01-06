@@ -36,10 +36,10 @@ const MovieByRating:FC<any> = ({user}) => {
     return (
   <div>
     {/* <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('G')}}>Find G rated movies</Button> */}
-    <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('PG')}}>Find PG rated movies</Button>
-    <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('PG-13')}}>Find PG-13 rated movies</Button>
-    <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('R')}}>Find NC-17 rated movies</Button>
-    <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('NC-17')}}>Find R rated movies</Button>
+    <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {getMovieData('PG')}}>Find PG rated movies</Button>
+    <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}}onClick={() => {getMovieData('PG-13')}}>Find PG-13 rated movies</Button>
+    <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {getMovieData('R')}}>Find NC-17 rated movies</Button>
+    <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {getMovieData('NC-17')}}>Find R rated movies</Button>
   </div>
     );
 
@@ -48,17 +48,16 @@ const MovieByRating:FC<any> = ({user}) => {
     return (
       <div>
         {/* <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('G')}}>Find G rated movies</Button> */}
-        <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('PG')}}>Find PG rated movies</Button>
-        <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('PG-13')}}>Find PG-13 rated movies</Button>
-        <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('R')}}>Find NC-17 rated movies</Button>
-        <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('NC-17')}}>Find R rated movies</Button>
+        <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {getMovieData('PG')}}>Find PG rated movies</Button>
+        <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {getMovieData('PG-13')}}>Find PG-13 rated movies</Button>
+        <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {getMovieData('R')}}>Find NC-17 rated movies</Button>
+        <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {getMovieData('NC-17')}}>Find R rated movies</Button>
         <div>
-        <Button type="submit" onClick={() => {saveMovie()}} variant="contained" id="outlined-basic" color="primary">Add movie to favorites</Button>
-        <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {setCounter(count + 1)}}>Show Next Movie</Button>
-        <Button variant="contained" id="outlined-basic" color="secondary" onClick={() => {setCounter(count - 1)}}>Show Previous Movie</Button>
+        <Button type="submit" onClick={() => {saveMovie()}} variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}}>Add movie to favorites</Button>
+        <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {setCounter(count + 1)}}>Show Next Movie</Button>
+        <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {setCounter(count - 1)}}>Show Previous Movie</Button>
         </div>
     <div>
-      {console.log(movieData)}
       <Card
         variant='outlined'
         sx={{ maxWidth: 345 }}

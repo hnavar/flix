@@ -10,6 +10,7 @@ import Paths from '../Routes';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
+      backgroundColor: 'red',
       flexGrow: 1,
     },
     menuButton: {
@@ -64,13 +65,13 @@ const NavigationBar:FC = (props: any) => {
   return (
     <div>
       <div className={classes.root}>
-        <AppBar style={{color: 'gold'}} position="static">
-          <Toolbar>
-            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={toggleDrawer(true)}>
+        <AppBar style={{background: '#333333'}} position="static">
+          <Toolbar style={{color: 'gold'}}>
+            <IconButton style={{color: 'gold'}} edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={toggleDrawer(true)}>
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>
-              Flick Finder
+              Flixar
             </Typography>
           </Toolbar>
         </AppBar>
@@ -82,11 +83,11 @@ const NavigationBar:FC = (props: any) => {
           onClick={toggleDrawer(false)}
           onKeyDown={toggleDrawer(false)}
         >
-          <MenuList>
+          <MenuList style={{color: 'black'}}>
             {Paths.map((prop, key) => {
               return (
-                <NavLink to={prop.path} style={{ textDecoration: 'none' }} key={key}>
-                  <MenuItem selected={activeRoute(prop.path)}>
+                <NavLink to={prop.path} style={{ textDecoration: 'none'}} key={key}>
+                  <MenuItem style={{color: 'black'}} selected={activeRoute(prop.path)}>
                     <ListItemText primary={prop.sidebarName} />
                   </MenuItem>
                 </NavLink>

@@ -39,7 +39,6 @@ const SearchMovie:FC<any> = ({user}) => {
     // return axios.get(`https://imdb-api.com/en/API/Title/k_4pd82hff/${searchResults?.imDbId}`)
     return axios.get(`https://imdb-api.com/en/API/Title/${key}/${searchResults?.imDbId}`)
     .then((data: any) => {
-      console.log(data.data);
       const newData = {
         genres: data.data.genres,
         actors: data.data.stars,
@@ -48,28 +47,27 @@ const SearchMovie:FC<any> = ({user}) => {
       }
 
       const fullData = {...newData, ...searchResults}
-      console.log(fullData);
       axios.post('/api/movies/saveMovie/', fullData)
     })
   }
 
-  const saveMovie = () => {
-    addMovieInfo();
-    if(user) {
-      console.log(
-        {movieId: searchResults?.imDbId,
-        userId: user.id}
-        )
-      axios({
-        method: 'post',
-        url: '/api/users/user-movies',
-        data: {
-          userId: user.id,
-          movieId: searchResults?.imDbId
-        }
-      });
-    }
-  }
+  // const saveMovie = () => {
+  //    addMovieInfo();
+  //   if(user) {
+  //     console.log(
+  //       {movieId: searchResults?.imDbId,
+  //       userId: user.id}
+  //       )
+  //     axios({
+  //       method: 'post',
+  //       url: '/api/users/user-movies',
+  //       data: {
+  //         userId: user.id,
+  //         movieId: searchResults?.imDbId
+  //       }
+  //     });
+  //   }
+  // }
 
   const key = 'k_0ey76rg5';
 
@@ -92,23 +90,23 @@ const SearchMovie:FC<any> = ({user}) => {
       <div>
         <TextField inputProps={{ style: { fontFamily: 'Arial', color: 'blue'}}}
           style={{ flex: 1, margin: '0 20px 0 0', color: 'blue', backgroundColor: 'white'}} value={searchVal} onChange={handleChange} id="outlined-basic" label="Search Movie" variant="outlined" size="small" />
-        <Button type="submit" onClick={handleClick} variant="contained" id="outlined-basic" color="primary">Search</Button>
+        <Button type="submit" onClick={handleClick} variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}}>Search</Button>
       </div>
     </div>
   );
   } else {
     return (
       <div>
-        <div> {console.log(searchResults)}
+        <div> 
           <TextField inputProps={{ style: { fontFamily: 'Arial', color: 'blue'}}}
           style={{ flex: 1, margin: '0 20px 0 0', color: 'blue', backgroundColor: 'white'}} value={searchVal} onChange={handleChange} id="outlined-basic" label="Search Movie" variant="outlined" size="small" />
-          <Button type="submit" onClick={handleClick} variant="contained" id="outlined-basic" color="primary">Search</Button>
+          <Button type="submit" onClick={handleClick} variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}}>Search</Button>
         </div>
         <div>
           <div>
             <h1 style={{color: 'white'}}> Title: {searchResults.title}</h1>
             <iframe width="1000" height="600" src={searchResults.linkEmbed} frameBorder="0"></iframe>
-            <Button type="submit" onClick={saveMovie} variant="contained" id="outlined-basic" color="primary">Add movie to favorites</Button>
+            <Button type="submit" onClick={addMovieInfo} variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}}>Add movie to favorites</Button>
             <h2 style={{color: 'white'}}>Plot: {searchResults.videoDescription}</h2>
             <h2 style={{color: 'white'}}>Release: {searchResults.year}</h2>
           </div>
