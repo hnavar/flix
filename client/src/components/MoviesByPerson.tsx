@@ -8,7 +8,7 @@ import {Card, CardHeader, CardMedia, CardContent, Typography} from '@mui/materia
 
 
 
-const MoviesByPerson = () => {
+const MoviesByPerson:FC = () => {
   const [searchVal, setSearchVal] = useState('');
   const [searchValObject, setSearchValObject] = useState({name: ''});
   const [searchResults, setSearchResults] = useState<any>([]);
