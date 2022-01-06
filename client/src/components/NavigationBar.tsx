@@ -70,7 +70,7 @@ const NavigationBar:FC = (props: any) => {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>
-              Flick Finder
+              Flixar
             </Typography>
           </Toolbar>
         </AppBar>
