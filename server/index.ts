@@ -86,15 +86,15 @@ async function(request: any, accessToken: any, refreshToken: any, profile: any, 
     const newUser = await addUser(profile);
     console.log('newUser', newUser)
     return done(null, newUser[0]);
-}))
+}));
 
 passport.serializeUser((user: any, done: any) => {
   return done(null, user);
-})
+});
 
 passport.deserializeUser((user: any, done: any) => {
   return done(null, user)
-})
+});
 
 app.get('/auth/google',
   passport.authenticate('google', { scope: [ 'profile' ] }));
@@ -115,13 +115,13 @@ app.get('/api/users', (req: Request, res: Response) => {
   return getUserById(req.body)
     .then((data: any) => { res.json({data})})
     .catch((err: any) => { console.log('Unable to retrieve user', err) })
-})
+});
 
 app.post('/api/users', (req: Request, res: Response) => {
 
 //this may not be necessary anymore, as the passport function is covering this.
 
-})
+});
 
 app.get('/verify', (req, res) => {
   if (req.cookies.Flix) {
@@ -154,4 +154,4 @@ app.listen(port,()=>{
  console.log(`Listening on port ${port}`);
 });
 
-export default app
+export default app;

@@ -1,6 +1,6 @@
 import {v2} from 'cloudinary';
 
-const { CLOUDINARY_NAME, CLOUDINARY_KEY, CLOUDINARY_SECRET, CLOUDINARY_URL } = process.env;
+const { CLOUDINARY_NAME, CLOUDINARY_KEY, CLOUDINARY_SECRET } = process.env;
 
 v2.config({
   cloud_name: CLOUDINARY_NAME,

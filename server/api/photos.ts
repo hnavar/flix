@@ -2,10 +2,8 @@ import {Router} from 'express';
 import type {Request, Response} from 'express';
 import { detectText } from '../helpers/googleCloudVision';
 import { uploadPhoto } from '../helpers/cloudinary';
-import multer from 'multer';
 
 const PhotosRouter = Router();
-// const upload = multer({});
 
 PhotosRouter.post('/detectText', (req: Request, res: Response) => {
   uploadPhoto(req.files)

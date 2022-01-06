@@ -4,6 +4,7 @@ import axios from 'axios';
 const SearchByMoviePoster:FC<any> = () => {
   const [image, setImage] = useState('');
   // const [imageUrl, setImageUrl] = useState('');
+  const [text, setText] = useState<string[]>([])
 
   const handleChange = (e: SyntheticEvent) => {
     e.preventDefault();
@@ -13,7 +14,8 @@ const SearchByMoviePoster:FC<any> = () => {
     data.append('image', file, file.name);
     axios.post('/api/photos/detectText', data, {headers: {'Content-Type': 'multipart/form-data'}})
       .then((res: any) => {
-        console.log('this is API response', res.data);
+        console.log('this is API response', res.data.map((elem: any) => elem.description));
+        setText(res.data.map((elem: any) => elem.description));
       })
       .catch((err: any) => {
         console.log('error POSTing file');
@@ -46,6 +48,13 @@ const SearchByMoviePoster:FC<any> = () => {
           onChange={handleChange}
         />
       </form>
+      {!!text && (
+        text.map(text => {
+          return (
+            <div>{text}</div>
+          )
+        })
+      )}
     </>
   );
 };
