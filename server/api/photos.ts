@@ -5,13 +5,12 @@ import { uploadPhoto } from '../helpers/cloudinary';
 import multer from 'multer';
 
 const PhotosRouter = Router();
-const upload = multer({});
+// const upload = multer({});
 
-PhotosRouter.post('/detectText', upload.single('image'), (req: Request, res: Response) => {
-  // might need to try req.file!.path or req.file!.stream
-  uploadPhoto(req.file!.destination)
+PhotosRouter.post('/detectText', (req: Request, res: Response) => {
+  uploadPhoto(req.files)
     .then((data: any) => {
-      detectText(data)
+      detectText(data.url)
         .then((data: any) => {
           res.status(201).send(data);
         })

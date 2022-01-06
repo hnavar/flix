@@ -26,14 +26,14 @@ import { any } from 'sequelize/dist/lib/operators';
 // const auth = require('./helpers/auth');
 // const authroutes = require('./api/authroutes');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-
+import fileUpload from 'express-fileupload';
 
 const port = process.env.PORT || 3000;
 const dist = path.resolve(__dirname, '..', 'client/dist');
 app.use(cors({origin: true, credentials: true}));
 app.use(express.urlencoded({ extended: true, limit: '50mb', parameterLimit: 50000}));
 app.use(express.json({limit: '50mb'}));
-
+app.use(fileUpload({useTempFiles: true}));
 
 app.use(cors({ credentials: true,
   'allowedHeaders': ['sessionId', 'Content-Type'],
@@ -134,9 +134,9 @@ app.get('/verify', (req, res) => {
 
 //reset sessionId back to null
 app.get('/logout', (req: Request, res: Response) => {
-    console.log('logged out hit');
-    res.clearCookie('Flix');
-    res.redirect('/');
+  console.log('logged out hit');
+  res.clearCookie('Flix');
+  res.redirect('/');
 });
 
 // fixes the "CANNOT GET component" on page refresh

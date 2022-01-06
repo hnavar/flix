@@ -11,7 +11,7 @@ const SearchByMoviePoster:FC<any> = () => {
     setImage(URL.createObjectURL(file));
     const data = new FormData();
     data.append('image', file, file.name);
-    axios.post('/api/uploadPhoto', data, {headers: {'Content-Type': 'multipart/form-data'}})
+    axios.post('/api/photos/detectText', data, {headers: {'Content-Type': 'multipart/form-data'}})
       .then((res: any) => {
         console.log('this is API response', res.data);
       })
