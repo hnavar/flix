@@ -1,7 +1,9 @@
 import React, {FC, SyntheticEvent, useState} from 'react';
 import axios from 'axios';
+import DetectedText from './DetectedText';
+import { Button } from '@material-ui/core';
 
-const SearchByMoviePoster:FC<any> = () => {
+const SearchByMoviePoster:FC<any> = (props) => {
   const [image, setImage] = useState('');
   // const [imageUrl, setImageUrl] = useState('');
   const [text, setText] = useState<string[]>([])
@@ -26,14 +28,15 @@ const SearchByMoviePoster:FC<any> = () => {
     e.preventDefault();
     setImage('');
   };
+
   return (
     <>
       <h1>Upload a Movie Poster to find More Details</h1>
       {!!image && (
         <div>
-        <img alt="not fount" width={"250px"} src={image} />
+        <img alt="not found" width={"250px"} src={image} />
         <br />
-        <button onClick={handleRemove}>Remove</button>
+        <Button onClick={handleRemove}>Remove</Button>
         </div>
       )}
       <br />
@@ -48,10 +51,8 @@ const SearchByMoviePoster:FC<any> = () => {
         />
       </form>
       {!!text && (
-        text.map(text => {
-          return (
-            <div>{text}</div>
-          )
+        text.map((text, idx) => {
+          return <DetectedText key={idx} text={text} />;
         })
       )}
     </>
