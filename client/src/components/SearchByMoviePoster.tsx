@@ -13,9 +13,8 @@ const SearchByMoviePoster:FC<any> = () => {
     const data = new FormData();
     data.append('image', file, file.name);
     axios.post('/api/photos/detectText', data, {headers: {'Content-Type': 'multipart/form-data'}})
-      .then((res: any) => {
-        console.log('this is API response', res.data.map((elem: any) => elem.description));
-        setText(res.data.map((elem: any) => elem.description));
+      .then(({data}) => {
+        setText(data.map((elem: any) => elem.description));
       })
       .catch((err: any) => {
         console.log('error POSTing file');
