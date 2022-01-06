@@ -12,65 +12,26 @@ const SearchMovie:FC<any> = ({user}) => {
   const [searchVal, setSearchVal] = useState('');
   const [searchResults, setSearchResults] = useState<Movie | null>(null);
 
-  const [currentUser, setCurrentUser] = useState<any>();
-
-
   const grabMovieInfo = (movieName: string) : any => {
-    // return axios.get(`https://imdb-api.com/en/API/SearchMovie/k_0ey76rg5/${movieName}`)
-    return axios.get(`https://imdb-api.com/en/API/SearchMovie/${key}/${movieName}`)
-     .then((data: any) => {
-       return {data}
-     }).then((data: any) => {
-      const {id} = data.data.data.results[0];
-      return id;
-    }).then((data: any) => {
-      // return axios.get(`https://imdb-api.com/en/API/Trailer/k_0ey76rg5/${data}`)
-      return axios.get(`https://imdb-api.com/en/API/Trailer/${key}/${data}`)
-    }).then((data: any) => {
-    setSearchResults(data.data);
-    return data.data
-    }).catch((error: any) => {
-       console.log(error);
-     });
+    axios.post('/api/movies/search', {movieName})
+      .then(({data}: any) => {
+        setSearchResults(data);
+      })
+      .catch((error: any) => {
+        console.log(error);
+      });
   }
 
-  // movieObj: object param
+  // axios.post('/api/movies/saveMovie/', fullData)
   const addMovieInfo = () => {
-    // return axios.get(`https://imdb-api.com/en/API/Title/k_4pd82hff/${searchResults?.imDbId}`)
-    return axios.get(`https://imdb-api.com/en/API/Title/${key}/${searchResults?.imDbId}`)
-    .then((data: any) => {
-      const newData = {
-        genres: data.data.genres,
-        actors: data.data.stars,
-        directors: data.data.directors,
-        thumbnailUrl: data.data.thumbnailUrl,
-      }
-
-      const fullData = {...newData, ...searchResults}
-      axios.post('/api/movies/saveMovie/', fullData)
-    })
-  }
-
-  // const saveMovie = () => {
-  //    addMovieInfo();
-  //   if(user) {
-  //     console.log(
-  //       {movieId: searchResults?.imDbId,
-  //       userId: user.id}
-  //       )
-  //     axios({
-  //       method: 'post',
-  //       url: '/api/users/user-movies',
-  //       data: {
-  //         userId: user.id,
-  //         movieId: searchResults?.imDbId
-  //       }
-  //     });
-  //   }
-  // }
-
-  const key = 'k_0ey76rg5';
-
+     axios.post(`/api/movies/saveMovie/`, searchResults)
+      .then(({data}: any) => {
+        console.log("Saved to database");
+      }).catch((error: any) => {
+        console.log("Error saving to database");
+      })
+    }
+  
 
   const handleChange = (event :any) => {
     const searchVal = event.target.value;
@@ -97,7 +58,7 @@ const SearchMovie:FC<any> = ({user}) => {
   } else {
     return (
       <div>
-        <div> 
+        <div>
           <TextField inputProps={{ style: { fontFamily: 'Arial', color: 'blue'}}}
           style={{ flex: 1, margin: '0 20px 0 0', color: 'blue', backgroundColor: 'white'}} value={searchVal} onChange={handleChange} id="outlined-basic" label="Search Movie" variant="outlined" size="small" />
           <Button type="submit" onClick={handleClick} variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}}>Search</Button>
