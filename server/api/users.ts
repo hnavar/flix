@@ -34,7 +34,8 @@ UsersRouter.post('/', (req: any, res: any) => {
 })
 
 UsersRouter.patch('/:id', (req: Request, res: Response) => {
-    updateUser(req.body)
+    console.log('REQ AGE', req.params.id)
+    updateUser(req.body, req.params.id)
         .then(() => {
             console.log('Router: Updated User successfully');
             res.sendStatus(200);
@@ -114,6 +115,18 @@ UsersRouter.post('/user-movies', (req: any, res: any) => {
             res.sendStatus(500);
         })
 })
+
+// UsersRouter.patch('/:id', (req: Request, res: Response) => {
+//     updateUser(req.body)
+//     .then(() => {
+//         console.log('Users.ts: user age updated')
+//         res.sendStatus(200);
+//     })
+//     .catch((err: any) => {
+//         console.log('Users.ts: Unable to update user age')
+//         res.sendStatus(500);
+//     })
+// })
 
 
 

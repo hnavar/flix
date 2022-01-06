@@ -4,6 +4,8 @@ import useStyles from "../styles/profile.styles";
 import { PropTypes } from '@material-ui/core';
 import { useNavigate } from 'react-router';
 
+import UserPreferences from './UserPreferences';
+
 //MUI
 import {
   AppBar,
@@ -268,6 +270,9 @@ const Profile:FC<any> = ({user}) => {
               </Stack>
             </div></>
 }
+</div>
+<div>
+  <UserPreferences user={currentUser} />
 </div>
 </>
 

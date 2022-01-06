@@ -380,15 +380,19 @@ export const addUser = async (user: any) => {
   }
 };
 
+interface updateElement {
+  [key: string]: string | boolean | number;
+}
 
-export const updateUser = async (updateElement: any, userId?: number) => {
+export const updateUser = async (updateElement: updateElement, userId: number) => {
   //update element is the object passed back that must have the key prop we want to update
   //ex: updateElement = { number: newNumber }, to update property 'number' on the user object where id = userId
   try {
     const updatedUser = await User.update(updateElement, { where: { id: userId }})
+    console.log('Index: Updated User')
     return updatedUser;
   }
-  catch(err) { console.log('Index: failed to update user.')}
+  catch(err) { console.error('Index: failed to update user.')}
 };
 
 export const addFavoriteMovie = async (userId: any, movie_id: any) => {
@@ -451,7 +455,7 @@ export const removeFavoriteMovie = async (movie_id: any, userId: any) => {
 
 export const addUser_Movie = async (movieId: number, userId: number) => {
   !!userId && Users_Movies.findOrCreate({
-    where: 
+    where:
       {userId: userId,
        movieId: movieId}
     });
