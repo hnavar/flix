@@ -2,7 +2,9 @@ import React, {useState, FC, useEffect} from "react";
 import Button from '@mui/material/Button';
 import { TextField } from '@material-ui/core';
 import axios from "axios";
-import { useParams } from "react-router";
+import { useSearchParams } from "react-router-dom";
+import { ContactSupportOutlined } from "@material-ui/icons";
+import { isNull } from "util";
 
 
 
@@ -11,8 +13,9 @@ const SearchMovie:FC = (props :any) => {
   interface Movie {imDbId: string; title: string; year: string; videoDescription: string; linkEmbed: string};
   const [searchVal, setSearchVal] = useState('');
   const [searchResults, setSearchResults] = useState<Movie | null>(null);
-  const {query} = useParams();
-  // const [searchParams, setSearchParams] = useState<null | string>(query);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const query = searchParams.get('q');
+  console.log('useSearchParams ', query);
 
   const grabMovieInfo = (movieName: string) : any => {
     // return axios.get(`https://imdb-api.com/en/API/SearchMovie/k_0ey76rg5/${movieName}`)
@@ -67,9 +70,7 @@ const SearchMovie:FC = (props :any) => {
   };
 
   useEffect(() => {
-    if (!!query && query !== undefined) {
-      grabMovieInfo(query);
-    }
+    query !== null && grabMovieInfo(query);
   }, []);
 
 

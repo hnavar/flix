@@ -34,7 +34,7 @@ const App:FC = () => {
   return (
     <>
       {!currentUser
-      ?  <Login />
+      ? <Login />
       : (<>
           <Login user={currentUser} />
           <NavigationBar />
@@ -47,7 +47,6 @@ const App:FC = () => {
                 element={<route.component user={currentUser} />} />;
             })}
             <Route path='movies/:id' element={<MovieDetail />} />
-            <Route path='search/?:query' element={<SearchMovie />} />
             <Route path="*" element={<h2>404: Not found</h2>} />
           </Routes>
         </>
