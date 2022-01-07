@@ -34,7 +34,7 @@ const SearchByMoviePoster:FC<any> = (props) => {
       <h1>Upload a Movie Poster to find More Details</h1>
       {!!image && (
         <div>
-        <img alt="not found" width={"250px"} src={image} />
+        <img alt="not found" width={"500px"} src={image} />
         <br />
         <Button onClick={handleRemove}>Remove</Button>
         </div>

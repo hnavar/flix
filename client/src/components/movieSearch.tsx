@@ -4,7 +4,6 @@ import { TextField } from '@material-ui/core';
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 import { ContactSupportOutlined } from "@material-ui/icons";
-import { isNull } from "util";
 
 
 
@@ -15,7 +14,6 @@ const SearchMovie:FC = (props :any) => {
   const [searchResults, setSearchResults] = useState<Movie | null>(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get('q');
-  console.log('useSearchParams ', query);
 
   const grabMovieInfo = (movieName: string) : any => {
     // return axios.get(`https://imdb-api.com/en/API/SearchMovie/k_0ey76rg5/${movieName}`)
@@ -70,7 +68,7 @@ const SearchMovie:FC = (props :any) => {
   };
 
   useEffect(() => {
-    query !== null && grabMovieInfo(query);
+    !!query && grabMovieInfo(query);
   }, []);
 
 
