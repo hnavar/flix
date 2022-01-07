@@ -1,9 +1,9 @@
 import axios from "axios";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState, FC } from "react";
 import { Button } from "@material-ui/core";
 import {Card, CardHeader, CardMedia, CardContent, Typography} from '@mui/material';
-const MovieByRating:FC = () => {
+const MovieByRating:FC<any> = ({user}) => {
 
   const [movieData, setMovieData] = useState<any>([]);
   const [count, setCounter] = useState(0);
@@ -19,15 +19,27 @@ const MovieByRating:FC = () => {
     .catch(() => console.log('failed to get movies'));
   };
 
+  const saveMovie = () => {
+    if(user) {
+      axios({
+        method: 'post',
+        url: '/api/users/user-movies',
+        data: {
+          movieId: movieData[count].imDbId,
+          userId: user.id
+        }
+      });
+    }
+  }
 
   if (movieData.length === 0) {
     return (
   <div>
     {/* <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('G')}}>Find G rated movies</Button> */}
-    <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('PG')}}>Find PG rated movies</Button>
-    <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('PG-13')}}>Find PG-13 rated movies</Button>
-    <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('R')}}>Find NC-17 rated movies</Button>
-    <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('NC-17')}}>Find R rated movies</Button>
+    <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {getMovieData('PG')}}>Find PG rated movies</Button>
+    <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}}onClick={() => {getMovieData('PG-13')}}>Find PG-13 rated movies</Button>
+    <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {getMovieData('R')}}>Find NC-17 rated movies</Button>
+    <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {getMovieData('NC-17')}}>Find R rated movies</Button>
   </div>
     );
 
@@ -36,13 +48,14 @@ const MovieByRating:FC = () => {
     return (
       <div>
         {/* <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('G')}}>Find G rated movies</Button> */}
-        <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('PG')}}>Find PG rated movies</Button>
-        <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('PG-13')}}>Find PG-13 rated movies</Button>
-        <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('R')}}>Find NC-17 rated movies</Button>
-        <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('NC-17')}}>Find R rated movies</Button>
+        <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {getMovieData('PG')}}>Find PG rated movies</Button>
+        <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {getMovieData('PG-13')}}>Find PG-13 rated movies</Button>
+        <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {getMovieData('R')}}>Find NC-17 rated movies</Button>
+        <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {getMovieData('NC-17')}}>Find R rated movies</Button>
         <div>
-        <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {setCounter(count + 1)}}>Show Next Movie</Button>
-        <Button variant="contained" id="outlined-basic" color="secondary" onClick={() => {setCounter(count - 1)}}>Show Previous Movie</Button>
+        <Button type="submit" onClick={() => {saveMovie()}} variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}}>Add movie to favorites</Button>
+        <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {setCounter(count + 1)}}>Show Next Movie</Button>
+        <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {setCounter(count - 1)}}>Show Previous Movie</Button>
         </div>
     <div>
       <Card

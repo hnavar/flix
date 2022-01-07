@@ -1,7 +1,8 @@
 import {Router} from 'express';
 import type {Request, Response} from 'express';
-import { getAllMovies, getAllMoviesByDirector, getAllMoviesByGenre, getAllMoviesWithActor, addMovie, grabMovieIdWithRating, grabMoviesByActorsOrDirectors, grabActorOrDirectorID, getMovieById, getFavoriteMovies } from '../database/index';
+import { getAllMovies, getAllMoviesByDirector, getAllMoviesByGenre, getAllMoviesWithActor, addMovie, grabMovieIdWithRating, grabMoviesByActorsOrDirectors, grabActorOrDirectorID, getMovieById, getFavoriteMovies,  } from '../database/index';
 import { REAL } from 'sequelize';
+import { grabMovieInfo, addMovieInfo } from '../helpers/imdb';
 
 
 const MoviesRouter = Router();
@@ -59,22 +60,32 @@ MoviesRouter.get('/directors/:id', (req: Request, res: Response) => {
 
 //gonna use one of these
 MoviesRouter.post('/saveMovie', (req: Request, res: Response) => {
-  console.log(req.body);
-  type movieData = {imDbID: string; title: string; releaseDate: string; videoDescription: string; linkEmbed: string; genres: string;
-    actors: string; directors: string; thumbnailUrl: string};
-  const {imDbID, title, releaseDate, videoDescription, linkEmbed, genres, actors, directors, thumbnailUrl}: movieData = req.body;
-  const movie = {
-    movie_id: imDbID,
-    title: title,
-    release_date: releaseDate,
-    description : videoDescription,
-    trailer_url: linkEmbed,
-    genres: genres,
-    actors: actors,
-    directors: directors,
-    thumbnailUrl: thumbnailUrl
-  };
-  return addMovie(movie);
+  type movieData = {imDbId: string; title: string; year: string; videoDescription: string; linkEmbed: string; genres: string;
+  actors: string; directors: string; thumbnailUrl: string};
+  addMovieInfo(req.body)
+    .then((data: any) => {
+      const {imDbId, title, year, videoDescription, linkEmbed, genres, actors, directors, thumbnailUrl}: movieData = data;
+      const movie = {
+        movie_id: imDbId,
+        title: title,
+        release_date: year,
+        description : videoDescription,
+        trailer_url: linkEmbed,
+        genres: genres,
+        actors: actors,
+        directors: directors,
+        thumbnailUrl: thumbnailUrl
+      };
+      addMovie(movie).then((data: any) => {
+        res.sendStatus(201);
+      }).catch((err: any) => {
+        console.error("Couldn't save to database", err);
+        res.sendStatus(500);
+      })
+    }).catch((err: any) => {
+      console.log("Error getting movie info", err);
+      res.sendStatus(500);
+    });
 });
 
 //one of these for my save movies
@@ -112,7 +123,7 @@ MoviesRouter.get('/moviesByRatingPG', (req: Request, res: Response) => {
    MoviesRouter.get('/moviesByRatingR', (req: Request, res: Response) => {
   grabMovieIdWithRating("R")
      .then((data: any) => {
-       res.send(data);
+      res.status(200).send(data);
      }).catch((error: any) => {
        console.log(error);
        res.status(500).end();
@@ -122,7 +133,7 @@ MoviesRouter.get('/moviesByRatingPG', (req: Request, res: Response) => {
    MoviesRouter.get('/moviesByRatingNC-17', (req: Request, res: Response) => {
   grabMovieIdWithRating("NC-17")
      .then((data: any) => {
-       res.send(data);
+      res.status(200).send(data);
      }).catch((error: any) => {
        console.log(error);
        res.status(500).end();
@@ -130,7 +141,6 @@ MoviesRouter.get('/moviesByRatingPG', (req: Request, res: Response) => {
    });
 
    MoviesRouter.post('/moviesByActorOrDirectors', (req: Request, res: Response) => {
-    //  console.log(req.body.name);
     return grabActorOrDirectorID(req.body.name)
         .then((data: any) => {
           return data;
@@ -138,7 +148,6 @@ MoviesRouter.get('/moviesByRatingPG', (req: Request, res: Response) => {
         .then((data: any) => {
        return grabMoviesByActorsOrDirectors(data);
      }).then((data: any) => {
-      //  console.log(data);
        res.send(data);
      })
      .catch((error: any) => {
@@ -165,21 +174,31 @@ MoviesRouter.get('/:id', (req: Request, res: Response) => {
 MoviesRouter.get('/moviesByRatingPG', (req: Request, res: Response) => {
   grabMovieIdWithRating("PG")
      .then((data: any) => {
-       res.send(data);
+       res.status(200).send(data);
      }).catch((error: string) => {
        console.log(error);
        res.status(500).end();
      });
    });
 
-   MoviesRouter.get('/moviesByRatingG', (req: Request, res: Response) => {
+MoviesRouter.get('/moviesByRatingG', (req: Request, res: Response) => {
     grabMovieIdWithRating("G")
        .then((data: any) => {
-         res.send(data);
+        res.status(200).send(data);
        }).catch((error: string) => {
          console.log(error);
          res.status(500).end();
        });
      });
+
+MoviesRouter.post('/search', (req: Request, res: Response) => {
+  grabMovieInfo(req.body.movieName)
+    .then((data: any) => {
+      res.status(201).send(data);
+    }).catch((error: any) => {
+      console.log(error);
+      res.sendStatus(500);
+    })
+})
 
 export default MoviesRouter;
