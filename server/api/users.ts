@@ -3,6 +3,8 @@ import { Router } from 'express';
 import axios from 'axios';
 import { userInfo } from 'os';
 import { addFavoriteMovie } from '../database';
+import { uploadPhoto } from '../helpers/cloudinary';
+
 // import type {Request, Response} from 'express';
 const { addUser,
         updateUser,
@@ -115,6 +117,8 @@ UsersRouter.post('/user-movies', (req: any, res: any) => {
             res.sendStatus(500);
         })
 })
+
+
 
 
 

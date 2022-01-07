@@ -38,7 +38,7 @@ const App:FC = () => {
       : (<>
           <Login user={currentUser} />
           <NavigationBar />
-          <TsParticles />
+          {/* <TsParticles /> */}
           <Routes>
             {Paths.map((route: any, index: number) => {
               return <Route

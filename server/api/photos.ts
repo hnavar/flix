@@ -23,4 +23,17 @@ PhotosRouter.post('/detectText', (req: Request, res: Response) => {
     });
 });
 
+PhotosRouter.post('/imgUpload', (req: Request, res: Response) => {
+  console.log('req.files', req.files);
+  uploadPhoto(req.files)
+    .then((data: any) => {
+      console.log('Image uploaded successfully', data.url)
+      res.status(201).send(data.url);
+    })
+    .catch((err: any) => {
+      console.error('Unable to upload photo', err);
+      res.sendStatus(500);
+    })
+})
+
 export default PhotosRouter;

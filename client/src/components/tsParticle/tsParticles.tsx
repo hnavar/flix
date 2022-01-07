@@ -69,7 +69,7 @@ const TsParticles:FC<any> = () => {
             width: 1,
           },
           collisions: {
-            enable: true,
+            enable: false,
           },
           move: {
             direction: "none",
@@ -78,6 +78,7 @@ const TsParticles:FC<any> = () => {
             random: false,
             speed: 2,
             straight: false,
+            bounce: false,
           },
           number: {
             density: {
