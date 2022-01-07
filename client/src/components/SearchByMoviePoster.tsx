@@ -5,8 +5,7 @@ import { Button } from '@material-ui/core';
 
 const SearchByMoviePoster:FC<any> = (props) => {
   const [image, setImage] = useState('');
-  // const [imageUrl, setImageUrl] = useState('');
-  const [text, setText] = useState<string[]>([])
+  const [text, setText] = useState<string[]>([]);
 
   const handleChange = (e: SyntheticEvent) => {
     e.preventDefault();

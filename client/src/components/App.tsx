@@ -5,9 +5,7 @@ import { Routes, Route } from 'react-router-dom';
 import MovieDetail from './MovieDetail';
 import axios from 'axios';
 import Login from './Login';
-import Profile from './Profile';
 import TsParticles from './tsParticle/tsParticles';
-import SearchMovie from './movieSearch';
 
 
 const App:FC = () => {

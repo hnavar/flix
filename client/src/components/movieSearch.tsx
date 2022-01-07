@@ -23,18 +23,18 @@ const SearchMovie:FC<any> = ({user}) => {
       .catch((error: any) => {
         console.log(error);
       });
-  }
+  };
 
   // axios.post('/api/movies/saveMovie/', fullData)
   const addMovieInfo = () => {
-     axios.post(`/api/movies/saveMovie/`, searchResults)
+    axios.post(`/api/movies/saveMovie/`, searchResults)
       .then(({data}: any) => {
         console.log("Saved to database");
       }).catch((error: any) => {
         console.log("Error saving to database");
-      })
-    }
-  
+      });
+  };
+
 
   const handleChange = (event :any) => {
     const searchVal = event.target.value;
