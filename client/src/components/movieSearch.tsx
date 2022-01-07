@@ -1,8 +1,8 @@
-import React, {useState, FC} from "react";
+import React, {useState, FC, useEffect} from "react";
 import Button from '@mui/material/Button';
 import { TextField } from '@material-ui/core';
 import axios from "axios";
-
+import { useParams } from "react-router";
 
 
 
@@ -11,6 +11,8 @@ const SearchMovie:FC<any> = ({user}) => {
   interface Movie {imDbId: string; title: string; year: string; videoDescription: string; linkEmbed: string};
   const [searchVal, setSearchVal] = useState('');
   const [searchResults, setSearchResults] = useState<Movie | null>(null);
+  const {query} = useParams();
+  // const [searchParams, setSearchParams] = useState<null | string>(query);
 
   const grabMovieInfo = (movieName: string) : any => {
     axios.post('/api/movies/search', {movieName})
@@ -43,6 +45,12 @@ const SearchMovie:FC<any> = ({user}) => {
     grabMovieInfo(searchVal);
     setSearchVal('');
   };
+
+  useEffect(() => {
+    if (!!query && query !== undefined) {
+      grabMovieInfo(query);
+    }
+  }, []);
 
 
   if (!searchResults) {

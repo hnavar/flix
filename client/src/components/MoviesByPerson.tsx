@@ -8,7 +8,7 @@ import {Card, CardHeader, CardMedia, CardContent, Typography} from '@mui/materia
 
 
 
-const MoviesByPerson:FC<any> = ({user}) => {
+const MoviesByPerson:FC = () => {
   const [searchVal, setSearchVal] = useState('');
   const [searchValObject, setSearchValObject] = useState({name: ''});
   const [searchResults, setSearchResults] = useState<any>([]);
@@ -25,18 +25,18 @@ const MoviesByPerson:FC<any> = ({user}) => {
     });
   };
 
-  const saveMovie = () => {
-    if(user) {
-      axios({
-        method: 'post',
-        url: '/api/users/user-movies',
-        data: {
-          movieId: searchResults[count].id,
-          userId: user.id
-        }
-      });
-    }
-  }
+  // const saveMovie = () => {
+  //   if(user) {
+  //     axios({
+  //       method: 'post',
+  //       url: '/api/users/user-movies',
+  //       data: {
+  //         movieId: searchResults[count].id,
+  //         userId: user.id
+  //       }
+  //     });
+  //   }
+  // }
 
   const handleChange = (event :any) => {
     const searchVal = event.target.value;
@@ -67,7 +67,8 @@ if (searchResults.length === 0) {
           style={{ flex: 1, margin: '0 20px 0 0', color: 'blue', backgroundColor: 'white'}} value={searchVal} onChange={handleChange} id="outlined-basic" label="Search Actor or Director" variant="outlined" size="small" />
        <Button type="submit" onClick={handleClick} variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}}>Search</Button>
         <div>
-          <Button type="submit" onClick={() => {saveMovie()}} variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}}>Add movie to Favorites</Button>
+          {/* {On click will eventually go under} */}
+          <Button type="submit" variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}}>Add movie to Favorites</Button>
           <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {setCounter(count + 1)}}>Show Next Movie</Button>
           <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {setCounter(count - 1)}}>Show Previous Movie</Button>
         </div>
