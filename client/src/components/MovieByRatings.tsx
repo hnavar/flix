@@ -35,6 +35,7 @@ const MovieByRating:FC<any> = ({user}) => {
   if (movieData.length === 0) {
     return (
   <div>
+    <br></br>
     {/* <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('G')}}>Find G rated movies</Button> */}
     <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {getMovieData('PG')}}>Find PG rated movies</Button>
     <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}}onClick={() => {getMovieData('PG-13')}}>Find PG-13 rated movies</Button>
@@ -47,6 +48,7 @@ const MovieByRating:FC<any> = ({user}) => {
   } else {
     return (
       <div>
+        <br></br>
         {/* <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('G')}}>Find G rated movies</Button> */}
         <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {getMovieData('PG')}}>Find PG rated movies</Button>
         <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {getMovieData('PG-13')}}>Find PG-13 rated movies</Button>
