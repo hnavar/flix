@@ -55,6 +55,7 @@ const MovieByRating:FC<any> = ({user}) => {
         <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {getMovieData('R')}}>Find NC-17 rated movies</Button>
         <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {getMovieData('NC-17')}}>Find R rated movies</Button>
         <div>
+        <br></br>
         <Button type="submit" onClick={() => {saveMovie()}} variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}}>Add movie to favorites</Button>
         <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {setCounter(count + 1)}}>Show Next Movie</Button>
         <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {setCounter(count - 1)}}>Show Previous Movie</Button>
