@@ -5,8 +5,7 @@ import { Button } from '@material-ui/core';
 
 const SearchByMoviePoster:FC<any> = (props) => {
   const [image, setImage] = useState('');
-  // const [imageUrl, setImageUrl] = useState('');
-  const [text, setText] = useState<string[]>([])
+  const [text, setText] = useState<string[]>([]);
 
   const handleChange = (e: SyntheticEvent) => {
     e.preventDefault();
@@ -34,7 +33,7 @@ const SearchByMoviePoster:FC<any> = (props) => {
       <h1>Upload a Movie Poster to find More Details</h1>
       {!!image && (
         <div>
-        <img alt="not found" width={"250px"} src={image} />
+        <img alt="not found" width={"500px"} src={image} />
         <br />
         <Button onClick={handleRemove}>Remove</Button>
         </div>
