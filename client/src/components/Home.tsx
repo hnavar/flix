@@ -134,7 +134,11 @@ const Home:FC = (props: any) => {
     return Object.keys(moviesObj).map((key) => {
       return (
         <div className="carousel-categories">
-          <h2 >{key}</h2>
+          <h2 
+            style={{
+              color: "white"
+            }}
+          >{key}</h2>
           <Carousel
             className={`${key}-carousels`}
             responsive={responsive}
@@ -153,7 +157,12 @@ const Home:FC = (props: any) => {
   }
 
   return (
-    <div className='home-view'>
+    <div className='home-view'
+      style={{
+        display: 'flex',
+        alignContent: 'flex-start'
+      }}
+    >
       <div className="genre-carousels">
         {!!Object.keys(genreMovies) && buildCarousel(genreMovies)}
       </div>
