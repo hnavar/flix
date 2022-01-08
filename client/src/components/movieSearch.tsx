@@ -2,7 +2,8 @@ import React, {useState, FC, useEffect} from "react";
 import Button from '@mui/material/Button';
 import { TextField } from '@material-ui/core';
 import axios from "axios";
-import { useParams } from "react-router";
+import { useSearchParams } from "react-router-dom";
+import { ContactSupportOutlined } from "@material-ui/icons";
 
 
 
@@ -11,8 +12,8 @@ const SearchMovie:FC<any> = ({user}) => {
   interface Movie {imDbId: string; title: string; year: string; videoDescription: string; linkEmbed: string};
   const [searchVal, setSearchVal] = useState('');
   const [searchResults, setSearchResults] = useState<Movie | null>(null);
-  const {query} = useParams();
-  // const [searchParams, setSearchParams] = useState<null | string>(query);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const query = searchParams.get('q');
 
   const grabMovieInfo = (movieName: string) : any => {
     axios.post('/api/movies/search', {movieName})
@@ -22,18 +23,18 @@ const SearchMovie:FC<any> = ({user}) => {
       .catch((error: any) => {
         console.log(error);
       });
-  }
+  };
 
   // axios.post('/api/movies/saveMovie/', fullData)
   const addMovieInfo = () => {
-     axios.post(`/api/movies/saveMovie/`, searchResults)
+    axios.post(`/api/movies/saveMovie/`, searchResults)
       .then(({data}: any) => {
         console.log("Saved to database");
       }).catch((error: any) => {
         console.log("Error saving to database");
-      })
-    }
-  
+      });
+  };
+
 
   const handleChange = (event :any) => {
     const searchVal = event.target.value;
@@ -47,9 +48,7 @@ const SearchMovie:FC<any> = ({user}) => {
   };
 
   useEffect(() => {
-    if (!!query && query !== undefined) {
-      grabMovieInfo(query);
-    }
+    !!query && grabMovieInfo(query);
   }, []);
 
 

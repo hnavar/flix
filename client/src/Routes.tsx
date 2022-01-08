@@ -45,7 +45,7 @@ const Paths = [
   },
   {
     path: 'poster',
-    sideBarName: 'Search by movie poster',
+    sidebarName: 'Search by movie poster',
     component: SearchByMoviePoster
   }
 ];
