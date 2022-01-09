@@ -136,7 +136,7 @@ const Home:FC = (props: any) => {
         <div className="carousel-categories">
           <h2 
             style={{
-              color: "white"
+              color: "gold"
             }}
           >{key}</h2>
           <Carousel
