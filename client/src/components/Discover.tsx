@@ -109,8 +109,19 @@ const Discover:FC<any> = ({user}) => {
         }
     }
     axios(options)
+        .then(({data}) => {
+          let unique = [];
+          let result = data.data.filter(((element: any) => {            
+            if(!unique.includes(element)) {
+              unique.push(element)
+              return element
+              }
+          }))
+          console.log('result', result)
+          return result;
+        })
         .then((res) => {
-            setTweets(res.data.data)
+          setTweets(res)
         })
     }
   
