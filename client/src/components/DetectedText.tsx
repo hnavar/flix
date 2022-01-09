@@ -14,7 +14,15 @@ const DetectedText:FC<any> = (props) => {
     // <div onClick={handleClick}>
     //   <h4>{text}</h4>
     // </div>
-    <div>
+    <div
+      style={{
+        borderRadius: '4px',
+        background: 'rgb(51, 51, 51)',
+        padding: '20px',
+        margin: '10px'
+
+      }}
+    >
       <NavLink to={`/search?q=${text}`}>{text}</NavLink>
     </div>
   );
