@@ -1,38 +1,49 @@
-import React, {FC, useState, useEffect, Props} from "react";
-import {Card, CardHeader, CardMedia, CardContent, CardActions, Collapse, Typography} from '@mui/material'
+import React, {FC, useState, useEffect, SyntheticEvent} from "react";
+import {Card, CardHeader, CardMedia, CardContent, CardActions, Collapse, Typography} from '@mui/material';
+import { useNavigate } from 'react-router';
 
 interface MovieObj {
-  [key: string]: string;
+  id: number;
+  movie_id: string;
+  title: string;
+  release_date: string;
+  description: string;
+  trailer_url: string;
+  thumbnailUrl: string;
+  createdAt: string;
+  updatedAt: string;
 }
-
-type CarouselItemProps = {item: MovieObj}
+type CarouselItemProps = {item: MovieObj};
 
 const CarouselItem:FC<CarouselItemProps> = ({item}: {item: MovieObj}) => {
-  const {title, trailer_url, description, release_date} = item;
+  const {id, title, trailer_url, description, release_date, thumbnailUrl} = item;
+
+  const navigate = useNavigate();
+
+  const handleClick = (e: SyntheticEvent) => {
+    e.preventDefault();
+    navigate(`/movies/${id}`);
+  };
+
   return (
-    <>
+    <div onClick={handleClick}>
       <Card
         variant='outlined'
         sx={{ maxWidth: 345 }}
       >
         <CardMedia
-          component="iframe"
+          component="img"
           height="194"
-          image={trailer_url}
+          src={thumbnailUrl}
           title="movie trailer"
         />
         <CardHeader
           title={title}
           subheader={release_date}
         />
-        <CardContent>
-          <Typography>
-            {description}
-          </Typography>
-        </CardContent>
       </Card>
-    </>
-  )
+    </div>
+  );
 
 };
 

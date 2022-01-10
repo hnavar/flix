@@ -1,6 +1,7 @@
 import React, {FC, useState, useEffect} from "react";
 import axios from 'axios';
-import Carousel from "react-material-ui-carousel";
+import Carousel from "react-multi-carousel";
+import 'react-multi-carousel/lib/styles.css';
 import CarouselItem from './CarouselItem';
 import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
 import ArrowBackIosOutlinedIcon from '@mui/icons-material/ArrowBackIosOutlined';
@@ -15,70 +16,92 @@ const Home:FC = (props: any) => {
   const [actorsMovies, setActorsMovies] = useState({});
 
   interface MovieObj {
-    [key: string]: string;
+    id: number;
+    movie_id: string;
+    title: string;
+    release_date: string;
+    description: string;
+    trailer_url: string;
+    thumbnailUrl: string;
+    createdAt: string;
+    updatedAt: string;
   }
   interface MovieStorage {
     [key: string]: MovieObj[];
   }
 
+  interface Actor {
+    id: number;
+    actor_name: string
+  }
 
+  interface Director {
+    id: number;
+    director_name: string;
+  }
+
+  interface Genre {
+    id: number;
+    genre: string;
+  }
+  // need to replace :id with the user id
   const getGenres = () => {
-    axios.get('/api/genres/:id')
+    axios.get('/api/genres/')
       .then(({data}) => setGenres(data))
-      .catch(() => console.log('failed to get genres'))
+      .catch(() => console.log('failed to get genres'));
   };
-
+  // need to replace :id with the user id
   const getDirectors = () => {
-    axios.get('/api/directors/:id')
+    axios.get('/api/directors/')
       .then(({data}) => setDirectors(data))
-      .catch(() => console.log('failed to get directors'))
+      .catch(() => console.log('failed to get directors'));
   };
-
+  // need to replace :id with the user id
   const getActors = () => {
-    axios.get('/api/actors/:id')
+    axios.get('/api/actors/')
       .then(({data}) => setActors(data))
-      .catch(() => console.log('failed to get actors'))
+      .catch(() => console.log('failed to get actors'));
   };
 
   const getGenreMovies = () => {
     const movies: MovieStorage = {};
-    genres.forEach(((genre: MovieObj) => {
+    genres.forEach(((genre: Genre) => {
       axios.get('/api/movies/genres/' + genre.id)
         .then(({data}) => movies[genre.genre] = data)
         .catch(() => console.log('failed to get movies by genre'))
         .finally(() => setGenreMovies(movies));
-    }))
+    }));
   };
 
   const getActorMovies = () => {
     const movies: MovieStorage = {};
-    actors.forEach(((actor: MovieObj) => {
+    actors.forEach(((actor: Actor) => {
       axios.get('/api/movies/actors/' + actor.id)
         .then(({data}) => movies[actor.actor_name] = data)
         .catch(() => console.log('failed to get movies by Actor'))
         .finally(() => setActorsMovies(movies));
-    }))
+    }));
   };
 
   const getDirectorMovies = () => {
     const movies: MovieStorage = {};
-    directors.forEach(((director: MovieObj) => {
+    directors.forEach(((director: Director) => {
       axios.get('/api/movies/directors/' + director.id)
         .then(({data}) => movies[director.director_name] = data)
         .catch(() => console.log('failed to get movies by director'))
         .finally(() => setDirectorsMovies(movies));
-    }))
+    }));
   };
 
   useEffect(() => {
     getGenres();
     getActors();
     getDirectors();
-  }, [])
+  }, []);
 
   useEffect(() => {
     getGenreMovies();
-  }, [genres])
+  }, [genres]);
 
   useEffect(() => {
     getActorMovies();
@@ -86,23 +109,46 @@ const Home:FC = (props: any) => {
 
   useEffect(() => {
     getDirectorMovies();
-  }, [directors])
+  }, [directors]);
+
+  const responsive = {
+    superLargeDesktop: {
+      breakpoint: { max: 4000, min: 3000 },
+      items: 10
+    },
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 6
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 2
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1
+    }
+  };
 
   const buildCarousel = (moviesObj: MovieStorage) => {
-    return Object.keys(moviesObj).map((key) => {
+    // remove the slice here in production
+    return Object.keys(moviesObj).slice(0, 5).map((key) => {
       return (
-        <Carousel
-          className={`${key}-carousels`}
-          NextIcon={<ArrowForwardIosOutlinedIcon />}
-          PrevIcon={<ArrowBackIosOutlinedIcon />}
-          animation='slide'
-          autoPlay={false}
-        >
+        <>
           <h2 className="carousel-categories">{key}</h2>
-          {
-            moviesObj[key].map((movie: MovieObj) => <CarouselItem item={movie} />)
-          }
-        </Carousel>
+          <Carousel
+            className={`${key}-carousels`}
+            responsive={responsive}
+            infinite={true}
+            showDots={true}
+            partialVisible={true}
+            ssr={true}
+          >
+            {
+              moviesObj[key].map((movie: MovieObj) => <CarouselItem item={movie} key={movie.movie_id} />)
+            }
+          </Carousel>
+        </>
       );
     });
   }
@@ -112,11 +158,11 @@ const Home:FC = (props: any) => {
       <div className="genre-carousels">
         {!!Object.keys(genreMovies) && buildCarousel(genreMovies)}
       </div>
-      <div className="actors-carousels">
-        {!!Object.keys(actorsMovies) && buildCarousel(actorsMovies)}
-      </div>
       <div className="directors-carousels">
         {!!Object.keys(directorsMovies) && buildCarousel(directorsMovies)}
+      </div>
+      <div className="actors-carousels">
+        {!!Object.keys(actorsMovies) && buildCarousel(actorsMovies)}
       </div>
     </>
   )
