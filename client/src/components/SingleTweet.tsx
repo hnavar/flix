@@ -7,7 +7,7 @@ const SingleTweet:FC<TweetProps> = ({text}) => {
     
     return (
       <div className="SingleTweet"
-      style ={{border: '2px solid blue'}}
+      style ={{border: '2px solid purple', backgroundColor: '#F5F5F5'}}
       >
            {text}
       </div>

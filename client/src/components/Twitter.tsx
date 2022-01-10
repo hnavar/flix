@@ -24,9 +24,9 @@ const Twitter:FC = (props: any) => {
             }
         }
         axios(options)
-            .then((res) => {
+            .then(({data}) => {
                 // console.log(res.data.data)
-                setTweets(res.data.data)
+                setTweets(data.data)
             })
             .then(() => {
                 // console.log(tweets)

@@ -1,6 +1,7 @@
 import React, {FC, useState, useEffect} from "react";
 import axios from 'axios';
 import { Button, TextField } from '@material-ui/core';
+import SingleTweet from './SingleTweet'
 
 interface currentMovie {
   id: number;
@@ -17,6 +18,7 @@ interface currentMovie {
 
 const Discover:FC<any> = ({user}) => {
   const [currentUser, setCurrentUser] = useState<any>(user);
+  const [tweets, setTweets] = useState([]);
 
   const [currentMovie, setCurrentMovie] = useState<null | currentMovie >(null);
   const [genresList, setGenresList] = useState([]);
@@ -72,6 +74,7 @@ const Discover:FC<any> = ({user}) => {
             setMovieList(data.data)
             const randomNum = Math.floor(Math.random() * 250);
             setCurrentMovie(data.data[randomNum])
+            getTweets();
           })
     }
   
@@ -84,14 +87,38 @@ const Discover:FC<any> = ({user}) => {
             movieId: currentMovie?.id,
             userId: user.id
           }
-        });
+        })
+          .then(() => {
+            getRandomMovie();
+            getTweets();
+          })
       }
+    }
+
+
+    const getTweets = () => {
+      const options: any = {
+        url: 'http://localhost:3000/api/twitter/tweets',
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+        params: {
+          title: currentMovie?.title
+        }
+    }
+    axios(options)
+        .then((res) => {
+            setTweets(res.data.data)
+        })
     }
   
   
       useEffect(() => {
-        getRandomMovie()
+        getRandomMovie();
         setCurrentUser(user);
+        getTweets();
       }, [])
       return (
         <div>
@@ -116,6 +143,16 @@ const Discover:FC<any> = ({user}) => {
         >
             Save movie
         </Button>
+
+        <div className="TwitterTweets">
+            {tweets.map((tweet: any) => {
+                // {console.log(tweet)}
+                return <SingleTweet key={tweet.id} text={tweet.text}/>
+            })
+
+            }
+        </div>
+
       </div>
     )
   };
