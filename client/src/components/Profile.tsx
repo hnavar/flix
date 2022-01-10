@@ -168,22 +168,34 @@ const Profile:FC<any> = ({user}) => {
 
   //is there a way to set this up so that depending on whatever is clicked, that clicked item will be identified and passed
   //into the axios put request, instead of creating a request for each item type
-  const removeFavorite = (num: any) => {
-    console.log('hello');
-    console.log('target title', num);
-    axios.delete(`/api/users/movies/${currentUser.id}`)
-    .then(() => { console.log('Removed favorite')})
-    .catch(() => {console.log('Failed to remove')})
-  };
-  //
+  // const removeFavorite = (num:any) => {
+  //   console.log('hello');
+  //   console.log('target title', num);
+  //   axios.delete(`/api/users/movies/${currentUser.id}`)
+  //   .then(() => { console.log('Removed favorite')})
+  //   .catch(() => {console.log('Failed to remove')})
+  // };
 
+  const removeFavorite = (movie: any) => {
+    if(user) {
+      console.log('movieid', movie)
+      console.log('user', user.id);
+      axios({
+        method: 'delete',
+        url: '/api/users/user-movies',
+        data: {
+          movieId: movie,
+          userId: user.id
+        }
+      });
+    }
+  }
 
 
   const handleClick = (e: SyntheticEvent) => {
-    // e.preventDefault();
+    e.preventDefault();
     console.log('target', e.target);
     removeFavorite(e.target);
-
   };
 
   const navigate = useNavigate();
@@ -227,8 +239,8 @@ const Profile:FC<any> = ({user}) => {
                 <Stack direction='row' spacing={2}>
                   {!favoriteMovies ? <h1> User has no favorites </h1> : favoriteMovies.map((movie: any, key: number) => {
                     return (
-                      <div id={movie.key} onClick={handleClick}>
-                        <ClearIcon onClick={handleClick}/>
+                      <div>
+                        <ClearIcon onClick={() => removeFavorite(movie.id)}/>
                         <Card sx={{ maxWidth: 345 }}>
                           <CardActionArea onClick={handleNavigate} >
                             <CardMedia

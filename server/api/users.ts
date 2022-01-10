@@ -7,7 +7,7 @@ import { uploadPhoto } from '../helpers/cloudinary';
 // import { Request } from 'aws-sdk';
 
 // import type {Request, Response} from 'express';
-import { addUser, updateUser, getUserById, getFavoriteMovies, getFavoriteActors, getFavoriteDirectors, getFavoriteGenres, removeFavoriteMovie, addUser_Movie } from '../database/index';
+import { addUser, updateUser, getUserById, getFavoriteMovies, getFavoriteActors, getFavoriteDirectors, getFavoriteGenres, removeFavoriteMovie, addUser_Movie, removeUser_Movie } from '../database/index';
 const UsersRouter = Router();
 
 UsersRouter.get('/:id', (req: Request, res: Response) => {
@@ -120,6 +120,17 @@ UsersRouter.post('/user-movies', (req: any, res: any) => {
     });
 });
 
+UsersRouter.delete('/user-movies', (req: any, res: any) => {
+  removeUser_Movie(req.body.movieId, req.body.userId)
+    .then(() => {
+      console.log('Router: Deleted favorite movie.');
+      res.sendStatus(201);
+    })
+    .catch((err: any) => {
+      console.log('Router: Failed to remove favorite movie.', err);
+      res.sendStatus(500);
+    });
+});
 
 
 

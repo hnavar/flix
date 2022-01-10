@@ -61,13 +61,16 @@ const UserPreferences:FC<any> = ({user}) => {
   const handleCoverPhotoChange = (e: SyntheticEvent) => {
     e.preventDefault();
     const file = (e.target as HTMLInputElement).files![0];
+    //set photo as temp url so can be set as cover photo before axios update occurs
     setCoverPhoto(URL.createObjectURL(file));
+    //create FormData object to be sent back
     const data = new FormData();
     data.append('image', file, file.name);
+    //set image to user cover photo entry
     axios.post('/api/photos/imgUpload', data, {headers: {'Content-Type': 'multipart/form-data'}})
       .then(({data}) => {
         console.log('imageurl', data)
-        // console.log('cover photo', coverPhoto);
+        //patch user with new url
         axios.patch(`/api/users/${currentUser.id}`, {profile_cover_photo_url: data})
         .then(() => {
           console.log('updated cover photo') });
@@ -78,6 +81,8 @@ const UserPreferences:FC<any> = ({user}) => {
         })
         .finally(() => {
           console.log('finally coverphoto', coverPhoto);
+          //get the currently logged in user again, after the image value updates
+          getLoggedInUser();
         })
       };
 
