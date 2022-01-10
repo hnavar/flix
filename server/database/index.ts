@@ -448,10 +448,19 @@ export const addMovie = async (movie: movieObj, userId?: number) => {
 
 export const removeFavoriteMovie = async (movie_id: any, userId: any) => {
   try {
-    await Users_Movies.destroy({where: { movie_id: movie_id }})
+    console.log('movie id to delete from join :', movie_id);
+    await Users_Movies.destroy({where: { movie_id: movie_id, user_id: userId }})
   }
   catch (err) { console.log('Unable to remove movie from user favorites.') }
 };
+
+export const removeFavoriteActor = async (actorId: any, userId: any) => {
+  try {
+    console.log('actor to remove from favs', actorId, userId);
+    await Users_Actors.destroy({where: { actorId: actorId, user_id: userId}});
+  }
+  catch (err) { console.log('Unable to remove user favorite actor.') }
+}
 
 export const addUser_Movie = async (movieId: number, userId: number) => {
   !!userId && Users_Movies.findOrCreate({

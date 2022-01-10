@@ -1,9 +1,10 @@
-import type { Response, Request } from 'express';
+import { Response, Request, response } from 'express';
 import { Router } from 'express';
 import axios from 'axios';
 import { userInfo } from 'os';
-import { addFavoriteMovie } from '../database';
+import { addFavoriteMovie, removeFavoriteActor } from '../database';
 import { uploadPhoto } from '../helpers/cloudinary';
+// import { Request } from 'aws-sdk';
 
 // import type {Request, Response} from 'express';
 const { addUser,
@@ -97,14 +98,22 @@ UsersRouter.get('/genres/:id', (req: Request, res: Response) => {
 // END GET USER FAVORITES //
 
 // USER DESTROY FAVORITES //
-
-UsersRouter.delete('/movies/:id', (req: Request, res: Response) => {
+//??
+UsersRouter.delete('/movies/:movieId/:userID', (req: Request, res: Response) => {
     removeFavoriteMovie(Number(req.params.id))
     .then(() => {
         console.log('HIITTTTT')
         res.sendStatus(200) })
     .catch((err: any) => { res.sendStatus(500) })
 })
+
+// UsersRouter.delete('/actors/:id', (req: Request, res: Response) => {
+//     removeFavoriteActor(Number(req.params.id, req.params.id))
+//     .then(() => { res.sendStatus(200) })
+//     .catch((err: any) => { res.sendStatus(500) });
+// })
+
+
 
 UsersRouter.post('/user-movies', (req: any, res: any) => {
     addUser_Movie(req.body.movieId, req.body.userId)

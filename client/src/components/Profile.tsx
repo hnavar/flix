@@ -66,9 +66,6 @@ interface UserObj {
 
 
 
-
-
-
 const Profile:FC<any> = ({user}) => {
   //User profile object
   const [currentUser, setCurrentUser] = useState<UserObj>(user);
@@ -112,7 +109,7 @@ const Profile:FC<any> = ({user}) => {
       setTimeout(() => {
           setCurrentUser(user);
           getAllFavorites(user.id);
-      }, 2000)
+      }, 100)
     }, [user]);
 
 //INDIVIDUAL UPDATE FUNCTIONS
@@ -171,9 +168,9 @@ const Profile:FC<any> = ({user}) => {
 
   //is there a way to set this up so that depending on whatever is clicked, that clicked item will be identified and passed
   //into the axios put request, instead of creating a request for each item type
-  const removeFavorite = () => {
+  const removeFavorite = (num: any) => {
     console.log('hello');
-    console.log('target title', favoriteMovies.title);
+    console.log('target title', num);
     axios.delete(`/api/users/movies/${currentUser.id}`)
     .then(() => { console.log('Removed favorite')})
     .catch(() => {console.log('Failed to remove')})
@@ -184,8 +181,8 @@ const Profile:FC<any> = ({user}) => {
 
   const handleClick = (e: SyntheticEvent) => {
     // e.preventDefault();
-    console.log(e.target);
-    removeFavorite();
+    console.log('target', e.target);
+    removeFavorite(e.target);
 
   };
 
@@ -228,10 +225,10 @@ const Profile:FC<any> = ({user}) => {
               <div>
                 Favorite Movies row
                 <Stack direction='row' spacing={2}>
-                  {!favoriteMovies ? null : favoriteMovies.map((movie: any, key: number) => {
+                  {!favoriteMovies ? <h1> User has no favorites </h1> : favoriteMovies.map((movie: any, key: number) => {
                     return (
-                      <div>
-                        <ClearIcon onClick={() => handleClick(movie.id)} />
+                      <div id={movie.key} onClick={handleClick}>
+                        <ClearIcon onClick={handleClick}/>
                         <Card sx={{ maxWidth: 345 }}>
                           <CardActionArea onClick={handleNavigate} >
                             <CardMedia
