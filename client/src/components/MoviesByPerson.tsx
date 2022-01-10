@@ -16,18 +16,27 @@ const MoviesByPerson:FC = () => {
 
 
 
-const grabMovies = (actorOrDirector: {name: string}) => {
+  const grabMovies = (actorOrDirector: {name: string}) => {
     return axios.post('/api/movies/moviesByActorOrDirectors/', actorOrDirector)
     .then(({data}: any) => {
-      console.log(data);
      setSearchResults(data);
     }).catch((error: any) => {
       console.log(error);
-  });
-};
+    });
+  };
 
-
-
+  // const saveMovie = () => {
+  //   if(user) {
+  //     axios({
+  //       method: 'post',
+  //       url: '/api/users/user-movies',
+  //       data: {
+  //         movieId: searchResults[count].id,
+  //         userId: user.id
+  //       }
+  //     });
+  //   }
+  // }
 
   const handleChange = (event :any) => {
     const searchVal = event.target.value;
@@ -45,20 +54,25 @@ if (searchResults.length === 0) {
   return (
     <div>
       <div>
-        <TextField value={searchVal} onChange={handleChange} id="outlined-basic" label="Search Actor or Director" variant="outlined" size="small" />
-        <Button type="submit" onClick={handleClick} variant="contained" id="outlined-basic" color="primary">Search</Button>
+      <br></br>
+        <TextField   inputProps={{ style: { fontFamily: 'Arial', color: 'blue'}}}
+          style={{ flex: 1, margin: '0 20px 0 0', color: 'blue', backgroundColor: 'white'}} value={searchVal} onChange={handleChange} id="outlined-basic" label="Search Actor or Director" variant="outlined" size="small" />
+        <Button type="submit" onClick={handleClick} variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}}>Search</Button>
       </div>
     </div>
     );
   } else {
-    {console.log(searchResults)}
     return (
     <div>
-       <TextField value={searchVal} onChange={handleChange} id="outlined-basic" label="Search Actor or Director" variant="outlined" size="small" />
-       <Button type="submit" onClick={handleClick} variant="contained" id="outlined-basic" color="primary">Search</Button>
+      <br></br>
+       <TextField inputProps={{ style: { fontFamily: 'Arial', color: 'blue'}}}
+          style={{ flex: 1, margin: '0 20px 0 0', color: 'blue', backgroundColor: 'white'}} value={searchVal} onChange={handleChange} id="outlined-basic" label="Search Actor or Director" variant="outlined" size="small" />
+       <Button type="submit" onClick={handleClick} variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}}>Search</Button>
         <div>
-          <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {setCounter(count + 1)}}>Show Next Movies</Button>
-          <Button variant="contained" id="outlined-basic" color="secondary" onClick={() => {setCounter(count - 1)}}>Show Previous Movies</Button>
+          {/* {On click will eventually go under} */}
+          <Button type="submit" variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}}>Add movie to Favorites</Button>
+          <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {setCounter(count + 1)}}>Show Next Movie</Button>
+          <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {setCounter(count - 1)}}>Show Previous Movie</Button>
         </div>
     <div>
             <Card
@@ -81,7 +95,7 @@ if (searchResults.length === 0) {
           </Typography>
         </CardContent>
       </Card>
-      <Card
+      {/* <Card
         variant='outlined'
         sx={{ maxWidth: 400 }}
       >
@@ -100,7 +114,7 @@ if (searchResults.length === 0) {
             Role: {searchResults[count + 1].role}
           </Typography>
         </CardContent>
-      </Card>
+      </Card> */}
     </div>
   </div>
     );

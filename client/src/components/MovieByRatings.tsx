@@ -1,12 +1,44 @@
 import axios from "axios";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState, FC } from "react";
 import { Button } from "@material-ui/core";
 import {Card, CardHeader, CardMedia, CardContent, Typography} from '@mui/material';
-const MovieByRating:FC = () => {
+const MovieByRating:FC<any> = ({user}) => {
 
   const [movieData, setMovieData] = useState<any>([]);
   const [count, setCounter] = useState(0);
+
+
+  // count < movieData.length ? movieData[count].thumbnailUrl : setCounter(0) && movieData[count].thumbnailUrl} 
+
+
+
+  const watchCount = () => {
+    // count < movieData.length && count > -1 ? setCounter(count) : setCounter(0);
+    if (count > movieData.length - 1) {
+      setCounter(0);
+    } else if (count < 0) {
+      setCounter(movieData.length - 1);
+    }
+  }
+
+  const combinedFuncAdd = () => {
+    if (count === movieData.length -1) {
+      setCounter(0);
+    } else {
+      setCounter(count + 1)
+    }
+  };
+
+
+  const combinedFuncSub = () => {
+    if (count === 0) {
+      setCounter(movieData.length - 1);
+    } else {
+      setCounter(count - 1);
+    }
+  };
+
 
   const getMovieData =  (rating: string) => {
     return axios.get(`api/movies/moviesByRating${rating}`)
@@ -19,15 +51,30 @@ const MovieByRating:FC = () => {
     .catch(() => console.log('failed to get movies'));
   };
 
+  const saveMovie = () => {
+    if(user) {
+      axios({
+        method: 'post',
+        url: '/api/users/user-movies',
+        data: {
+          movieId: movieData[count].imDbId,
+          userId: user.id
+        }
+      });
+    }
+  }
+
+    useEffect(() => {watchCount()}, [count]);
 
   if (movieData.length === 0) {
     return (
   <div>
+    <br></br>
     {/* <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('G')}}>Find G rated movies</Button> */}
-    <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('PG')}}>Find PG rated movies</Button>
-    <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('PG-13')}}>Find PG-13 rated movies</Button>
-    <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('R')}}>Find NC-17 rated movies</Button>
-    <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('NC-17')}}>Find R rated movies</Button>
+    <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {getMovieData('PG')}}>Find PG rated movies</Button>
+    <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}}onClick={() => {getMovieData('PG-13')}}>Find PG-13 rated movies</Button>
+    <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {getMovieData('R')}}>Find NC-17 rated movies</Button>
+    <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {getMovieData('NC-17')}}>Find R rated movies</Button>
   </div>
     );
 
@@ -35,15 +82,17 @@ const MovieByRating:FC = () => {
   } else {
     return (
       <div>
+        <br></br>
         {/* <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('G')}}>Find G rated movies</Button> */}
-        <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('PG')}}>Find PG rated movies</Button>
-        <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('PG-13')}}>Find PG-13 rated movies</Button>
-        <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('R')}}>Find NC-17 rated movies</Button>
-        <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {getMovieData('NC-17')}}>Find R rated movies</Button>
+        <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {getMovieData('PG')}}>Find PG rated movies</Button>
+        <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {getMovieData('PG-13')}}>Find PG-13 rated movies</Button>
+        <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {getMovieData('R')}}>Find NC-17 rated movies</Button>
+        <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {getMovieData('NC-17')}}>Find R rated movies</Button>
         <div>
-        <Button variant="contained" id="outlined-basic" color="primary" onClick={() => {setCounter(count + 1)}}>Show Next Movie</Button>
-        <Button variant="contained" id="outlined-basic" color="secondary" onClick={() => {setCounter(count - 1)}}>Show Previous Movie</Button>
+        <br></br>
+        <Button type="submit" onClick={() => {saveMovie()}} variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}}>Add movie to favorites</Button>
         </div>
+        <br></br>
     <div>
       <Card
         variant='outlined'
@@ -52,7 +101,7 @@ const MovieByRating:FC = () => {
         <CardMedia
           component="img"
           height="194"
-          src={count < movieData.length ? movieData[count].thumbnailUrl : setCounter(0) }
+          src={movieData[count].thumbnailUrl}
           title="movie trailer"
         />
         <CardHeader
@@ -65,6 +114,8 @@ const MovieByRating:FC = () => {
           </Typography>
         </CardContent>
       </Card>
+      <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {combinedFuncAdd()}}>Show Next Movie</Button>
+      <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {combinedFuncSub()}}>Show Previous Movie</Button>
     </div>
       </div>
     )

@@ -5,9 +5,7 @@ import { Routes, Route } from 'react-router-dom';
 import MovieDetail from './MovieDetail';
 import axios from 'axios';
 import Login from './Login';
-import Profile from './Profile';
 import TsParticles from './tsParticle/tsParticles';
-import SearchMovie from './movieSearch';
 
 
 const App:FC = () => {
@@ -34,7 +32,7 @@ const App:FC = () => {
   return (
     <>
       {!currentUser
-      ?  <Login />
+      ? <Login />
       : (<>
           <Login user={currentUser} />
           <NavigationBar />
@@ -47,7 +45,6 @@ const App:FC = () => {
                 element={<route.component user={currentUser} />} />;
             })}
             <Route path='movies/:id' element={<MovieDetail />} />
-            <Route path='search/?:query' element={<SearchMovie />} />
             <Route path="*" element={<h2>404: Not found</h2>} />
           </Routes>
         </>

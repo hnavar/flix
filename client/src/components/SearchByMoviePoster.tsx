@@ -5,8 +5,7 @@ import { Button } from '@material-ui/core';
 
 const SearchByMoviePoster:FC<any> = (props) => {
   const [image, setImage] = useState('');
-  // const [imageUrl, setImageUrl] = useState('');
-  const [text, setText] = useState<string[]>([])
+  const [text, setText] = useState<string[]>([]);
 
   const handleChange = (e: SyntheticEvent) => {
     e.preventDefault();
@@ -16,6 +15,7 @@ const SearchByMoviePoster:FC<any> = (props) => {
     data.append('image', file, file.name);
     axios.post('/api/photos/detectText', data, {headers: {'Content-Type': 'multipart/form-data'}})
       .then(({data}) => {
+        console.log(data);
         setText(data.map((elem: any) => elem.description));
       })
       .catch((err: any) => {
@@ -30,32 +30,61 @@ const SearchByMoviePoster:FC<any> = (props) => {
   };
 
   return (
-    <>
-      <h1>Upload a Movie Poster to find More Details</h1>
-      {!!image && (
-        <div>
-        <img alt="not found" width={"250px"} src={image} />
-        <br />
-        <Button onClick={handleRemove}>Remove</Button>
-        </div>
-      )}
-      <br />
-      <br />
-      <form
-        encType="multipart/form-data"
+    <div
+      className='poster-search-dev'
+      style={{
+        marginLeft: '30px',
+        marginTop: '30px',
+      }}
+    >
+      <div
+        style={{
+          color: 'gold',
+        }}
       >
-        <input
-          type="file"
-          name="myImage"
-          onChange={handleChange}
-        />
-      </form>
-      {!!text && (
-        text.map((text, idx) => {
-          return <DetectedText key={idx} text={text} />;
-        })
-      )}
-    </>
+        <h1>Upload a Movie Poster to find More Details</h1>
+      </div>
+      <div
+        style={{
+          display: 'inline-flex',
+          alignItems: 'left',
+          justifyContent: 'left',
+        }}
+      >
+        {!!image && (
+          <div>
+          <img alt="not found" width={"500px"} src={image} />
+          <br />
+          <Button onClick={handleRemove}>Remove</Button>
+          </div>
+        )}
+        <form
+          style={{
+            width: '100px',
+            marginLeft: '10px'
+          }}
+          encType="multipart/form-data"
+        >
+          <input
+            type="file"
+            name="myImage"
+            onChange={handleChange}
+          />
+        </form>
+        <div
+          style={{
+            display: 'inline-table',
+            marginRight: '30px'
+          }}
+        >
+          {!!text && (
+            text.map((text, idx) => {
+              return <DetectedText key={idx} text={text} />;
+            })
+          )}
+        </div>
+      </div>
+    </div>
   );
 };
 

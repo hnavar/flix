@@ -1,20 +1,23 @@
-import React, {FC, SyntheticEvent} from 'react';
-import { useNavigate } from 'react-router';
+import React, {FC} from 'react';
+import { NavLink } from 'react-router-dom';
 
 const DetectedText:FC<any> = (props) => {
   const {text} = props;
 
-  const handleClick = (e: SyntheticEvent) => {
-    e.preventDefault();
-    const navigate = useNavigate();
-    navigate(`/search/${text}`);
-  };
-
   return (
-    <div onClick={handleClick}>
-      <h4>{text}</h4>
+    <div
+      style={{
+        borderRadius: '4px',
+        background: 'rgb(51, 51, 51)',
+        padding: '20px',
+        margin: '10px',
+        height: 'fit-content',
+        width: 'fit-content'
+      }}
+    >
+      <NavLink to={`/search?q=${text}`} style={{color: 'gold', textDecoration: 'none'}}>{text}</NavLink>
     </div>
-  )
+  );
 };
 
 export default DetectedText;
