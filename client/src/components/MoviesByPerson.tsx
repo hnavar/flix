@@ -54,6 +54,7 @@ if (searchResults.length === 0) {
   return (
     <div>
       <div>
+      <br></br>
         <TextField   inputProps={{ style: { fontFamily: 'Arial', color: 'blue'}}}
           style={{ flex: 1, margin: '0 20px 0 0', color: 'blue', backgroundColor: 'white'}} value={searchVal} onChange={handleChange} id="outlined-basic" label="Search Actor or Director" variant="outlined" size="small" />
         <Button type="submit" onClick={handleClick} variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}}>Search</Button>
@@ -63,6 +64,7 @@ if (searchResults.length === 0) {
   } else {
     return (
     <div>
+      <br></br>
        <TextField inputProps={{ style: { fontFamily: 'Arial', color: 'blue'}}}
           style={{ flex: 1, margin: '0 20px 0 0', color: 'blue', backgroundColor: 'white'}} value={searchVal} onChange={handleChange} id="outlined-basic" label="Search Actor or Director" variant="outlined" size="small" />
        <Button type="submit" onClick={handleClick} variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}}>Search</Button>
