@@ -8,6 +8,38 @@ const MovieByRating:FC<any> = ({user}) => {
   const [movieData, setMovieData] = useState<any>([]);
   const [count, setCounter] = useState(0);
 
+
+  // count < movieData.length ? movieData[count].thumbnailUrl : setCounter(0) && movieData[count].thumbnailUrl} 
+
+
+
+  const watchCount = () => {
+    // count < movieData.length && count > -1 ? setCounter(count) : setCounter(0);
+    if (count > movieData.length - 1) {
+      setCounter(0);
+    } else if (count < 0) {
+      setCounter(movieData.length - 1);
+    }
+  }
+
+  const combinedFuncAdd = () => {
+    if (count === movieData.length -1) {
+      setCounter(0);
+    } else {
+      setCounter(count + 1)
+    }
+  };
+
+
+  const combinedFuncSub = () => {
+    if (count === 0) {
+      setCounter(movieData.length - 1);
+    } else {
+      setCounter(count - 1);
+    }
+  };
+
+
   const getMovieData =  (rating: string) => {
     return axios.get(`api/movies/moviesByRating${rating}`)
     .then(({data}: any) => {
@@ -31,6 +63,8 @@ const MovieByRating:FC<any> = ({user}) => {
       });
     }
   }
+
+    useEffect(() => {watchCount()}, [count]);
 
   if (movieData.length === 0) {
     return (
@@ -57,9 +91,8 @@ const MovieByRating:FC<any> = ({user}) => {
         <div>
         <br></br>
         <Button type="submit" onClick={() => {saveMovie()}} variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}}>Add movie to favorites</Button>
-        <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {setCounter(count + 1)}}>Show Next Movie</Button>
-        <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {setCounter(count - 1)}}>Show Previous Movie</Button>
         </div>
+        <br></br>
     <div>
       <Card
         variant='outlined'
@@ -68,7 +101,7 @@ const MovieByRating:FC<any> = ({user}) => {
         <CardMedia
           component="img"
           height="194"
-          src={count < movieData.length ? movieData[count].thumbnailUrl : setCounter(0) }
+          src={movieData[count].thumbnailUrl}
           title="movie trailer"
         />
         <CardHeader
@@ -81,6 +114,8 @@ const MovieByRating:FC<any> = ({user}) => {
           </Typography>
         </CardContent>
       </Card>
+      <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {combinedFuncAdd()}}>Show Next Movie</Button>
+      <Button variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}} onClick={() => {combinedFuncSub()}}>Show Previous Movie</Button>
     </div>
       </div>
     )

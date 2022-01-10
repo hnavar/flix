@@ -3,6 +3,7 @@ import Button from '@mui/material/Button';
 import { TextField } from '@material-ui/core';
 import axios from "axios";
 import { useParams } from "react-router";
+import AddIcon from '@mui/icons-material/Add';
 
 
 
@@ -77,7 +78,7 @@ const SearchMovie:FC<any> = ({user}) => {
           <div>
             <h1 style={{color: 'white'}}> Title: {searchResults.title}</h1>
             <iframe width="1000" height="600" src={searchResults.linkEmbed} frameBorder="0"></iframe>
-            <Button type="submit" onClick={addMovieInfo} variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}}>Add movie to favorites</Button>
+            <Button type="submit" onClick={addMovieInfo} variant="contained" id="outlined-basic" style={{background: 'white', color: 'black'}}>Add to favorites +</Button>
             <h2 style={{color: 'white'}}>Plot: {searchResults.videoDescription}</h2>
             <h2 style={{color: 'white'}}>Release: {searchResults.year}</h2>
           </div>
