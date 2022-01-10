@@ -37,33 +37,17 @@ export const Login:FC<any> = ({user}) => {
     <TsParticles />
     {!currentUser ?
     <>
-    <Box>
-
-      <Grid
-        container
-        spacing={0}
-        direction="column"
-        alignItems="center"
-        justifyContent="center"
-        style={{ minHeight: '100vh' }}
-      >
-      <Grid item xs={3}>
-      <Card>
-        <CardMedia
-        background-color='#000000'
-        src='https://res.cloudinary.com/doruu9b3f/image/upload/v1641818928/snap_flixar_ngn5ui.png'>
-      <div>
-        <img src='https://res.cloudinary.com/doruu9b3f/image/upload/v1641818928/snap_flixar_ngn5ui.png' alt="flixar" />
-      </div>
-        <Button variant='contained' color='inherit'>
+        <div
+          style={{display: 'flex',  justifyContent:'center', alignItems:'center', height: '50vh'}}
+        >
+            <Button variant='contained' color='inherit'
+        style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}
+        >
           <a href="/auth/google">Login with Google</a>
         </Button>
-        </CardMedia>
-      </Card>
-      </Grid>
-    </Grid>
-
-    </Box>
+            <img src='https://res.cloudinary.com/doruu9b3f/image/upload/v1641818928/snap_flixar_ngn5ui.png' alt="flixar" />
+            
+        </div>
     </>
     :
     <>
