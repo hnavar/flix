@@ -1,6 +1,7 @@
 import React, {FC, useState, useEffect} from "react";
 import axios from 'axios';
-import { Button, TextField } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+
 import SingleTweet from './SingleTweet'
 
 interface currentMovie {
@@ -109,8 +110,8 @@ const Discover:FC<any> = ({user}) => {
         }
     }
     axios(options)
-        .then((res) => {
-            setTweets(res.data.data)
+        .then(({data}) => {
+          setTweets(data.data)
         })
     }
   
@@ -123,15 +124,26 @@ const Discover:FC<any> = ({user}) => {
       return (
         <div>
           <div>
-            <h1>Title: {!!currentMovie ? currentMovie.title : ''}</h1>
+            <h1
+              style={{color: 'white', textAlign: 'center'}}
+            >{!!currentMovie ? currentMovie.title : ''}</h1>
+            <div
+            style={{display: 'flex',  justifyContent:'center', alignItems:'center', height: '100vh'}}
+            >
             <iframe width="1000" height="600" src={!!currentMovie ? currentMovie.trailer_url: ''} frameBorder="0"></iframe>
+            </div>
             {/* <Button type="submit" onClick={()=>{}} variant="contained" id="outlined-basic" color="primary">Add movie</Button> */}
-            <h2>Plot: {!!currentMovie ? currentMovie.description : ''}</h2>
-            <h2>Release: {!!currentMovie ? currentMovie.release_date : ''}</h2>
+            <h2
+              style={{color: 'white', textAlign: 'center'}}
+            >{!!currentMovie ? currentMovie.description : ''}</h2>
+            <h2
+              style={{color: 'white', textAlign: 'center'}}
+            >Release Date: {!!currentMovie ? currentMovie.release_date : ''}</h2>
           </div>
         <Button 
           variant="contained" 
           color="secondary" 
+          style={{backgroundColor: 'purple'}}
           onClick={() => handleNextClick()}
         >
             Get a New Movie
@@ -139,6 +151,7 @@ const Discover:FC<any> = ({user}) => {
         <Button 
           variant="contained" 
           color="secondary" 
+          style={{backgroundColor: 'purple', float: 'right'}}
           onClick={() => handleSaveClick()}
         >
             Save movie
