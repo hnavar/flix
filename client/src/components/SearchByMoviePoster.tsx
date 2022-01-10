@@ -58,8 +58,6 @@ const SearchByMoviePoster:FC<any> = (props) => {
           <Button onClick={handleRemove}>Remove</Button>
           </div>
         )}
-        <br />
-        <br />
         <form
           style={{
             width: '100px',
