@@ -15,7 +15,7 @@ const DetectedText:FC<any> = (props) => {
         width: 'fit-content'
       }}
     >
-      <NavLink to={`/search?q=${text}`} style={{color: 'gold'}}>{text}</NavLink>
+      <NavLink to={`/search?q=${text}`} style={{color: 'gold', textDecoration: 'none'}}>{text}</NavLink>
     </div>
   );
 };
