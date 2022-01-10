@@ -41,8 +41,8 @@ const MovieDetail:FC = () => {
         className='movie-details'
         style={{
           color: 'white',
-          marginTop: '30px',
-          marginLeft: '30px'
+          margin: '30px',
+          width: '1000px'
         }}
       >
         <h1>{title}</h1>
