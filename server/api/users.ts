@@ -1,10 +1,13 @@
-import type { Response, Request } from 'express';
+import { Response, Request, response } from 'express';
 import { Router } from 'express';
 import axios from 'axios';
 import { userInfo } from 'os';
-import { addFavoriteMovie } from '../database';
+import { addFavoriteMovie, removeFavoriteActor } from '../database';
+import { uploadPhoto } from '../helpers/cloudinary';
+// import { Request } from 'aws-sdk';
+
 // import type {Request, Response} from 'express';
-import { addUser, updateUser, getUserById, getFavoriteMovies, getFavoriteActors, getFavoriteDirectors, getFavoriteGenres, removeFavoriteMovie, addUser_Movie } from '../database/index';
+import { addUser, updateUser, getUserById, getFavoriteMovies, getFavoriteActors, getFavoriteDirectors, getFavoriteGenres, removeFavoriteMovie, addUser_Movie, deleteUserMovie } from '../database/index';
 const UsersRouter = Router();
 
 UsersRouter.get('/:id', (req: Request, res: Response) => {
@@ -25,16 +28,17 @@ UsersRouter.post('/', (req: any, res: any) => {
     });
 });
 
+//Multi-purpose user patcher
 UsersRouter.patch('/:id', (req: Request, res: Response) => {
-  updateUser(req.body)
-    .then(() => {
-      console.log('Router: Updated User successfully');
-      res.sendStatus(200);
-    })
-    .catch((err: any) => {
-      console.log('Router: failed to update user.', err)
-    });
-});
+    updateUser(req.body, Number(req.params.id))
+        .then(() => {
+            console.log('Router: Updated User successfully');
+            res.sendStatus(200);
+        })
+        .catch((err: any) => {
+            console.log('Router: failed to update user.', err)
+        })
+})
 
 //User
 UsersRouter.post('/', (req: Request, res: Response) => {
@@ -96,6 +100,14 @@ UsersRouter.delete('/movies/:movieId/:userId', (req: Request, res: Response) => 
     .catch((err: any) => { res.sendStatus(500) });
 });
 
+// UsersRouter.delete('/actors/:id', (req: Request, res: Response) => {
+//     removeFavoriteActor(Number(req.params.id, req.params.id))
+//     .then(() => { res.sendStatus(200) })
+//     .catch((err: any) => { res.sendStatus(500) });
+// })
+
+
+
 UsersRouter.post('/user-movies', (req: any, res: any) => {
   addUser_Movie(req.body.movieId, req.body.userId)
     .then(() => {
@@ -108,6 +120,26 @@ UsersRouter.post('/user-movies', (req: any, res: any) => {
     });
 });
 
+// UsersRouter.delete('/user-movies', (req: any, res: any) => {
+//   removeUser_Movie(req.body.movieId, req.body.userId)
+//     .then(() => {
+//       console.log('Router: Deleted favorite movie.');
+//       res.sendStatus(201);
+//     })
+//     .catch((err: any) => {
+//       console.log('Router: Failed to remove favorite movie.', err);
+//       res.sendStatus(500);
+//     });
+// });
+
+UsersRouter.delete('/movies/destroy', (req: Request, res: Response) => {
+  // console.log(Number(req.params.movieId), Number(req.params.userId));
+  // removeFavoriteMovie(Number(req.params.movieId), Number(req.params.userId))
+  deleteUserMovie(req.body.userId, req.body.movieId)
+    .then(() => {
+      res.sendStatus(300)
+    })
+});
 
 
 export default UsersRouter;

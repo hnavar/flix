@@ -4,24 +4,15 @@ import useStyles from "../styles/profile.styles";
 import { PropTypes } from '@material-ui/core';
 import { useNavigate } from 'react-router';
 
+import UserPreferences from './UserPreferences';
+
 //MUI
 import {
-  AppBar,
-  Toolbar,
   IconButton,
-  Menu,
-  Container,
-  Button,
-  Tooltip,
-  MenuItem,
-  TextField,
-  Autocomplete,
-  CircularProgress,
   CardActionArea,
   Avatar,
   Stack,
   Typography,
-  Skeleton,
   Paper,
   Card,
   CardHeader,
@@ -61,9 +52,6 @@ interface ActorsObj {
 interface UserObj {
   [key: string] : any;
 }
-
-
-
 
 
 
@@ -110,7 +98,7 @@ const Profile:FC<any> = ({user}) => {
       setTimeout(() => {
           setCurrentUser(user);
           getAllFavorites(user.id);
-      }, 2000)
+      }, 100)
     }, [user]);
 
 //INDIVIDUAL UPDATE FUNCTIONS
@@ -169,22 +157,34 @@ const Profile:FC<any> = ({user}) => {
 
   //is there a way to set this up so that depending on whatever is clicked, that clicked item will be identified and passed
   //into the axios put request, instead of creating a request for each item type
-  const removeFavorite = () => {
-    console.log('hello');
-    console.log('target title', favoriteMovies.title);
-    axios.delete(`/api/users/movies/${currentUser.id}`)
-    .then(() => { console.log('Removed favorite')})
-    .catch(() => {console.log('Failed to remove')})
-  };
-  //
+  // const removeFavorite = (num:any) => {
+  //   console.log('hello');
+  //   console.log('target title', num);
+  //   axios.delete(`/api/users/movies/${currentUser.id}`)
+  //   .then(() => { console.log('Removed favorite')})
+  //   .catch(() => {console.log('Failed to remove')})
+  // };
 
+  const removeFavorite = (movie: any) => {
+    if(user) {
+      axios({
+        method: 'delete',
+        url: '/api/users/movies/destroy',
+        data: {
+          movieId: movie,
+          userId: user.id
+        }
+      });
+    }
+    getAllFavorites(currentUser.id);
+  }
 
 
   const handleClick = (e: SyntheticEvent) => {
-    // e.preventDefault();
-    console.log(e.target);
-    removeFavorite();
-
+    e.preventDefault();
+    console.log('target', e.target);
+    removeFavorite(e.target);
+    getAllFavorites(currentUser.id);
   };
 
   const navigate = useNavigate();
@@ -197,12 +197,12 @@ const Profile:FC<any> = ({user}) => {
   //Cover photo is static, requires s3 integration for this part
   return(
     <>
-      Profile
       <div>
       {!currentUser ? null :
       <><Card className={classes.root}>
-            <CardMedia className={classes.media} image={currentUser.profile_image_url} title="Cover" />
-            <Avatar src={currentUser.profile_image_url} className={classes.profileImage} />
+            <CardMedia className={classes.media} image={currentUser.profile_cover_photo_url} title="Cover" />
+            <Avatar sx={{width: 150, height: 150}}
+            src={currentUser.profile_image_url} className={classes.profileImage} />
             <div className={classes.profileInfoContainer}>
               <Typography
                 align={"center"}
@@ -223,12 +223,14 @@ const Profile:FC<any> = ({user}) => {
             </div>
             <CardContent className="user-contentcontainer">
               <div>
-                Favorite Movies row
+                <Typography variant='h6'>
+                  Your Favorite Movies
+                </Typography>
                 <Stack direction='row' spacing={2}>
-                  {!favoriteMovies ? null : favoriteMovies.map((movie: any, key: number) => {
+                  {!favoriteMovies ? <h1> User has no favorites </h1> : favoriteMovies.map((movie: any, key: number) => {
                     return (
                       <div>
-                        <ClearIcon onClick={() => handleClick(movie.id)} />
+                        <ClearIcon onClick={() => removeFavorite(movie.id)}/>
                         <Card sx={{ maxWidth: 345 }}>
                           <CardActionArea onClick={handleNavigate} >
                             <CardMedia
@@ -252,7 +254,9 @@ const Profile:FC<any> = ({user}) => {
           </Card>
 
           <div>
-              Favorite Actors row
+            <Typography variant='h6'>
+              Your Favorite Actors
+            </Typography>
               <Stack direction='row' spacing={2}>
                 {!favoriteActors ? null : favoriteActors.map((actor: any, key: number) => {
                   return (
@@ -268,6 +272,9 @@ const Profile:FC<any> = ({user}) => {
               </Stack>
             </div></>
 }
+</div>
+<div>
+  <UserPreferences user={currentUser} />
 </div>
 </>
 

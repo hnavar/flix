@@ -5,7 +5,7 @@ let WIDTH = window.screen.width;
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    minHeight: 700
+    minHeight: 700,
   },
   media: {
     height: HEIGHT / 3
@@ -14,9 +14,9 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     top: "-110px",
     justifyContent: "center",
-    width: theme.spacing(HEIGHT / 2),
-    height: theme.spacing(HEIGHT / 40),
-    border: "5px solid white",
+    width: "250px",
+    height: "250px",
+    border: "2px solid white",
     margin: "auto"
   },
   profileInfoContainer: {

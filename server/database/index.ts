@@ -380,15 +380,19 @@ export const addUser = async (user: any) => {
   }
 };
 
+interface updateElement {
+  [key: string]: string | boolean | number;
+}
 
-export const updateUser = async (updateElement: any, userId?: number) => {
+export const updateUser = async (updateElement: updateElement, userId: number) => {
   //update element is the object passed back that must have the key prop we want to update
   //ex: updateElement = { number: newNumber }, to update property 'number' on the user object where id = userId
   try {
     const updatedUser = await User.update(updateElement, { where: { id: userId }})
+    console.log('Index: Updated User')
     return updatedUser;
   }
-  catch(err) { console.log('Index: failed to update user.')}
+  catch(err) { console.error('Index: failed to update user.')}
 };
 
 export const addFavoriteMovie = async (userId: any, movie_id: any) => {
@@ -444,10 +448,19 @@ export const addMovie = async (movie: movieObj, userId?: number) => {
 
 export const removeFavoriteMovie = async (movie_id: any, userId: any) => {
   try {
-    await Users_Movies.destroy({where: { movie_id: movie_id }})
+    console.log('movie id to delete from join :', movie_id);
+    await Users_Movies.destroy({where: { movie_id: movie_id, user_id: userId }})
   }
   catch (err) { console.log('Unable to remove movie from user favorites.') }
 };
+
+export const removeFavoriteActor = async (actorId: any, userId: any) => {
+  try {
+    console.log('actor to remove from favs', actorId, userId);
+    await Users_Actors.destroy({where: { actorId: actorId, user_id: userId}});
+  }
+  catch (err) { console.log('Unable to remove user favorite actor.') }
+}
 
 export const addUser_Movie = async (movieId: number, userId: number) => {
   !!userId && Users_Movies.findOrCreate({
@@ -456,6 +469,28 @@ export const addUser_Movie = async (movieId: number, userId: number) => {
        movieId: movieId}
     });
 };
+
+// export const removeUser_Movie = async (movieId: number, userId: number) => {
+//   console.log('movieid', movieId, 'userid', userId );
+//   try{
+//   await Users_Movies.delete({
+//     where:
+//       {userId: userId,
+//        movieId: movieId}
+//     });
+//   }
+//   catch (err) { console.log('error removing movie from favs')}
+// };
+
+export const deleteUserMovie = async (userId: any, movieId: any) => {
+  Users_Movies.destroy({
+    where: {
+        // criteria
+        userId: userId,
+        movieId: movieId
+    }
+})
+}
 
 export const addActor = async (actor: string, movieId?: number, userId?: number) => {
   try {
