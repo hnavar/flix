@@ -15,6 +15,7 @@ const SearchByMoviePoster:FC<any> = (props) => {
     data.append('image', file, file.name);
     axios.post('/api/photos/detectText', data, {headers: {'Content-Type': 'multipart/form-data'}})
       .then(({data}) => {
+        console.log(data);
         setText(data.map((elem: any) => elem.description));
       })
       .catch((err: any) => {
@@ -61,7 +62,8 @@ const SearchByMoviePoster:FC<any> = (props) => {
         <br />
         <form
           style={{
-            width: '150px'
+            width: '100px',
+            marginLeft: '10px'
           }}
           encType="multipart/form-data"
         >
@@ -73,7 +75,7 @@ const SearchByMoviePoster:FC<any> = (props) => {
         </form>
         <div
           style={{
-            display: 'grid',
+            display: 'inline-table',
             marginRight: '30px'
           }}
         >
