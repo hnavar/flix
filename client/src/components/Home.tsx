@@ -46,19 +46,22 @@ const Home:FC = (props: any) => {
   const userId = props.user.id;
 
   const getGenres = () => {
-    axios.get(`/api/users/genres/${userId}`)
+    // axios.get(`/api/users/genres/${userId}`)
+    axios.get('/api/genres')
       .then(({data}) => setGenres(data))
       .catch(() => console.log('failed to get genres'));
   };
 
   const getDirectors = () => {
-    axios.get(`/api/users/directors/${userId}`)
+    // axios.get(`/api/users/directors/${userId}`)
+    axios.get(`/api/directors/`)
       .then(({data}) => setDirectors(data))
       .catch(() => console.log('failed to get directors'));
   };
 
   const getActors = () => {
-    axios.get(`/api/users/actors/${userId}`)
+    // axios.get(`/api/users/actors/${userId}`)
+    axios.get(`/api/actors`)
       .then(({data}) => setActors(data))
       .catch(() => console.log('failed to get actors'));
   };
@@ -131,10 +134,10 @@ const Home:FC = (props: any) => {
   };
 
   const buildCarousel = (moviesObj: MovieStorage) => {
-    return Object.keys(moviesObj).map((key) => {
+    return Object.keys(moviesObj).slice(0, 7).map((key) => {
       return (
         <div className="carousel-categories">
-          <h2 
+          <h2
             style={{
               color: "gold"
             }}
@@ -159,8 +162,7 @@ const Home:FC = (props: any) => {
   return (
     <div className='home-view'
       style={{
-        display: 'flex',
-        alignContent: 'flex-start'
+        margin: '10px'
       }}
     >
       <div className="genre-carousels">
