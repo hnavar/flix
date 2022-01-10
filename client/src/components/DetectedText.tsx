@@ -1,4 +1,3 @@
-import { Height } from '@material-ui/icons';
 import React, {FC} from 'react';
 import { NavLink } from 'react-router-dom';
 
