@@ -3,8 +3,6 @@ import axios from 'axios';
 import Carousel from "react-multi-carousel";
 import 'react-multi-carousel/lib/styles.css';
 import CarouselItem from './CarouselItem';
-import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
-import ArrowBackIosOutlinedIcon from '@mui/icons-material/ArrowBackIosOutlined';
 
 // using props:any because I'm not sure if I'll pass props to this component
 const Home:FC = (props: any) => {
@@ -44,21 +42,26 @@ const Home:FC = (props: any) => {
     id: number;
     genre: string;
   }
-  // need to replace :id with the user id
+
+  const userId = props.user.id;
+
   const getGenres = () => {
-    axios.get('/api/genres/')
+    // axios.get(`/api/users/genres/${userId}`)
+    axios.get('/api/genres')
       .then(({data}) => setGenres(data))
       .catch(() => console.log('failed to get genres'));
   };
-  // need to replace :id with the user id
+
   const getDirectors = () => {
-    axios.get('/api/directors/')
+    // axios.get(`/api/users/directors/${userId}`)
+    axios.get(`/api/directors/`)
       .then(({data}) => setDirectors(data))
       .catch(() => console.log('failed to get directors'));
   };
-  // need to replace :id with the user id
+
   const getActors = () => {
-    axios.get('/api/actors/')
+    // axios.get(`/api/users/actors/${userId}`)
+    axios.get(`/api/actors`)
       .then(({data}) => setActors(data))
       .catch(() => console.log('failed to get actors'));
   };
@@ -100,15 +103,15 @@ const Home:FC = (props: any) => {
   }, []);
 
   useEffect(() => {
-    getGenreMovies();
+    !!genres.length && getGenreMovies();
   }, [genres]);
 
   useEffect(() => {
-    getActorMovies();
+    !!actors.length && getActorMovies();
   }, [actors]);
 
   useEffect(() => {
-    getDirectorMovies();
+    !!directors.length && getDirectorMovies();
   }, [directors]);
 
   const responsive = {
@@ -131,11 +134,14 @@ const Home:FC = (props: any) => {
   };
 
   const buildCarousel = (moviesObj: MovieStorage) => {
-    // remove the slice here in production
-    return Object.keys(moviesObj).slice(0, 5).map((key) => {
+    return Object.keys(moviesObj).slice(0, 7).map((key) => {
       return (
-        <>
-          <h2 className="carousel-categories">{key}</h2>
+        <div className="carousel-categories">
+          <h2
+            style={{
+              color: "gold"
+            }}
+          >{key}</h2>
           <Carousel
             className={`${key}-carousels`}
             responsive={responsive}
@@ -148,13 +154,17 @@ const Home:FC = (props: any) => {
               moviesObj[key].map((movie: MovieObj) => <CarouselItem item={movie} key={movie.movie_id} />)
             }
           </Carousel>
-        </>
+        </div>
       );
     });
   }
 
   return (
-    <>
+    <div className='home-view'
+      style={{
+        margin: '10px'
+      }}
+    >
       <div className="genre-carousels">
         {!!Object.keys(genreMovies) && buildCarousel(genreMovies)}
       </div>
@@ -164,7 +174,7 @@ const Home:FC = (props: any) => {
       <div className="actors-carousels">
         {!!Object.keys(actorsMovies) && buildCarousel(actorsMovies)}
       </div>
-    </>
+    </div>
   )
 };
 
