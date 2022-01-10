@@ -167,17 +167,16 @@ const Profile:FC<any> = ({user}) => {
 
   const removeFavorite = (movie: any) => {
     if(user) {
-      console.log('movieid', movie)
-      console.log('user', user.id);
       axios({
         method: 'delete',
-        url: '/api/users/user-movies',
+        url: '/api/users/movies/destroy',
         data: {
           movieId: movie,
           userId: user.id
         }
       });
     }
+    getAllFavorites(currentUser.id);
   }
 
 
@@ -185,6 +184,7 @@ const Profile:FC<any> = ({user}) => {
     e.preventDefault();
     console.log('target', e.target);
     removeFavorite(e.target);
+    getAllFavorites(currentUser.id);
   };
 
   const navigate = useNavigate();
@@ -197,7 +197,6 @@ const Profile:FC<any> = ({user}) => {
   //Cover photo is static, requires s3 integration for this part
   return(
     <>
-      Profile
       <div>
       {!currentUser ? null :
       <><Card className={classes.root}>
@@ -224,7 +223,9 @@ const Profile:FC<any> = ({user}) => {
             </div>
             <CardContent className="user-contentcontainer">
               <div>
-                Favorite Movies row
+                <Typography variant='h6'>
+                  Your Favorite Movies
+                </Typography>
                 <Stack direction='row' spacing={2}>
                   {!favoriteMovies ? <h1> User has no favorites </h1> : favoriteMovies.map((movie: any, key: number) => {
                     return (
@@ -253,7 +254,9 @@ const Profile:FC<any> = ({user}) => {
           </Card>
 
           <div>
-              Favorite Actors row
+            <Typography variant='h6'>
+              Your Favorite Actors
+            </Typography>
               <Stack direction='row' spacing={2}>
                 {!favoriteActors ? null : favoriteActors.map((actor: any, key: number) => {
                   return (

@@ -7,7 +7,7 @@ import { uploadPhoto } from '../helpers/cloudinary';
 // import { Request } from 'aws-sdk';
 
 // import type {Request, Response} from 'express';
-import { addUser, updateUser, getUserById, getFavoriteMovies, getFavoriteActors, getFavoriteDirectors, getFavoriteGenres, removeFavoriteMovie, addUser_Movie, removeUser_Movie } from '../database/index';
+import { addUser, updateUser, getUserById, getFavoriteMovies, getFavoriteActors, getFavoriteDirectors, getFavoriteGenres, removeFavoriteMovie, addUser_Movie, deleteUserMovie } from '../database/index';
 const UsersRouter = Router();
 
 UsersRouter.get('/:id', (req: Request, res: Response) => {
@@ -120,19 +120,26 @@ UsersRouter.post('/user-movies', (req: any, res: any) => {
     });
 });
 
-UsersRouter.delete('/user-movies', (req: any, res: any) => {
-  removeUser_Movie(req.body.movieId, req.body.userId)
+// UsersRouter.delete('/user-movies', (req: any, res: any) => {
+//   removeUser_Movie(req.body.movieId, req.body.userId)
+//     .then(() => {
+//       console.log('Router: Deleted favorite movie.');
+//       res.sendStatus(201);
+//     })
+//     .catch((err: any) => {
+//       console.log('Router: Failed to remove favorite movie.', err);
+//       res.sendStatus(500);
+//     });
+// });
+
+UsersRouter.delete('/movies/destroy', (req: Request, res: Response) => {
+  // console.log(Number(req.params.movieId), Number(req.params.userId));
+  // removeFavoriteMovie(Number(req.params.movieId), Number(req.params.userId))
+  deleteUserMovie(req.body.userId, req.body.movieId)
     .then(() => {
-      console.log('Router: Deleted favorite movie.');
-      res.sendStatus(201);
+      res.sendStatus(300)
     })
-    .catch((err: any) => {
-      console.log('Router: Failed to remove favorite movie.', err);
-      res.sendStatus(500);
-    });
 });
-
-
 
 
 export default UsersRouter;

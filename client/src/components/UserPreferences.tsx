@@ -1,8 +1,22 @@
 import axios from 'axios';
 import React, { FC, useState, useEffect, SyntheticEvent } from 'react';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 import e from 'express';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import TabsList from '@material-ui/core';
+// import Panel from '@material-ui/core'
+// import Typography from '@material-ui/core'
 
+
+
+// const Panel = (props) => (
+//   <div hidden={props.value !== props.index}>
+//     <Typography>{props.children}</Typography>
+//   </div>
+// );
 
 
 const UserPreferences:FC<any> = ({user}) => {
@@ -13,6 +27,7 @@ const UserPreferences:FC<any> = ({user}) => {
   const [userPhoto, setUserPhoto] = useState<any>();
   const [coverPhoto, setCoverPhoto] = useState<any>();
   const [container, setContainer] = useState<any>();
+  const [tabsValue, setTabsValue] = useState<any>();
 
 
 
@@ -110,10 +125,43 @@ const UserPreferences:FC<any> = ({user}) => {
     first axios post the picture, then the returning data is to be an axios patch request to the user
     */
 
+
+  // const Test = () => {
+  //   return(
+  //     <>
+  //     This is a test
+  //     </>
+  //   );
+  // }
+
+  // const handleTabsValue = (event: React.SyntheticEvent, index: number) => {
+  //   setTabsValue(index);
+  // };
+
+  // const AgeTab:FC<any> = (value: any) => {
+  //   return (
+
+    // <div>
+    // <h3>Set age: {!currentUser ? null : currentUser.age}</h3>
+    // <form>
+    // <input
+    //     type='number'
+    //     name='myAge'
+    //     onChange={handleAgeChange}
+    //   />
+    // </form>
+    // <Button onClick={handleRemoveAge}>Submit age</Button>
+    // </div>
+
+  //   );
+  // }
+
+
+
   return(
     <>
     <div>
-    <h2>set age: {!currentUser ? null : currentUser.age}</h2>
+    <h3>Set age: {!currentUser ? null : currentUser.age}</h3>
     <form>
     <input
         type='number'
@@ -123,7 +171,8 @@ const UserPreferences:FC<any> = ({user}) => {
     </form>
     <Button onClick={handleRemoveAge}>Submit age</Button>
     </div>
-    <h1>profile photo</h1>
+
+    <h3>Upload a profile photo</h3>
     {!!userPhoto && (
       <div>
       <img alt="not found" width={"250px"} src={userPhoto} />
@@ -142,7 +191,7 @@ const UserPreferences:FC<any> = ({user}) => {
         onChange={handleProfilePhotoChange}
       />
     </form>
-    <h1>cover photo</h1>
+    <h3>Upload a cover photo</h3>
     {!!coverPhoto && (
       <div>
       <img alt="not found" width={"250px"} src={coverPhoto} />

@@ -470,18 +470,27 @@ export const addUser_Movie = async (movieId: number, userId: number) => {
     });
 };
 
-export const removeUser_Movie = async (movieId: number, userId: number) => {
-  console.log('movieid', movieId, 'userid', userId );
-  try{
-  await Users_Movies.delete({
-    where:
-      {userId: userId,
-       movieId: movieId}
-    });
-  }
-  catch (err) { console.log('error removing movie from favs')}
-};
+// export const removeUser_Movie = async (movieId: number, userId: number) => {
+//   console.log('movieid', movieId, 'userid', userId );
+//   try{
+//   await Users_Movies.delete({
+//     where:
+//       {userId: userId,
+//        movieId: movieId}
+//     });
+//   }
+//   catch (err) { console.log('error removing movie from favs')}
+// };
 
+export const deleteUserMovie = async (userId: any, movieId: any) => {
+  Users_Movies.destroy({
+    where: {
+        // criteria
+        userId: userId,
+        movieId: movieId
+    }
+})
+}
 
 export const addActor = async (actor: string, movieId?: number, userId?: number) => {
   try {
