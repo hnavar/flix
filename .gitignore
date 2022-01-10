@@ -1,5 +1,5 @@
 .env
-client/dist
+/client/dist
 /node_modules
 /tmp/
 
