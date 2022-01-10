@@ -33,19 +33,21 @@ const SearchByMoviePoster:FC<any> = (props) => {
       className='poster-search-dev'
       style={{
         marginLeft: '30px',
-        marginTop: '30px'
+        marginTop: '30px',
+        display: 'flex',
       }}
     >
       <div
         style={{
-          color: 'gold'
+          color: 'gold',
+          display: 'block'
         }}
       >
         <h1>Upload a Movie Poster to find More Details</h1>
       </div>
       <div
         style={{
-          display: 'flex',
+          display: 'inline-lex',
           alignItems: 'left',
           justifyContent: 'left',
           width: '60%',
@@ -73,7 +75,7 @@ const SearchByMoviePoster:FC<any> = (props) => {
       <div
         className='detected-text'
         style={{
-          display: 'flex',
+          display: 'inline-flex',
           alignItems: 'right',
           justifyContent: 'center',
           width: '40%'

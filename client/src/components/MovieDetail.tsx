@@ -37,12 +37,19 @@ const MovieDetail:FC = () => {
   } else {
     const {movie_id, title, release_date, description, trailer_url} = currentMovie;
     return (
-      <>
+      <div
+        className='movie-details'
+        style={{
+          color: 'white',
+          marginTop: '30px',
+          marginLeft: '30px'
+        }}
+      >
         <h1>{title}</h1>
         <h3>{release_date}</h3>
         <iframe width='1000' height='600' src={trailer_url} frameBorder='0'></iframe>
         <p>{description}</p>
-      </>
+      </div>
     );
   }
 };
