@@ -6,6 +6,7 @@
     "module": "commonJS",
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
+    "typeRoots" : ["node_modules/@types", "src/types"],
     "lib": [
       "dom",
       "esnext"
@@ -16,7 +17,7 @@
     "types": ["gapi", "gapi.auth2", "node"],
   },
   "include": [
-    "server/types/*.d.ts"
+    "server/types/*.d.ts",
   ],
   "exclude": [
     "node_modules"
