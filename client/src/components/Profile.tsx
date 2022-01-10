@@ -8,22 +8,11 @@ import UserPreferences from './UserPreferences';
 
 //MUI
 import {
-  AppBar,
-  Toolbar,
   IconButton,
-  Menu,
-  Container,
-  Button,
-  Tooltip,
-  MenuItem,
-  TextField,
-  Autocomplete,
-  CircularProgress,
   CardActionArea,
   Avatar,
   Stack,
   Typography,
-  Skeleton,
   Paper,
   Card,
   CardHeader,
