@@ -1,3 +1,4 @@
+import { Height } from '@material-ui/icons';
 import React, {FC} from 'react';
 import { NavLink } from 'react-router-dom';
 
@@ -19,11 +20,12 @@ const DetectedText:FC<any> = (props) => {
         borderRadius: '4px',
         background: 'rgb(51, 51, 51)',
         padding: '20px',
-        margin: '10px'
-
+        margin: '10px',
+        height: 'fit-content',
+        width: 'fit-content'
       }}
     >
-      <NavLink to={`/search?q=${text}`}>{text}</NavLink>
+      <NavLink to={`/search?q=${text}`} style={{color: 'gold'}}>{text}</NavLink>
     </div>
   );
 };

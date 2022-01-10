@@ -34,23 +34,20 @@ const SearchByMoviePoster:FC<any> = (props) => {
       style={{
         marginLeft: '30px',
         marginTop: '30px',
-        display: 'flex',
       }}
     >
       <div
         style={{
           color: 'gold',
-          display: 'block'
         }}
       >
         <h1>Upload a Movie Poster to find More Details</h1>
       </div>
       <div
         style={{
-          display: 'inline-lex',
+          display: 'inline-flex',
           alignItems: 'left',
           justifyContent: 'left',
-          width: '60%',
         }}
       >
         {!!image && (
@@ -63,6 +60,9 @@ const SearchByMoviePoster:FC<any> = (props) => {
         <br />
         <br />
         <form
+          style={{
+            width: '150px'
+          }}
           encType="multipart/form-data"
         >
           <input
@@ -71,21 +71,18 @@ const SearchByMoviePoster:FC<any> = (props) => {
             onChange={handleChange}
           />
         </form>
-      </div>
-      <div
-        className='detected-text'
-        style={{
-          display: 'inline-flex',
-          alignItems: 'right',
-          justifyContent: 'center',
-          width: '40%'
-        }}
-      >
-        {!!text && (
-          text.map((text, idx) => {
-            return <DetectedText key={idx} text={text} />;
-          })
-        )}
+        <div
+          style={{
+            display: 'grid',
+            marginRight: '30px'
+          }}
+        >
+          {!!text && (
+            text.map((text, idx) => {
+              return <DetectedText key={idx} text={text} />;
+            })
+          )}
+        </div>
       </div>
     </div>
   );
