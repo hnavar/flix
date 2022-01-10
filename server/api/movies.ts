@@ -105,8 +105,8 @@ MoviesRouter.get('/moviesByRatingPG', (req: Request, res: Response) => {
      .then((data: any) => {
        res.send(data);
      }).catch((error: string) => {
-       console.log(error);
-       res.status(500).end();
+       console.error(error);
+       res.sendStatus(500);
      });
    });
 
@@ -115,8 +115,8 @@ MoviesRouter.get('/moviesByRatingPG', (req: Request, res: Response) => {
      .then((data: any) => {
        res.send(data);
      }).catch((error: any) => {
-       console.log(error);
-       res.status(500).end();
+       console.error(error);
+       res.sendStatus(500);
      });
    });
 
@@ -125,8 +125,8 @@ MoviesRouter.get('/moviesByRatingPG', (req: Request, res: Response) => {
      .then((data: any) => {
       res.status(200).send(data);
      }).catch((error: any) => {
-       console.log(error);
-       res.status(500).end();
+       console.error(error);
+       res.sendStatus(500);
      });
    });
 
@@ -135,12 +135,12 @@ MoviesRouter.get('/moviesByRatingPG', (req: Request, res: Response) => {
      .then((data: any) => {
       res.status(200).send(data);
      }).catch((error: any) => {
-       console.log(error);
-       res.status(500).end();
+       console.error(error);
+       res.sendStatus(500);
      });
    });
 
-   MoviesRouter.post('/moviesByActorOrDirectors', (req: Request, res: Response) => {
+  MoviesRouter.post('/moviesByActorOrDirectors', (req: Request, res: Response) => {
     return grabActorOrDirectorID(req.body.name)
         .then((data: any) => {
           return data;
@@ -151,8 +151,8 @@ MoviesRouter.get('/moviesByRatingPG', (req: Request, res: Response) => {
        res.send(data);
      })
      .catch((error: any) => {
-       console.log(error);
-       res.status(500).end();
+       console.error(error);
+       res.sendStatus(500);
      });
    });
 
@@ -168,7 +168,7 @@ MoviesRouter.get('/:id', (req: Request, res: Response) => {
     .catch((err: any) => {
       console.error(err);
       res.sendStatus(500);
-    })
+    });
 });
 
 MoviesRouter.get('/moviesByRatingPG', (req: Request, res: Response) => {
@@ -176,8 +176,8 @@ MoviesRouter.get('/moviesByRatingPG', (req: Request, res: Response) => {
      .then((data: any) => {
        res.status(200).send(data);
      }).catch((error: string) => {
-       console.log(error);
-       res.status(500).end();
+       console.error(error);
+       res.sendStatus(500);
      });
    });
 
@@ -186,8 +186,8 @@ MoviesRouter.get('/moviesByRatingG', (req: Request, res: Response) => {
        .then((data: any) => {
         res.status(200).send(data);
        }).catch((error: string) => {
-         console.log(error);
-         res.status(500).end();
+         console.error(error);
+         res.sendStatus(500);
        });
      });
 
@@ -196,7 +196,7 @@ MoviesRouter.post('/search', (req: Request, res: Response) => {
     .then((data: any) => {
       res.status(201).send(data);
     }).catch((error: any) => {
-      console.log(error);
+      console.error(error);
       res.sendStatus(500);
     })
 })
