@@ -24,6 +24,14 @@ module.exports = {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
       },
+      {
+        test: /\.(png|jpg|jpeg|gif)$/i,
+        loader: "file-loader",
+
+        options: {
+          name: "client/src/images[name].[ext]"
+        }
+      },
     ]
   },
   devtool: prod ? undefined : 'source-map',

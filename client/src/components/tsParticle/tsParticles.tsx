@@ -24,7 +24,7 @@ const TsParticles:FC<any> = () => {
       options={{
         background: {
           color: {
-            value: '#000000',
+            value: '#262626',
           },
         },
         fpsLimit: 45,
