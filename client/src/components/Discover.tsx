@@ -1,8 +1,15 @@
 import React, {FC, useState, useEffect} from "react";
 import axios from 'axios';
-import Button from '@material-ui/core/Button';
-
 import SingleTweet from './SingleTweet'
+
+//MUI
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import Stack from '@mui/material/Stack';
+import Container from '@mui/material/Container';
+import Box from '@material-ui/core/Box';
+import Card from '@material-ui/core/Card';
+import CardMedia from '@material-ui/core/CardMedia';
 
 interface currentMovie {
   id: number;
@@ -51,7 +58,7 @@ const Discover:FC<any> = ({user}) => {
           setDirectorsList(result)
         })
     }
-  
+
     const getActorsList = () => {
       axios('/api/actors/')
         .then(({data}) => {
@@ -59,16 +66,16 @@ const Discover:FC<any> = ({user}) => {
           setActorsList(result)
         })
     }
-  
+
     const getMovieList = () => {
       axios('/api/movies/')
         .then(({data}) => {
-  
+
           // const result = data.map((movie: any) => movie.actor_name);
           setMovieList(data)
         })
     }
-  
+
     const getRandomMovie = () => {
       axios('/api/movies/')
           .then((data) => {
@@ -78,7 +85,7 @@ const Discover:FC<any> = ({user}) => {
             getTweets();
           })
     }
-  
+
     const saveMovie = () => {
       if(user) {
         axios({
@@ -114,8 +121,8 @@ const Discover:FC<any> = ({user}) => {
           setTweets(data.data)
         })
     }
-  
-  
+
+
       useEffect(() => {
         getRandomMovie();
         setCurrentUser(user);
@@ -124,33 +131,48 @@ const Discover:FC<any> = ({user}) => {
       return (
         <div>
           <div>
-            <h1
-              style={{color: 'white', textAlign: 'center'}}
-            >{!!currentMovie ? currentMovie.title : ''}</h1>
-            <div
-            style={{display: 'flex',  justifyContent:'center', alignItems:'center', height: '100vh'}}
-            >
-            <iframe width="1000" height="600" src={!!currentMovie ? currentMovie.trailer_url: ''} frameBorder="0"></iframe>
-            </div>
-            {/* <Button type="submit" onClick={()=>{}} variant="contained" id="outlined-basic" color="primary">Add movie</Button> */}
-            <h2
-              style={{color: 'white', textAlign: 'center'}}
-            >{!!currentMovie ? currentMovie.description : ''}</h2>
-            <h2
-              style={{color: 'white', textAlign: 'center'}}
-            >Release Date: {!!currentMovie ? currentMovie.release_date : ''}</h2>
+            <Stack direction='column' spacing={4}>
+              <Typography variant='h1' align='center'>
+              {!!currentMovie ? currentMovie.title : ''}
+              </Typography>
+              {/* <div
+              style={{display: 'flex',  justifyContent:'center', alignItems:'center', height: '100vh'}}
+              >
+              <iframe width="1000" height="600" src={!!currentMovie ? currentMovie.trailer_url: ''} frameBorder="0"></iframe>
+              </div> */}
+              <Container>
+                <Card>
+                    <CardMedia
+                      component='iframe'
+                      height='600'
+                      width='800'
+                      src={!!currentMovie ? currentMovie.trailer_url: ''}
+                    />
+                </Card>
+              </Container>
+
+              <Typography variant='h4' align='center'>
+              {!!currentMovie ? currentMovie.description : ''}
+              </Typography>
+
+              <Typography variant='h2' align='center'>
+              Release Date: {!!currentMovie ? currentMovie.release_date : ''}
+              </Typography>
+            </Stack>
           </div>
-        <Button 
-          variant="contained" 
-          color="secondary" 
+
+
+        <Button
+          variant="contained"
+          color="secondary"
           style={{backgroundColor: 'purple'}}
           onClick={() => handleNextClick()}
         >
             Get a New Movie
         </Button>
-        <Button 
-          variant="contained" 
-          color="secondary" 
+        <Button
+          variant="contained"
+          color="secondary"
           style={{backgroundColor: 'purple', float: 'right'}}
           onClick={() => handleSaveClick()}
         >

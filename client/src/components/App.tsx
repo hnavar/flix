@@ -9,6 +9,11 @@ import TsParticles from './tsParticle/tsParticles';
 import Theme from './Theme';
 import { ThemeProvider, createTheme } from '@material-ui/core/styles';
 import Switch from '@mui/material/Switch';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Paper from '@material-ui/core/Paper';
+
+import styles from '../styles/styles';
+
 
 
 
@@ -16,24 +21,26 @@ import Switch from '@mui/material/Switch';
 
 const App:FC = () => {
   const [currentUser, setCurrentUser] = useState<any>();
-  const [currentTheme, setCurrentTheme] = useState<any>(false);
+  const [currentTheme, setCurrentTheme] = useState<any>();
 
 
   const theme = createTheme({
     palette: {
-      type: currentTheme ? 'dark' : 'light'
-    }
-  })
+      type: currentTheme ? 'dark' : 'light',
+    },
+})
 
   const getLoggedInUser = () => {
     axios.get('/verify')
       .then(({data}) => {
+        console.log(data);
         setCurrentUser(data);
       })
       .catch((err) => {
         console.log('Unable to verify user', err);
       });
   };
+
 
 
 
@@ -50,10 +57,10 @@ const App:FC = () => {
       : (<>
           <Login user={currentUser} />
           <ThemeProvider theme={theme}>
+            <Paper>
+            <CssBaseline />
             <Switch checked={currentTheme} onChange={() => setCurrentTheme(!currentTheme)}/>
-
           <NavigationBar />
-
           <TsParticles />
           <Routes>
             {Paths.map((route: any, index: number) => {
@@ -65,6 +72,7 @@ const App:FC = () => {
             <Route path='movies/:id' element={<MovieDetail />} />
             <Route path="*" element={<h2>404: Not found</h2>} />
           </Routes>
+          </Paper>
           </ThemeProvider>
         </>
       )}
