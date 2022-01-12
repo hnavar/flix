@@ -25,10 +25,8 @@ const Theme:FC = () => {
     <>
     <ThemeProvider theme={theme}>
       <Switch checked={dark} onChange={() => setDark(!dark)} />
-      <Paper>
-        <Typography variant='h1'>This is h1 test text</Typography>
-      </Paper>
-      </ThemeProvider>
+
+    </ThemeProvider>
     </>
   );
 };

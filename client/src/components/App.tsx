@@ -7,10 +7,23 @@ import axios from 'axios';
 import Login from './Login';
 import TsParticles from './tsParticle/tsParticles';
 import Theme from './Theme';
+import { ThemeProvider, createTheme } from '@material-ui/core/styles';
+import Switch from '@mui/material/Switch';
+
+
+
 
 
 const App:FC = () => {
   const [currentUser, setCurrentUser] = useState<any>();
+  const [currentTheme, setCurrentTheme] = useState<any>(false);
+
+
+  const theme = createTheme({
+    palette: {
+      type: currentTheme ? 'dark' : 'light'
+    }
+  })
 
   const getLoggedInUser = () => {
     axios.get('/verify')
@@ -36,8 +49,11 @@ const App:FC = () => {
       ? <Login />
       : (<>
           <Login user={currentUser} />
-          <Theme />
+          <ThemeProvider theme={theme}>
+            <Switch checked={currentTheme} onChange={() => setCurrentTheme(!currentTheme)}/>
+
           <NavigationBar />
+
           <TsParticles />
           <Routes>
             {Paths.map((route: any, index: number) => {
@@ -49,6 +65,7 @@ const App:FC = () => {
             <Route path='movies/:id' element={<MovieDetail />} />
             <Route path="*" element={<h2>404: Not found</h2>} />
           </Routes>
+          </ThemeProvider>
         </>
       )}
     </>
