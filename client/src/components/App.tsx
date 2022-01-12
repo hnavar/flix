@@ -6,6 +6,7 @@ import MovieDetail from './MovieDetail';
 import axios from 'axios';
 import Login from './Login';
 import TsParticles from './tsParticle/tsParticles';
+import Theme from './Theme';
 
 
 const App:FC = () => {
@@ -35,6 +36,7 @@ const App:FC = () => {
       ? <Login />
       : (<>
           <Login user={currentUser} />
+          <Theme />
           <NavigationBar />
           <TsParticles />
           <Routes>
