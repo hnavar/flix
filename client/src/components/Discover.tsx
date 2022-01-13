@@ -141,30 +141,24 @@ const Discover:FC<any> = ({user}) => {
               <Typography variant='h1' align='center'>
               {!!currentMovie ? currentMovie.title : ''}
               </Typography>
-              {/* <div
-              style={{display: 'flex',  justifyContent:'center', alignItems:'center', height: '100vh'}}
-              >
-              <iframe width="1000" height="600" src={!!currentMovie ? currentMovie.trailer_url: ''} frameBorder="0"></iframe>
-              </div> */}
-              {/* <Container>
-              {/* <Grid>
-                <div></div>
-                <Card sx={maxWidth: 500}{}>
+
+
+                {/*
+                <div>
+                <Card style={{width: '800', height: '600'}}>
                     <CardMedia
-                      // style={{ width: '800', height: '600'}}
                       component='iframe'
-                      height='600'
-                      width='800'
                       src={!!currentMovie ? currentMovie.trailer_url: 'https://res.cloudinary.com/doruu9b3f/image/upload/v1641818928/snap_flixar_ngn5ui.png'}
                     />
-                </Card> */}
+                </Card>
+                </div> */}
               <div
               style={{display: 'flex',  justifyContent:'center', alignItems:'center', height: 'auto'}}
               >
               <iframe width="1000" height="600" src={!!currentMovie ? currentMovie.trailer_url: ''} frameBorder="0"></iframe>
               </div>
-              {/* </Grid> */}
-              {/* </Container> */}
+
+
               <Grid item xs='auto'>
                 <Typography variant='h4' align='center'>
                 {!!currentMovie ? currentMovie.description : ''}
@@ -205,10 +199,8 @@ const Discover:FC<any> = ({user}) => {
                         </Box>
                         );
             })
-
             }
         </div>
-
       </div>
     )
   };
