@@ -1,8 +1,16 @@
 import React, {FC, useState, useEffect} from "react";
 import axios from 'axios';
-import Button from '@material-ui/core/Button';
-
 import SingleTweet from './SingleTweet'
+
+//MUI
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import Stack from '@mui/material/Stack';
+import Container from '@mui/material/Container';
+import Box from '@material-ui/core/Box';
+import Card from '@material-ui/core/Card';
+import CardMedia from '@material-ui/core/CardMedia';
+import Grid from '@material-ui/core/Grid';
 
 interface currentMovie {
   id: number;
@@ -51,7 +59,7 @@ const Discover:FC<any> = ({user}) => {
           setDirectorsList(result)
         })
     }
-  
+
     const getActorsList = () => {
       axios('/api/actors/')
         .then(({data}) => {
@@ -59,16 +67,16 @@ const Discover:FC<any> = ({user}) => {
           setActorsList(result)
         })
     }
-  
+
     const getMovieList = () => {
       axios('/api/movies/')
         .then(({data}) => {
-  
+
           // const result = data.map((movie: any) => movie.actor_name);
           setMovieList(data)
         })
     }
-  
+
     const getRandomMovie = () => {
       axios('/api/movies/')
           .then((data) => {
@@ -78,7 +86,7 @@ const Discover:FC<any> = ({user}) => {
             getTweets();
           })
     }
-  
+
     const saveMovie = () => {
       if(user) {
         axios({
@@ -114,8 +122,8 @@ const Discover:FC<any> = ({user}) => {
           setTweets(data.data)
         })
     }
-  
-  
+
+
       useEffect(() => {
         getRandomMovie();
         setCurrentUser(user);
@@ -124,33 +132,49 @@ const Discover:FC<any> = ({user}) => {
       return (
         <div>
           <div>
-            <h1
-              style={{color: 'white', textAlign: 'center'}}
-            >{!!currentMovie ? currentMovie.title : ''}</h1>
-            <div
-            style={{display: 'flex',  justifyContent:'center', alignItems:'center', height: '100vh'}}
-            >
-            <iframe width="1000" height="600" src={!!currentMovie ? currentMovie.trailer_url: ''} frameBorder="0"></iframe>
-            </div>
-            {/* <Button type="submit" onClick={()=>{}} variant="contained" id="outlined-basic" color="primary">Add movie</Button> */}
-            <h2
-              style={{color: 'white', textAlign: 'center'}}
-            >{!!currentMovie ? currentMovie.description : ''}</h2>
-            <h2
-              style={{color: 'white', textAlign: 'center'}}
-            >Release Date: {!!currentMovie ? currentMovie.release_date : ''}</h2>
+            <Grid container
+                  direction='column'
+                  justifyContent="center"
+                  alignItems='center'
+                  spacing={1}
+                  >
+              <Typography variant='h1' align='center'>
+              {!!currentMovie ? currentMovie.title : ''}
+              </Typography>
+
+              <Card
+                  style={{display: 'flex',  justifyContent:'center', alignItems:'center', height: 'auto', width: 'auto'}}
+              >
+              <iframe width="860"
+                      height="600"
+                      src={!!currentMovie ? currentMovie.trailer_url: 'https://res.cloudinary.com/doruu9b3f/image/upload/v1641818928/snap_flixar_ngn5ui.png'} frameBorder="0">
+              </iframe>
+              </Card>
+
+              <Grid item xs='auto'>
+                <Typography variant='h4' align='center'>
+                {!!currentMovie ? currentMovie.description : ''}
+                </Typography>
+              </Grid>
+
+              <Typography variant='h5' align='center'>
+              Release Date: {!!currentMovie ? currentMovie.release_date : ''}
+              </Typography>
+            </Grid>
           </div>
-        <Button 
-          variant="contained" 
-          color="secondary" 
+
+
+        <Button
+          variant="contained"
+          color="secondary"
           style={{backgroundColor: 'purple'}}
           onClick={() => handleNextClick()}
         >
             Get a New Movie
         </Button>
-        <Button 
-          variant="contained" 
-          color="secondary" 
+        <Button
+          variant="contained"
+          color="secondary"
           style={{backgroundColor: 'purple', float: 'right'}}
           onClick={() => handleSaveClick()}
         >
@@ -160,12 +184,15 @@ const Discover:FC<any> = ({user}) => {
         <div className="TwitterTweets">
             {tweets.map((tweet: any) => {
                 // {console.log(tweet)}
-                return <SingleTweet key={tweet.id} text={tweet.text}/>
+                return (<Box sx={{border: 1, borderColor: "primary.main"}}>
+                          <Typography variant='h6'>
+                            <SingleTweet key={tweet.id} text={tweet.text}/>
+                          </Typography>
+                        </Box>
+                        );
             })
-
             }
         </div>
-
       </div>
     )
   };
