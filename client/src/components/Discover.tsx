@@ -10,6 +10,7 @@ import Container from '@mui/material/Container';
 import Box from '@material-ui/core/Box';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
+import Grid from '@material-ui/core/Grid';
 
 interface currentMovie {
   id: number;
@@ -131,7 +132,12 @@ const Discover:FC<any> = ({user}) => {
       return (
         <div>
           <div>
-            <Stack direction='column' spacing={4}>
+            <Grid container
+                  direction='column'
+                  justifyContent="center"
+                  alignItems='center'
+                  spacing={1}
+                  >
               <Typography variant='h1' align='center'>
               {!!currentMovie ? currentMovie.title : ''}
               </Typography>
@@ -140,25 +146,35 @@ const Discover:FC<any> = ({user}) => {
               >
               <iframe width="1000" height="600" src={!!currentMovie ? currentMovie.trailer_url: ''} frameBorder="0"></iframe>
               </div> */}
-              <Container>
-                <Card>
+              {/* <Container>
+              {/* <Grid>
+                <div></div>
+                <Card sx={maxWidth: 500}{}>
                     <CardMedia
+                      // style={{ width: '800', height: '600'}}
                       component='iframe'
                       height='600'
                       width='800'
-                      src={!!currentMovie ? currentMovie.trailer_url: ''}
+                      src={!!currentMovie ? currentMovie.trailer_url: 'https://res.cloudinary.com/doruu9b3f/image/upload/v1641818928/snap_flixar_ngn5ui.png'}
                     />
-                </Card>
-              </Container>
+                </Card> */}
+              <div
+              style={{display: 'flex',  justifyContent:'center', alignItems:'center', height: 'auto'}}
+              >
+              <iframe width="1000" height="600" src={!!currentMovie ? currentMovie.trailer_url: ''} frameBorder="0"></iframe>
+              </div>
+              {/* </Grid> */}
+              {/* </Container> */}
+              <Grid item xs='auto'>
+                <Typography variant='h4' align='center'>
+                {!!currentMovie ? currentMovie.description : ''}
+                </Typography>
+              </Grid>
 
-              <Typography variant='h4' align='center'>
-              {!!currentMovie ? currentMovie.description : ''}
-              </Typography>
-
-              <Typography variant='h2' align='center'>
+              <Typography variant='h5' align='center'>
               Release Date: {!!currentMovie ? currentMovie.release_date : ''}
               </Typography>
-            </Stack>
+            </Grid>
           </div>
 
 
@@ -182,7 +198,12 @@ const Discover:FC<any> = ({user}) => {
         <div className="TwitterTweets">
             {tweets.map((tweet: any) => {
                 // {console.log(tweet)}
-                return <SingleTweet key={tweet.id} text={tweet.text}/>
+                return (<Box sx={{border: 1, borderColor: "primary.main"}}>
+                          <Typography variant='h6'>
+                            <SingleTweet key={tweet.id} text={tweet.text}/>
+                          </Typography>
+                        </Box>
+                        );
             })
 
             }
