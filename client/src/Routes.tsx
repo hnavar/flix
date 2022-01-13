@@ -6,6 +6,7 @@ import MoviesByPerson from "./components/MoviesByPerson";
 import Profile from './components/Profile';
 import Discover from "./components/Discover";
 import SearchByMoviePoster from "./components/SearchByMoviePoster";
+import Logout from './components/Logout';
 
 const Paths = [
   {
