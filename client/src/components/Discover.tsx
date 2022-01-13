@@ -142,22 +142,14 @@ const Discover:FC<any> = ({user}) => {
               {!!currentMovie ? currentMovie.title : ''}
               </Typography>
 
-
-                {/*
-                <div>
-                <Card style={{width: '800', height: '600'}}>
-                    <CardMedia
-                      component='iframe'
-                      src={!!currentMovie ? currentMovie.trailer_url: 'https://res.cloudinary.com/doruu9b3f/image/upload/v1641818928/snap_flixar_ngn5ui.png'}
-                    />
-                </Card>
-                </div> */}
-              <div
-              style={{display: 'flex',  justifyContent:'center', alignItems:'center', height: 'auto'}}
+              <Card
+                  style={{display: 'flex',  justifyContent:'center', alignItems:'center', height: 'auto', width: 'auto'}}
               >
-              <iframe width="1000" height="600" src={!!currentMovie ? currentMovie.trailer_url: ''} frameBorder="0"></iframe>
-              </div>
-
+              <iframe width="860"
+                      height="600"
+                      src={!!currentMovie ? currentMovie.trailer_url: 'https://res.cloudinary.com/doruu9b3f/image/upload/v1641818928/snap_flixar_ngn5ui.png'} frameBorder="0">
+              </iframe>
+              </Card>
 
               <Grid item xs='auto'>
                 <Typography variant='h4' align='center'>
