@@ -46,12 +46,12 @@ export const Login:FC<any> = ({user}) => {
           <a href="/auth/google">Login with Google</a>
         </Button>
             <img src='https://res.cloudinary.com/doruu9b3f/image/upload/v1641818928/snap_flixar_ngn5ui.png' alt="flixar" />
-            
+
         </div>
     </>
     :
     <>
-    <a href="/logout">Logout</a>
+    {null}
     </>
     }
   </div>

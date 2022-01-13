@@ -6,6 +6,7 @@ import { AppBar, Toolbar, Typography, IconButton, Drawer, MenuList, MenuItem, Li
 import MenuIcon from '@material-ui/icons/Menu';
 
 import Paths from '../Routes';
+import Logout from './Logout';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -93,6 +94,7 @@ const NavigationBar:FC = (props: any) => {
                 </NavLink>
               );
             })}
+            <Logout />
           </MenuList>
         </div>
       </Drawer>
