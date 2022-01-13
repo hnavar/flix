@@ -39,6 +39,8 @@ const UserPreferences:FC<any> = ({user}) => {
       .catch((err: any) => { console.log('Unable to update age.') });
   };
 
+
+
   const handleProfilePhotoChange = (e: SyntheticEvent) => {
     e.preventDefault();
     const file = (e.target as HTMLInputElement).files![0];
@@ -58,6 +60,8 @@ const UserPreferences:FC<any> = ({user}) => {
         console.error(err);
       });
   };
+
+
 
   const getLoggedInUser = () => {
     axios.get('/verify')
@@ -84,26 +88,23 @@ const UserPreferences:FC<any> = ({user}) => {
     //set image to user cover photo entry
     axios.post('/api/photos/imgUpload', data, {headers: {'Content-Type': 'multipart/form-data'}})
       .then(({data}) => {
-        console.log('imageurl', data)
+        // setCoverPhoto(data.profile_cover_photo_url);
+        console.log('imageurl', data.profile_cover_photo_url)
         //patch user with new url
         axios.patch(`/api/users/${currentUser.id}`, {profile_cover_photo_url: data})
         .then(() => {
+          // axios.get(`/api/users/${currentUser.id}`)
           console.log('updated cover photo') });
         })
         .catch((err: any) => {
           console.log('error POSTing file');
           console.error(err);
         })
-        .finally(() => {
-          console.log('finally coverphoto', coverPhoto);
-          //get the currently logged in user again, after the image value updates
-          getLoggedInUser();
-        })
-      };
+
+  };
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-
   };
 
   const handleProfileRemove = (e: SyntheticEvent) => {
@@ -126,41 +127,10 @@ const UserPreferences:FC<any> = ({user}) => {
     */
 
 
-  // const Test = () => {
-  //   return(
-  //     <>
-  //     This is a test
-  //     </>
-  //   );
-  // }
-
-  // const handleTabsValue = (event: React.SyntheticEvent, index: number) => {
-  //   setTabsValue(index);
-  // };
-
-  // const AgeTab:FC<any> = (value: any) => {
-  //   return (
-
-    // <div>
-    // <h3>Set age: {!currentUser ? null : currentUser.age}</h3>
-    // <form>
-    // <input
-    //     type='number'
-    //     name='myAge'
-    //     onChange={handleAgeChange}
-    //   />
-    // </form>
-    // <Button onClick={handleRemoveAge}>Submit age</Button>
-    // </div>
-
-  //   );
-  // }
-
-
-
   return(
     <>
     <div>
+    <img src={coverPhoto} />
     <h3>Set age: {!currentUser ? null : currentUser.age}</h3>
     <form>
     <input

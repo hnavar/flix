@@ -21,7 +21,7 @@ import styles from '../styles/styles';
 
 const App:FC = () => {
   const [currentUser, setCurrentUser] = useState<any>();
-  const [currentTheme, setCurrentTheme] = useState<any>();
+  const [currentTheme, setCurrentTheme] = useState<boolean>(false);
 
 
   const theme = createTheme({
@@ -35,20 +35,35 @@ const App:FC = () => {
       .then(({data}) => {
         console.log(data);
         setCurrentUser(data);
+        setCurrentTheme(data.theme);
       })
       .catch((err) => {
         console.log('Unable to verify user', err);
       });
   };
 
+  const setUserTheme = () => {
+    axios.patch(`/api/users/${currentUser.id}`, {theme: !currentTheme})
+    .then(() => {
+      console.log('Updated user theme', currentTheme)
+      setCurrentTheme(!currentTheme);
 
+    })
+    .catch((err: any) => { console.log('Unable to update user theme')})
+  }
 
+  const handleTheme = () => {
+    console.log('theme clicked')
+    // setCurrentTheme(!currentTheme);
+    setUserTheme();
+  }
 
 // currentUser.photos[0].value
   //this only needs to run once, will update when the user logs out and is redirected to login page.
   useEffect(() => {
     getLoggedInUser();
   }, []);
+
 
   return (
     <>
@@ -59,8 +74,9 @@ const App:FC = () => {
           <ThemeProvider theme={theme}>
             <Paper>
             <CssBaseline />
-            <Switch checked={currentTheme} onChange={() => setCurrentTheme(!currentTheme)}/>
-          <NavigationBar />
+            <Switch checked={currentTheme} onChange={() => handleTheme()}/>
+
+          <NavigationBar/>
           <TsParticles />
           <Routes>
             {Paths.map((route: any, index: number) => {

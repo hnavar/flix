@@ -52,7 +52,10 @@ const User = db.define('user', {
   profile_image_url: Sequelize.STRING,
   profile_cover_photo_url: Sequelize.STRING,
   sessionID: Sequelize.STRING,
-  theme: Sequelize.BOOLEAN,
+  theme:{
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
+  },
   age: Sequelize.INTEGER
 });
 // insert into users (id, username, email_Oauth, twitter_Oauth, twitter_user_name, first_name, last_name, profile_image_url, age) values (1, 'sbelete01', 'sbelete01@gmail.com', 1234, 'sbelete_twitter', 'sam', 'belete', 'image_url', 21);
