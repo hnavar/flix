@@ -68,19 +68,6 @@ export const Login:FC<any> = ({user}) => {
       </Paper>
     </Grid>
 
-
-
-        {/* <div
-          style={{display: 'flex',  justifyContent:'center', alignItems:'center', height: '50vh'}}
-        >
-            <Button variant='contained' color='inherit'
-        style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}
-        >
-          <a href="/auth/google">Login with Google</a>
-        </Button>
-            <img src='https://res.cloudinary.com/doruu9b3f/image/upload/v1641818928/snap_flixar_ngn5ui.png' alt="flixar" />
-
-        </div> */}
     </>
     :
     <>
@@ -90,23 +77,6 @@ export const Login:FC<any> = ({user}) => {
   </div>
   </>
 
-
-
-
-    // <div style={{ padding: 30 }}>
-    //   <Paper>
-    //     <Grid container
-    //           spacing={3}
-    //           direction={'column'}
-    //           justify={'center'}
-    //           alignItems={'center'}
-    //           >
-    //   {!currentUser ? <a href="/auth/google">Login with Google</a> : <a href="/logout">Logout</a> }
-    //     </Grid>
-    //   </Paper>
-    //   <br/>
-    // </div>
-    // </>
   );
 };
 
