@@ -63,6 +63,7 @@ app.use('/api/photos', PhotosRouter);
 app.use(cookieParser());
 app.use(formData.parse());
 
+
 app.use(session({
   secret: `${process.env.google_clientID}`,
   saveUninitialized: false,
