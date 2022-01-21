@@ -62,7 +62,7 @@ export const Login:FC<any> = ({user}) => {
               alignItems='flex-end'
         >
           <Button type='submit' color='primary' variant='contained' startIcon={<GoogleIcon />} href='/auth/google'>Google</Button>
-          <Button type='submit' color='primary' variant='contained' startIcon={<TwitterIcon />}>Twitter</Button>
+          <Button type='submit' color='primary' variant='contained' startIcon={<TwitterIcon />} href='/auth/twitter'>Twitter</Button>
         </Grid>
         </Grid>
       </Paper>
