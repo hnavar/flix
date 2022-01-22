@@ -4,7 +4,8 @@ const { google_clientID,
         googlePassportCallbackURL,
         twitter_clientID,
         twitter_clientSecret,
-        twitterPassportCallbackURL } = process.env;
+        twitterPassportCallbackURL,
+        SESSION_SECRET } = process.env;
 import User from './database/index';
 
 
@@ -30,9 +31,10 @@ import { profile } from 'console';
 import { any } from 'sequelize/dist/lib/operators';
 // const auth = require('./helpers/auth');
 // const authroutes = require('./api/authroutes');
+import fileUpload from 'express-fileupload';
+
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const TwitterStrategy = require('passport-twitter').Strategy;
-import fileUpload from 'express-fileupload';
 
 const port = process.env.PORT || 3000;
 const dist = path.resolve(__dirname, '..', 'client/dist');
@@ -65,11 +67,16 @@ app.use(formData.parse());
 
 
 app.use(session({
-  secret: `${process.env.google_clientID}`,
+  secret: `${SESSION_SECRET}`,
   saveUninitialized: false,
-  resave: true
+  resave: true,
+  cookie: {secure: false}
 }));
 
+// app.use(cookieSession({
+//   name:'twitter-auth-session',
+//   keys: ['key1', 'key2']
+// }));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -91,7 +98,7 @@ async function(request: any, accessToken: any, refreshToken: any, profile: any, 
   // [0] = user object
   // [1] = true if created, false if found
     const newUser = await addUser(profile);
-    console.log('newUser', newUser)
+    console.log('google newUser', newUser)
     return done(null, newUser[0]);
 }));
 
@@ -105,8 +112,9 @@ async function(request: any, accessToken: any, refreshToken: any, profile: any, 
   //returns [{}, boolean]
   // [0] = user object
   // [1] = true if created, false if found
+    console.log('profile', profile);
     const newUser = await addUser(profile);
-    console.log('newUser', newUser)
+    console.log('twitter nuwUser:', newUser)
     return done(null, newUser[0]);
 }));
 
@@ -130,10 +138,10 @@ passport.authenticate('google', { failureRedirect: '/' }),
 });
 
 //Twitter auth section
-app.get('/auth/twitter',passport.authenticate('twitter'));
+app.get('/auth/twitter', passport.authenticate('twitter'));
 
-app.get('/auth/twitter/callback',passport.authenticate('twitter', { failureRedirect: '/auth/error' }),
-(req: Request, res: Response) => {
+app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/auth/error' }), (req: Request, res: Response) => {
+  console.log('RESPONSE', res);
   res.cookie('Flix', req.user)
   res.redirect('/');
 });

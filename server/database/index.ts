@@ -5,6 +5,7 @@ import { userInfo } from "os";
 
 
 const Sequelize = require('sequelize');
+const { Op } = require('sequelize');
 require('dotenv').config();
 import axios from 'axios';
 const { IMDB_KEY } = process.env;
@@ -360,16 +361,19 @@ export const getUserById = async (userId: number) => {
   return User.findByPk(userId);
 };
 
-
 export const addUser = async (user: any) => {
   try {
     const newUser = await User.findOrCreate(
-    {where: { email_Oauth: user.id },
+    {where: {
+      [Op.opr]: [
+                 {email_Oauth: user.id},
+                 {twitter_Oauth:user.username }
+                ],
       defaults: {
       username: user.displayName,
       email_Oauth: user.id,
       twitter_Oauth: user.twitterId,
-      twitter_user_name: user.twitterUsername,
+      twitter_user_name: user.screen_name,
       first_name: user.name.givenName,
       last_name: user.name.familyName,
       profile_image_url: user.photos[0].value,
@@ -378,6 +382,7 @@ export const addUser = async (user: any) => {
       age: user.age
       }
     });
+    console.log('newuser DB', newUser);
     return newUser;
   }
   catch (err) {

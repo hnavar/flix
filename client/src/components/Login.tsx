@@ -1,4 +1,4 @@
-import React, { useEffect, useState, FC } from 'react';
+import React, { useEffect, useState, FC, SyntheticEvent } from 'react';
 import { Button, Box, Grid, Card, TextField, Paper, Typography, Avatar, Link, CardMedia } from '@material-ui/core';
 import TsParticles from './tsParticle/tsParticles';
 import axios from 'axios';
@@ -10,6 +10,16 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 
 export const Login:FC<any> = ({user}) => {
   const [currentUser, setCurrentUser] = useState<any>();
+  const [username, setUserName] = useState<string>();
+  const [password, setPassword] = useState<string>();
+
+  const handleUsernameChange = (e: SyntheticEvent) => {
+    e.preventDefault();
+  }
+
+  const handlePasswordChange = (e: SyntheticEvent) => {
+    e.preventDefault();
+  };
 
 
 
@@ -56,14 +66,14 @@ export const Login:FC<any> = ({user}) => {
         <Button type='submit' color='primary' variant='contained'>Sign Up!</Button>
         </Grid>
         <Typography variant='caption'>Sign in with:</Typography>
-        <Grid container
-              direction='row'
-              justifyContent='space-evenly'
-              alignItems='flex-end'
-        >
-          <Button type='submit' color='primary' variant='contained' startIcon={<GoogleIcon />} href='/auth/google'>Google</Button>
-          <Button type='submit' color='primary' variant='contained' startIcon={<TwitterIcon />} href='/auth/twitter'>Twitter</Button>
-        </Grid>
+          <Grid container
+                direction='row'
+                justifyContent='space-evenly'
+                alignItems='flex-end'
+          >
+            <Button type='submit' color='primary' variant='contained' startIcon={<GoogleIcon />} href='/auth/google'>Google</Button>
+            <Button type='submit' color='primary' variant='contained' startIcon={<TwitterIcon />} href='/auth/twitter' >Twitter</Button>
+          </Grid>
         </Grid>
       </Paper>
     </Grid>
