@@ -5,7 +5,7 @@ import { userInfo } from "os";
 
 
 const Sequelize = require('sequelize');
-const { Op } = require('sequelize');
+import {Op} from 'sequelize';
 require('dotenv').config();
 import axios from 'axios';
 const { IMDB_KEY } = process.env;
@@ -362,13 +362,11 @@ export const getUserById = async (userId: number) => {
 };
 
 export const addUser = async (user: any) => {
+  const toStringId = user.id.toString();
+  console.log('USER', user.id);
   try {
     const newUser = await User.findOrCreate(
-    {where: {
-      [Op.opr]: [
-                 {email_Oauth: user.id},
-                 {twitter_Oauth:user.username }
-                ],
+    {where: { email_Oauth: user.id },
       defaults: {
       username: user.displayName,
       email_Oauth: user.id,
@@ -382,13 +380,40 @@ export const addUser = async (user: any) => {
       age: user.age
       }
     });
-    console.log('newuser DB', newUser);
+    // console.log('newUser DB', newUser);
     return newUser;
   }
   catch (err) {
     console.log('Unable to find or create user.');
   }
 };
+
+
+// export const addUser = async (user: any) => {
+//   console.log('user', user);
+//   try {
+//     const newUser = await User.findOrCreate({
+//       where: { [Op.or]: [ {email_Oauth: user.id}, { twitter_Oauth: user.id_str } ] },
+//       defaults: {
+//       username: user.displayName,
+//       email_Oauth: user.id,
+//       twitter_Oauth: user.id_str,
+//       twitter_user_name: user.screen_name,
+//       first_name: user.name.givenName,
+//       last_name: user.name.familyName,
+//       profile_image_url: user.photos[0].value,
+//       sessionID: user.number,
+//       theme: user.theme,
+//       age: user.age
+//       }
+//     });
+//     // console.log('newUser DB', newUser);
+//     return newUser;
+//   }
+//   catch (err) {
+//     console.log('Unable to find or create user.');
+//   }
+// };
 
 interface updateElement {
   [key: string]: string | boolean | number;

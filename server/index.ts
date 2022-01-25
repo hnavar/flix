@@ -97,8 +97,9 @@ async function(request: any, accessToken: any, refreshToken: any, profile: any, 
   //returns [{}, boolean]
   // [0] = user object
   // [1] = true if created, false if found
+  // console.log('google profile', profile.id);
     const newUser = await addUser(profile);
-    console.log('google newUser', newUser)
+    // console.log('google newUser', newUser)
     return done(null, newUser[0]);
 }));
 
@@ -112,10 +113,14 @@ async function(request: any, accessToken: any, refreshToken: any, profile: any, 
   //returns [{}, boolean]
   // [0] = user object
   // [1] = true if created, false if found
-    console.log('profile', profile);
-    const newUser = await addUser(profile);
-    console.log('twitter nuwUser:', newUser)
-    return done(null, newUser[0]);
+    // console.log('twitter profile', profile);
+    const newTwitterUserObj = {
+      id: profile.id,
+    };
+    // console.log('twitter object', profile);
+    const newUser = await addUser(newTwitterUserObj);
+    console.log('twitter newUser:', newUser)
+    return done(null, newUser);
 }));
 
 passport.serializeUser((user: any, done: any) => {
@@ -134,15 +139,18 @@ app.get('/auth/google/callback',
 passport.authenticate('google', { failureRedirect: '/' }),
 (req: Request, res: Response) => {
   res.cookie('Flix', req.user)
+  console.log('requested user google', req.user);
   res.redirect('/');
 });
 
 //Twitter auth section
-app.get('/auth/twitter', passport.authenticate('twitter'));
+app.get('/auth/twitter', passport.authenticate('twitter', { scope: [ 'profile' ]}));
 
-app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/auth/error' }), (req: Request, res: Response) => {
-  console.log('RESPONSE', res);
+app.get('/auth/twitter/callback',
+passport.authenticate('twitter', { failureRedirect: '/' }),
+(req: Request, res: Response) => {
   res.cookie('Flix', req.user)
+  console.log('requested user twitter', req.user);
   res.redirect('/');
 });
 //End of Passport
