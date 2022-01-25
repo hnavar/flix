@@ -1,11 +1,11 @@
-import React, {FC, useState, useEffect} from "react";
+import React, { FC, useState, useEffect } from "react";
 import axios from 'axios';
 import Carousel from "react-multi-carousel";
 import 'react-multi-carousel/lib/styles.css';
 import CarouselItem from './CarouselItem';
 
 // using props:any because I'm not sure if I'll pass props to this component
-const Home:FC = (props: any) => {
+const Home: FC = (props: any) => {
   const [genres, setGenres] = useState([]);
   const [directors, setDirectors] = useState([]);
   const [actors, setActors] = useState([]);
@@ -48,21 +48,21 @@ const Home:FC = (props: any) => {
   const getGenres = () => {
     // axios.get(`/api/users/genres/${userId}`)
     axios.get('/api/genres')
-      .then(({data}) => setGenres(data))
+      .then(({ data }) => setGenres(data))
       .catch(() => console.log('failed to get genres'));
   };
 
   const getDirectors = () => {
     // axios.get(`/api/users/directors/${userId}`)
     axios.get(`/api/directors/`)
-      .then(({data}) => setDirectors(data))
+      .then(({ data }) => setDirectors(data))
       .catch(() => console.log('failed to get directors'));
   };
 
   const getActors = () => {
     // axios.get(`/api/users/actors/${userId}`)
     axios.get(`/api/actors`)
-      .then(({data}) => setActors(data))
+      .then(({ data }) => setActors(data))
       .catch(() => console.log('failed to get actors'));
   };
 
@@ -70,7 +70,7 @@ const Home:FC = (props: any) => {
     const movies: MovieStorage = {};
     genres.forEach(((genre: Genre) => {
       axios.get('/api/movies/genres/' + genre.id)
-        .then(({data}) => movies[genre.genre] = data)
+        .then(({ data }) => movies[genre.genre] = data)
         .catch(() => console.log('failed to get movies by genre'))
         .finally(() => setGenreMovies(movies));
     }));
@@ -80,7 +80,7 @@ const Home:FC = (props: any) => {
     const movies: MovieStorage = {};
     actors.forEach(((actor: Actor) => {
       axios.get('/api/movies/actors/' + actor.id)
-        .then(({data}) => movies[actor.actor_name] = data)
+        .then(({ data }) => movies[actor.actor_name] = data)
         .catch(() => console.log('failed to get movies by Actor'))
         .finally(() => setActorsMovies(movies));
     }));
@@ -90,7 +90,7 @@ const Home:FC = (props: any) => {
     const movies: MovieStorage = {};
     directors.forEach(((director: Director) => {
       axios.get('/api/movies/directors/' + director.id)
-        .then(({data}) => movies[director.director_name] = data)
+        .then(({ data }) => movies[director.director_name] = data)
         .catch(() => console.log('failed to get movies by director'))
         .finally(() => setDirectorsMovies(movies));
     }));
@@ -117,11 +117,11 @@ const Home:FC = (props: any) => {
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
-      items: 10
+      items: 8
     },
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
-      items: 6
+      items: 5
     },
     tablet: {
       breakpoint: { max: 1024, min: 464 },
@@ -139,7 +139,7 @@ const Home:FC = (props: any) => {
         <div className="carousel-categories">
           <h2
             style={{
-              color: "gold"
+              color: "#888"
             }}
           >{key}</h2>
           <Carousel
@@ -147,12 +147,12 @@ const Home:FC = (props: any) => {
             responsive={responsive}
             infinite={true}
             showDots={true}
-            partialVisible={true}
+            // partialVisible={true}
             ssr={true}
           >
-            {
-              moviesObj[key].map((movie: MovieObj) => <CarouselItem item={movie} key={movie.movie_id} />)
-            }
+              {
+                moviesObj[key].map((movie: MovieObj) => <CarouselItem item={movie} key={movie.movie_id} />)
+              }
           </Carousel>
         </div>
       );
