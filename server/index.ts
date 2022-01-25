@@ -51,6 +51,8 @@ app.use(cors({ credentials: true,
   'preflightContinue': false}));
 
 app.use(express.static(dist));
+//hosts the image data for logo, etc
+app.use('/assets', express.static(path.resolve(__dirname, 'assets')));
 //Routers
 app.use('/api/movies', MoviesRouter);
 app.use('/api/actors', ActorsRouter);
@@ -100,7 +102,7 @@ async function(request: any, accessToken: any, refreshToken: any, profile: any, 
   // console.log('google profile', profile.id);
     const newUser = await addUser(profile);
     // console.log('google newUser', newUser)
-    return done(null, newUser[0]);
+    return done(null, newUser);
 }));
 
 passport.use(new TwitterStrategy({
@@ -118,8 +120,11 @@ async function(request: any, accessToken: any, refreshToken: any, profile: any, 
       id: profile.id,
     };
     // console.log('twitter object', profile);
-    const newUser = await addUser(newTwitterUserObj);
-    console.log('twitter newUser:', newUser)
+    const newUser = await addUser({
+      id: profile.id,
+      displayName: profile.username,
+    });
+    // console.log('twitter newUser:', newUser)
     return done(null, newUser);
 }));
 
@@ -139,7 +144,7 @@ app.get('/auth/google/callback',
 passport.authenticate('google', { failureRedirect: '/' }),
 (req: Request, res: Response) => {
   res.cookie('Flix', req.user)
-  console.log('requested user google', req.user);
+  // console.log('requested user google', req.user);
   res.redirect('/');
 });
 

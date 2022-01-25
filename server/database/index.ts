@@ -36,6 +36,20 @@ db.authenticate()
   .then(() => console.log('connected to database'))
   .catch((err: object) => console.log(err, 'error hitting'));
 
+interface UserObject {
+  id: number;
+  username: string;
+  email_Oauth: string;
+  twitter_Oauth: string;
+  twitter_user_name: string;
+  first_name: string;
+  last_name: string;
+  profile_image_url: string;
+  profile_cover_photo_url: string;
+  sessionID: string;
+  theme: boolean;
+  age: number;
+};
 
 const User = db.define('user', {
   id: {
@@ -361,10 +375,33 @@ export const getUserById = async (userId: number) => {
   return User.findByPk(userId);
 };
 
-export const addUser = async (user: any) => {
+interface AddUserArgs {
+  displayName: string;
+  id: string;
+  twitterId?: string;
+  screen_name?: string
+  name?: {
+    givenName: string;
+    familyName: string;
+  };
+  photos?: { value: string; }[]
+  number?: string;
+  theme?: boolean;
+  age?: number;
+};
+/**
+ * Adds a new Google or Twitter user to the database.
+ * @param user
+ * @returns
+ */
+
+export const addUser = async (user: AddUserArgs): Promise<UserObject | void | undefined> => {
+  console.log('USER OBJECT', user);
   const toStringId = user.id.toString();
-  console.log('USER', user.id);
+  // console.log('passed in user id', user.id);
+  // console.log('typeof', typeof user.id);
   try {
+    //where id is typeof string
     const newUser = await User.findOrCreate(
     {where: { email_Oauth: user.id },
       defaults: {
@@ -372,19 +409,21 @@ export const addUser = async (user: any) => {
       email_Oauth: user.id,
       twitter_Oauth: user.twitterId,
       twitter_user_name: user.screen_name,
-      first_name: user.name.givenName,
-      last_name: user.name.familyName,
-      profile_image_url: user.photos[0].value,
+      first_name: user.name?.givenName,
+      last_name: user.name?.familyName,
+      profile_image_url: user.photos && user.photos[0].value,
       sessionID: user.number,
       theme: user.theme,
       age: user.age
       }
     });
     // console.log('newUser DB', newUser);
-    return newUser;
+
+      return newUser[0];
+
   }
   catch (err) {
-    console.log('Unable to find or create user.');
+    console.log('Unable to find or create user.', err);
   }
 };
 
