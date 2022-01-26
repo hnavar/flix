@@ -51,18 +51,9 @@ export const Login: FC<any> = ({ user }) => {
                 spacing={4}
               >
                 <Avatar style={avatarStyle} src='/assets/flixar.png' />
-                <Typography variant='h6'>Sign in</Typography>
-                {/* <TextField label='Username *' placeholder='Enter username' />
-                  <TextField label='Password *' placeholder='Enter password' type='password' />
-                  <Grid container
-                    direction='row'
-                    justifyContent='space-evenly'
-                    alignItems='center'
-                  >
-                    <Button type='submit' color='primary' variant='contained'>Sign In!</Button>
-                    <Button type='submit' color='primary' variant='contained'>Sign Up!</Button>
-                  </Grid> */}
-                <Typography variant='caption'>Sign in with:</Typography>
+                <Typography
+                style={{ paddingBottom: '1rem' }}
+                variant='h6'>Sign in with:</Typography>
                 <Grid container
                   direction='row'
                   justifyContent='space-evenly'

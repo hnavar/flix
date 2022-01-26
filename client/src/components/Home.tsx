@@ -147,7 +147,7 @@ const Home: FC = (props: any) => {
             responsive={responsive}
             infinite={true}
             showDots={true}
-            // partialVisible={true}
+            partialVisible={false}
             ssr={true}
           >
               {

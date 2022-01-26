@@ -396,12 +396,7 @@ interface AddUserArgs {
  */
 
 export const addUser = async (user: AddUserArgs): Promise<UserObject | void | undefined> => {
-  console.log('USER OBJECT', user);
-  const toStringId = user.id.toString();
-  // console.log('passed in user id', user.id);
-  // console.log('typeof', typeof user.id);
   try {
-    //where id is typeof string
     const newUser = await User.findOrCreate(
     {where: { email_Oauth: user.id },
       defaults: {
@@ -417,8 +412,6 @@ export const addUser = async (user: AddUserArgs): Promise<UserObject | void | un
       age: user.age
       }
     });
-    // console.log('newUser DB', newUser);
-
       return newUser[0];
 
   }
