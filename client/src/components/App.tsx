@@ -45,7 +45,6 @@ const App: FC = () => {
   const setUserTheme = () => {
     axios.patch(`/api/users/${currentUser.id}`, { theme: !currentTheme })
       .then(() => {
-        console.log('Updated user theme', currentTheme)
         setCurrentTheme(!currentTheme);
 
       })
