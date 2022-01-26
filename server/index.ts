@@ -1,5 +1,11 @@
 require('dotenv').config();
-const { google_clientID, google_clientSecret, passportCallbackURL } = process.env;
+const { google_clientID,
+        google_clientSecret,
+        googlePassportCallbackURL,
+        twitter_clientID,
+        twitter_clientSecret,
+        twitterPassportCallbackURL,
+        SESSION_SECRET } = process.env;
 import User from './database/index';
 
 
@@ -25,8 +31,10 @@ import { profile } from 'console';
 import { any } from 'sequelize/dist/lib/operators';
 // const auth = require('./helpers/auth');
 // const authroutes = require('./api/authroutes');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
 import fileUpload from 'express-fileupload';
+
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const TwitterStrategy = require('passport-twitter').Strategy;
 
 const port = process.env.PORT || 3000;
 const dist = path.resolve(__dirname, '..', 'client/dist');
@@ -43,6 +51,8 @@ app.use(cors({ credentials: true,
   'preflightContinue': false}));
 
 app.use(express.static(dist));
+//hosts the image data for logo, etc
+app.use('/assets', express.static(path.resolve(__dirname, 'assets')));
 //Routers
 app.use('/api/movies', MoviesRouter);
 app.use('/api/actors', ActorsRouter);
@@ -57,12 +67,18 @@ app.use('/api/photos', PhotosRouter);
 app.use(cookieParser());
 app.use(formData.parse());
 
+
 app.use(session({
-  secret: `${process.env.google_clientID}`,
+  secret: `${SESSION_SECRET}`,
   saveUninitialized: false,
-  resave: true
+  resave: true,
+  cookie: {secure: false}
 }));
 
+// app.use(cookieSession({
+//   name:'twitter-auth-session',
+//   keys: ['key1', 'key2']
+// }));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -76,16 +92,40 @@ app.use(passport.session());
 passport.use(new GoogleStrategy({
   clientID: `${google_clientID}`,
   clientSecret:`${google_clientSecret}`,
-  callbackURL: `${passportCallbackURL}`
+  callbackURL: `${googlePassportCallbackURL}`
 },
 async function(request: any, accessToken: any, refreshToken: any, profile: any, done: any) {
   //Find or Create a user
   //returns [{}, boolean]
   // [0] = user object
   // [1] = true if created, false if found
+  // console.log('google profile', profile.id);
     const newUser = await addUser(profile);
-    console.log('newUser', newUser)
-    return done(null, newUser[0]);
+    // console.log('google newUser', newUser)
+    return done(null, newUser);
+}));
+
+passport.use(new TwitterStrategy({
+  consumerKey: `${twitter_clientID}`,
+  consumerSecret:`${twitter_clientSecret}`,
+  callbackURL: `${twitterPassportCallbackURL}`
+},
+async function(request: any, accessToken: any, refreshToken: any, profile: any, done: any) {
+  //Find or Create a user
+  //returns [{}, boolean]
+  // [0] = user object
+  // [1] = true if created, false if found
+    // console.log('twitter profile', profile);
+    const newTwitterUserObj = {
+      id: profile.id,
+    };
+    // console.log('twitter object', profile);
+    const newUser = await addUser({
+      id: profile.id,
+      displayName: profile.username,
+    });
+    // console.log('twitter newUser:', newUser)
+    return done(null, newUser);
 }));
 
 passport.serializeUser((user: any, done: any) => {
@@ -96,8 +136,7 @@ passport.deserializeUser((user: any, done: any) => {
   return done(null, user)
 });
 
-app.get('/auth/google',
-  passport.authenticate('google', { scope: [ 'profile' ] }));
+app.get('/auth/google', passport.authenticate('google', { scope: [ 'profile' ] }));
 
 //applies cookies to the user object.
 //Still need to figure out the session data and how that applies.
@@ -105,6 +144,18 @@ app.get('/auth/google/callback',
 passport.authenticate('google', { failureRedirect: '/' }),
 (req: Request, res: Response) => {
   res.cookie('Flix', req.user)
+  // console.log('requested user google', req.user);
+  res.redirect('/');
+});
+
+//Twitter auth section
+app.get('/auth/twitter', passport.authenticate('twitter', { scope: [ 'profile' ]}));
+
+app.get('/auth/twitter/callback',
+passport.authenticate('twitter', { failureRedirect: '/' }),
+(req: Request, res: Response) => {
+  res.cookie('Flix', req.user)
+  console.log('requested user twitter', req.user);
   res.redirect('/');
 });
 //End of Passport

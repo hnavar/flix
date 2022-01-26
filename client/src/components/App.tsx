@@ -19,7 +19,7 @@ import styles from '../styles/styles';
 
 
 
-const App:FC = () => {
+const App: FC = () => {
   const [currentUser, setCurrentUser] = useState<any>();
   const [currentTheme, setCurrentTheme] = useState<boolean>(false);
 
@@ -28,11 +28,11 @@ const App:FC = () => {
     palette: {
       type: currentTheme ? 'dark' : 'light',
     },
-})
+  })
 
   const getLoggedInUser = () => {
     axios.get('/verify')
-      .then(({data}) => {
+      .then(({ data }) => {
         console.log(data);
         setCurrentUser(data);
         setCurrentTheme(data.theme);
@@ -43,13 +43,12 @@ const App:FC = () => {
   };
 
   const setUserTheme = () => {
-    axios.patch(`/api/users/${currentUser.id}`, {theme: !currentTheme})
-    .then(() => {
-      console.log('Updated user theme', currentTheme)
-      setCurrentTheme(!currentTheme);
+    axios.patch(`/api/users/${currentUser.id}`, { theme: !currentTheme })
+      .then(() => {
+        setCurrentTheme(!currentTheme);
 
-    })
-    .catch((err: any) => { console.log('Unable to update user theme')})
+      })
+      .catch((err: any) => { console.log('Unable to update user theme') })
   }
 
   const handleTheme = () => {
@@ -58,7 +57,7 @@ const App:FC = () => {
     setUserTheme();
   }
 
-// currentUser.photos[0].value
+  // currentUser.photos[0].value
   //this only needs to run once, will update when the user logs out and is redirected to login page.
   useEffect(() => {
     getLoggedInUser();
@@ -68,30 +67,32 @@ const App:FC = () => {
   return (
     <>
       {!currentUser
-      ? <Login />
-      : (<>
+        ? <Login />
+        : (<>
           <Login user={currentUser} />
           <ThemeProvider theme={theme}>
             <Paper>
-            <CssBaseline />
-            <Switch checked={currentTheme} onChange={() => handleTheme()}/>
+              <CssBaseline />
+              <Switch checked={currentTheme} onChange={() => handleTheme()} />
 
-          <NavigationBar/>
-          <TsParticles />
-          <Routes>
-            {Paths.map((route: any, index: number) => {
-              return <Route
-                path={route.path}
-                key={index}
-                element={<route.component user={currentUser} />} />;
-            })}
-            <Route path='movies/:id' element={<MovieDetail />} />
-            <Route path="*" element={<h2>404: Not found</h2>} />
-          </Routes>
-          </Paper>
+              <NavigationBar />
+              {/* <TsParticles /> */}
+              <div style={{ maxWidth: '1400px', margin: '0 auto'}}>
+                <Routes>
+                  {Paths.map((route: any, index: number) => {
+                    return <Route
+                      path={route.path}
+                      key={index}
+                      element={<route.component user={currentUser} />} />;
+                  })}
+                  <Route path='movies/:id' element={<MovieDetail />} />
+                  <Route path="*" element={<h2>404: Not found</h2>} />
+                </Routes>
+              </div>
+            </Paper>
           </ThemeProvider>
         </>
-      )}
+        )}
     </>
   );
 };

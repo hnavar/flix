@@ -200,7 +200,8 @@ const Profile:FC<any> = ({user}) => {
     <>
       <div>
       {!currentUser ? null :
-      <><Card className={classes.root}>
+      <>
+      <Card className={classes.root}>
             <CardMedia className={classes.media} image={currentUser.profile_cover_photo_url} title="Cover" />
             <Avatar sx={{width: 150, height: 150}}
             src={currentUser.profile_image_url} className={classes.profileImage} />
@@ -271,12 +272,11 @@ const Profile:FC<any> = ({user}) => {
                   );
                 })}
               </Stack>
+              <UserPreferences user={currentUser} />
             </div></>
 }
 </div>
-<div>
-  <UserPreferences user={currentUser} />
-</div>
+
 </>
 
 
