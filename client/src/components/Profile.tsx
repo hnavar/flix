@@ -20,6 +20,7 @@ import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
 import useStyles from "../styles/profile.styles";
 import UserPreferences from './UserPreferences';
 import MovieCards from './MovieCards';
+import ActorCards from './ActorCards';
 
 const Profile: FC<any> = ({ user }) => {
 
@@ -43,7 +44,7 @@ const Profile: FC<any> = ({ user }) => {
       return <MovieCards userId={user.id} />
     }
     if (currentTab === 'Favorite Actors') {
-      return <MovieCards userId={user.id} />
+      return <ActorCards userId={user.id} />
     }
     if (currentTab === 'Favorite Genres') {
       return <MovieCards userId={user.id} />
@@ -58,7 +59,7 @@ const Profile: FC<any> = ({ user }) => {
 
   //Used to get all favorites upon initial load.
   // const getAllFavorites = (userId: number) => {
-  //   const getActors = axios.get(`/api/users/actors/${userId}`);
+    // const getActors = axios.get(`/api/users/actors/${userId}`);
   //   const getDirectors = axios.get(`/api/users/directors/${userId}`);
   //   const getGenres = axios.get(`/api/users/genres/${userId}`);
 
