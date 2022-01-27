@@ -136,11 +136,7 @@ const Home: FC = (props: any) => {
   const buildCarousel = (moviesObj: MovieStorage) => (
     Object.keys(moviesObj).slice(0, 7).map((key) => (
       <div key={key} className="carousel-categories">
-        <h2
-          style={{
-            color: "gold"
-          }}
-        >{key}</h2>
+        <h1>{key}</h1>
         <Carousel
           className={`${key}-carousels`}
           responsive={responsive}

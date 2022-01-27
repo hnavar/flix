@@ -1,36 +1,13 @@
 import axios from 'axios';
 import React, { FC, useState, useEffect, SyntheticEvent } from 'react';
 import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import e from 'express';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import TabsList from '@material-ui/core';
-// import Panel from '@material-ui/core'
-// import Typography from '@material-ui/core'
-
-
-
-// const Panel = (props) => (
-//   <div hidden={props.value !== props.index}>
-//     <Typography>{props.children}</Typography>
-//   </div>
-// );
-
 
 const UserPreferences: FC<any> = ({ user }) => {
 
   const [currentUser, setCurrentUser] = useState<any>(user);
   const [age, setAge] = useState<number>();
-
   const [userPhoto, setUserPhoto] = useState<any>();
   const [coverPhoto, setCoverPhoto] = useState<any>();
-  const [container, setContainer] = useState<any>();
-  const [tabsValue, setTabsValue] = useState<any>();
-
-
-
 
   const handleAgeChange = (e: SyntheticEvent) => {
     e.preventDefault;
@@ -38,8 +15,6 @@ const UserPreferences: FC<any> = ({ user }) => {
       .then(() => { console.log('Successfully set user age'); })
       .catch((err: any) => { console.log('Unable to update age.') });
   };
-
-
 
   const handleProfilePhotoChange = (e: SyntheticEvent) => {
     e.preventDefault();
@@ -58,12 +33,9 @@ const UserPreferences: FC<any> = ({ user }) => {
           });
       })
       .catch((err: any) => {
-        console.log('error POSTing file');
         console.error(err);
       });
   };
-
-
 
   const getLoggedInUser = () => {
     axios.get('/verify')
