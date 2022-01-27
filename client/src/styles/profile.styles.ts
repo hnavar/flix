@@ -1,40 +1,55 @@
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
-let HEIGHT = window.screen.height;
-let WIDTH = window.screen.width;
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    minHeight: 700,
-  },
-  media: {
-    height: HEIGHT / 3
-  },
-  profileImage: {
-    position: "relative",
-    top: "-110px",
-    justifyContent: "center",
-    width: "250px",
-    height: "250px",
-    border: "2px solid white",
-    margin: "auto"
-  },
-  profileInfoContainer: {
-    position: "relative",
-    top: "-100px",
-    margin: "auto"
-  },
-  userName: {
-    fontWeight: "bold",
-    marginBottom: 0
-  },
-  userTag: {
-    marginTop: 0
-  },
-  contentContainer: {
-    position: "relative",
-    top: "-90px"
-  }
-}));
+const useStyles = makeStyles((theme) => {
+  return {
+    root: {
+      minHeight: 700,
+      background: theme.palette.background.paper,
+      marginTop: '1rem'
+    },
+    main: {
+      background: theme.palette.background.paper,
+      color: theme.palette.text.primary,
+      "& .MuiButtonBase-root.MuiTab-root": {
+        background: theme.palette.background.paper,
+        color: theme.palette.text.primary,
+      }
+    },
+    media: {
+      height: '50vh',
+      position: 'relative',
+      background: theme.palette.background.paper,
+    },
+    profileImage: {
+      position: "relative",
+      top: "-125px",
+      justifyContent: "center",
+      border: `6px solid ${theme.palette.background.paper}`,
+      margin: "auto",
+      background: theme.palette.background.paper
 
+    },
+    profileInfoContainer: {
+      position: "relative",
+      height: '100%',
+      background: theme.palette.background.paper
+    },
+    userName: {
+      fontWeight: "bold",
+      height: '100%',
+      marginBottom: 0,
+      background: theme.palette.background.paper,
+      color: theme.palette.text.primary
+    },
+    userTag: {
+      marginTop: 0,
+      background: theme.palette.background.paper
+    },
+    contentContainer: {
+      position: "relative",
+      background: theme.palette.background.paper
+    }
+  };
+})
 export default useStyles;
