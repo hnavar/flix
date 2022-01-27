@@ -64,7 +64,6 @@ const Twitter: FC = (props: any) => {
 
   return (
     <>
-      {/* input form */}
       <div className="formClass">
         <form
         style={{ display: 'flex', width: '768px', margin: '0.75rem auto' }}
@@ -76,7 +75,6 @@ const Twitter: FC = (props: any) => {
             onChange={(e: { target: { value: React.SetStateAction<string>; }; }) =>
               setTitle(e.target.value)
             }
-            // style={{ backgroundColor: 'white' }}
           />
           <Button variant="contained" color="secondary" onClick={(e: any) => handleTwitterSearch(e)}>Search</Button>
         </form>
@@ -90,7 +88,6 @@ const Twitter: FC = (props: any) => {
          }}
         className="TwitterTweets">
         {tweets.map((tweet: any) => {
-          // {console.log(tweet)}
           return <SingleTweet key={tweet.id} text={tweet.text} />
         })
 
