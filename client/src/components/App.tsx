@@ -33,12 +33,11 @@ const App: FC = () => {
   const getLoggedInUser = () => {
     axios.get('/verify')
       .then(({ data }) => {
-        console.log(data);
         setCurrentUser(data);
         setCurrentTheme(data.theme);
       })
       .catch((err) => {
-        console.log('Unable to verify user', err);
+        console.error('Unable to verify user', err);
       });
   };
 
@@ -48,12 +47,10 @@ const App: FC = () => {
         setCurrentTheme(!currentTheme);
 
       })
-      .catch((err: any) => { console.log('Unable to update user theme') })
+      .catch((err: any) => { console.error('Unable to update user theme') })
   }
 
   const handleTheme = () => {
-    console.log('theme clicked')
-    // setCurrentTheme(!currentTheme);
     setUserTheme();
   }
 
@@ -73,11 +70,8 @@ const App: FC = () => {
           <ThemeProvider theme={theme}>
             <Paper>
               <CssBaseline />
-              <Switch checked={currentTheme} onChange={() => handleTheme()} />
-
-              <NavigationBar />
-              {/* <TsParticles /> */}
-              <div style={{ maxWidth: '1400px', margin: '0 auto'}}>
+              <NavigationBar themeSwitch={<Switch checked={currentTheme} onChange={() => handleTheme()} />} />
+              <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
                 <Routes>
                   {Paths.map((route: any, index: number) => {
                     return <Route

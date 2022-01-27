@@ -133,31 +133,26 @@ const Home: FC = (props: any) => {
     }
   };
 
-  const buildCarousel = (moviesObj: MovieStorage) => {
-    return Object.keys(moviesObj).slice(0, 7).map((key) => {
-      return (
-        <div className="carousel-categories">
-          <h2
-            style={{
-              color: "#888"
-            }}
-          >{key}</h2>
-          <Carousel
-            className={`${key}-carousels`}
-            responsive={responsive}
-            infinite={true}
-            showDots={true}
-            partialVisible={false}
-            ssr={true}
-          >
-              {
-                moviesObj[key].map((movie: MovieObj) => <CarouselItem item={movie} key={movie.movie_id} />)
-              }
-          </Carousel>
-        </div>
-      );
-    });
-  }
+  const buildCarousel = (moviesObj: MovieStorage) => (
+    Object.keys(moviesObj).slice(0, 7).map((key) => (
+      <div key={key} className="carousel-categories">
+        <h1>{key}</h1>
+        <Carousel
+          className={`${key}-carousels`}
+          responsive={responsive}
+          infinite={true}
+          showDots={true}
+          partialVisible={true}
+          ssr={true}
+        >
+          {
+            moviesObj[key].map((movie: MovieObj) => <CarouselItem item={movie} key={movie.movie_id} />)
+          }
+        </Carousel>
+      </div>
+    )
+    )
+  )
 
   return (
     <div className='home-view'

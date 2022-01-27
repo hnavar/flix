@@ -1,36 +1,13 @@
 import axios from 'axios';
 import React, { FC, useState, useEffect, SyntheticEvent } from 'react';
 import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import e from 'express';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import TabsList from '@material-ui/core';
-// import Panel from '@material-ui/core'
-// import Typography from '@material-ui/core'
-
-
-
-// const Panel = (props) => (
-//   <div hidden={props.value !== props.index}>
-//     <Typography>{props.children}</Typography>
-//   </div>
-// );
-
 
 const UserPreferences: FC<any> = ({ user }) => {
 
   const [currentUser, setCurrentUser] = useState<any>(user);
   const [age, setAge] = useState<number>();
-
   const [userPhoto, setUserPhoto] = useState<any>();
   const [coverPhoto, setCoverPhoto] = useState<any>();
-  const [container, setContainer] = useState<any>();
-  const [tabsValue, setTabsValue] = useState<any>();
-
-
-
 
   const handleAgeChange = (e: SyntheticEvent) => {
     e.preventDefault;
@@ -39,40 +16,31 @@ const UserPreferences: FC<any> = ({ user }) => {
       .catch((err: any) => { console.log('Unable to update age.') });
   };
 
-
-
   const handleProfilePhotoChange = (e: SyntheticEvent) => {
     e.preventDefault();
     const file = (e.target as HTMLInputElement).files![0];
     setUserPhoto(URL.createObjectURL(file));
     const data = new FormData();
     data.append('image', file, file.name);
-    axios.post('/api/photos/imgUpload', data, { headers: { 'Content-Type': 'multipart/form-data' } })
+    axios.post('/api/photos/imgUpload', data, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    })
       .then(({ data }) => {
         setUserPhoto(data);
         axios.patch(`/api/users/${currentUser.id}`, { profile_image_url: data })
           .then(() => {
             console.log('updated profile photo')
           });
-        console.log(typeof data);
       })
       .catch((err: any) => {
-        console.log('error POSTing file');
         console.error(err);
       });
   };
 
-
-
   const getLoggedInUser = () => {
     axios.get('/verify')
-      .then(({ data }) => {
-        console.log('verified', data);
-        setCurrentUser(data);
-      })
-      .catch((err) => {
-        console.log('Unable to verify user', err);
-      });
+      .then(({ data }) => setCurrentUser(data))
+      .catch((err) => console.error('Unable to verify user', err));
   };
   useEffect(() => {
     getLoggedInUser();

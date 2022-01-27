@@ -4,106 +4,91 @@ import Particles, { tsParticles } from 'react-tsparticles';
 import './tsStyle.css';
 
 
-const TsParticles:FC<any> = () => {
-  const particlesInit = (main: any) => {
-    console.log('start', main)
-  }
+const TsParticles: FC<any> = () => (
 
-  const particlesLoaded = (container: any) => {
-    console.log(container);
-  }
-
-
-
-  return (
-    <>
-    <Particles
-      id="tsparticles"
-      init={particlesInit}
-      loaded={particlesLoaded}
-      options={{
-        background: {
-          color: {
-            value: '#262626',
-          },
+  <Particles
+    id="tsparticles"
+    options={{
+      background: {
+        color: {
+          value: '#262626',
         },
-        fpsLimit: 45,
-        interactivity: {
-          detect_on: 'window',
-          events: {
-            onClick: {
-              enable: true,
-              mode: "push",
-            },
-            onHover: {
-              enable: true,
-              mode: "repulse",
-            },
-            resize: true,
-          },
-          modes: {
-            bubble: {
-              distance: 400,
-              duration: 2,
-              opacity: 0.8,
-              size: 40,
-            },
-            push: {
-              quantity: 4,
-            },
-            repulse: {
-              distance: 200,
-              duration: 0.4,
-            },
-          },
-        },
-        particles: {
-          color: {
-            value: '#CF5C36',
-          },
-          links: {
-            color: '#EFC88B',
-            distance: 150,
+      },
+      fpsLimit: 45,
+      interactivity: {
+        detect_on: 'window',
+        events: {
+          onClick: {
             enable: true,
-            opacity: 0.5,
-            width: 1,
+            mode: "push",
           },
-          collisions: {
-            enable: false,
-          },
-          move: {
-            direction: "none",
+          onHover: {
             enable: true,
-            outMode: "bounce",
-            random: false,
-            speed: 2,
-            straight: false,
-            bounce: false,
+            mode: "repulse",
           },
-          number: {
-            density: {
-              enable: true,
-              area: 800,
-            },
-            value: 80,
+          resize: true,
+        },
+        modes: {
+          bubble: {
+            distance: 400,
+            duration: 2,
+            opacity: 0.8,
+            size: 40,
           },
-          opacity: {
-            value: 0.5,
+          push: {
+            quantity: 4,
           },
-          shape: {
-            type: "circle",
-          },
-          size: {
-            random: true,
-            value: 5,
+          repulse: {
+            distance: 200,
+            duration: 0.4,
           },
         },
-        detectRetina: true,
-      }}
-    />
-    </>
-  );
-};
+      },
+      particles: {
+        color: {
+          value: '#CF5C36',
+        },
+        links: {
+          color: '#EFC88B',
+          distance: 150,
+          enable: true,
+          opacity: 0.5,
+          width: 1,
+        },
+        collisions: {
+          enable: false,
+        },
+        move: {
+          direction: "none",
+          enable: true,
+          outMode: "bounce",
+          random: false,
+          speed: 2,
+          straight: false,
+          bounce: false,
+        },
+        number: {
+          density: {
+            enable: true,
+            area: 800,
+          },
+          value: 80,
+        },
+        opacity: {
+          value: 0.5,
+        },
+        shape: {
+          type: "circle",
+        },
+        size: {
+          random: true,
+          value: 5,
+        },
+      },
+      detectRetina: true,
+    }}
+  />
+);
 
 
 export default TsParticles;
