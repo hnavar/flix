@@ -50,7 +50,7 @@ const Profile: FC<any> = ({ user }) => {
       return <MovieCards userId={user.id} />
     }
     if (currentTab === 'Settings') {
-      return <MovieCards userId={user.id} />
+      return <UserPreferences userId={user.id} />
     }
 
     setCurrentTab('Favorite Movies');
