@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme) => {
     root: {
       minHeight: 700,
       background: theme.palette.background.paper,
-      marginTop: '1rem'
+      marginTop: '1rem',
     },
     main: {
       background: theme.palette.background.paper,

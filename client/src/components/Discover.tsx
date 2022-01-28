@@ -107,7 +107,7 @@ const Discover:FC<any> = ({user}) => {
 
     const getTweets = () => {
       const options: any = {
-        url: 'http://localhost:3000/api/twitter/tweets',
+        url: '/api/twitter/tweets',
         method: 'GET',
         headers: {
             'Accept': 'application/json',

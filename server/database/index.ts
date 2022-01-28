@@ -355,6 +355,22 @@ export const getFavoriteGenres = (userId: number) => {
   });
 };
 
+// export const removeFavoriteGenre = ( genreId: number, userId: number ) => {
+//   Users_Genre.destroy({
+//     where: {
+//         userId: userId,
+//         genreId: genreId
+//     }});
+// };
+
+export const removeFavoriteActor = ( actorId: number, userId: number ) => {
+  Users_Genre.destroy({
+    where: {
+        userId: userId,
+        actorId: actorId
+    }});
+};
+
 export const getFavoriteMovies = (userId: number) => {
   return User.findOne({
     where: { id: userId },
@@ -419,33 +435,6 @@ export const addUser = async (user: AddUserArgs): Promise<UserObject | void | un
     console.log('Unable to find or create user.', err);
   }
 };
-
-
-// export const addUser = async (user: any) => {
-//   console.log('user', user);
-//   try {
-//     const newUser = await User.findOrCreate({
-//       where: { [Op.or]: [ {email_Oauth: user.id}, { twitter_Oauth: user.id_str } ] },
-//       defaults: {
-//       username: user.displayName,
-//       email_Oauth: user.id,
-//       twitter_Oauth: user.id_str,
-//       twitter_user_name: user.screen_name,
-//       first_name: user.name.givenName,
-//       last_name: user.name.familyName,
-//       profile_image_url: user.photos[0].value,
-//       sessionID: user.number,
-//       theme: user.theme,
-//       age: user.age
-//       }
-//     });
-//     // console.log('newUser DB', newUser);
-//     return newUser;
-//   }
-//   catch (err) {
-//     console.log('Unable to find or create user.');
-//   }
-// };
 
 interface updateElement {
   [key: string]: string | boolean | number;
@@ -515,18 +504,23 @@ export const addMovie = async (movie: movieObj, userId?: number) => {
 
 export const removeFavoriteMovie = async (movie_id: any, userId: any) => {
   try {
-    console.log('movie id to delete from join :', movie_id);
     await Users_Movies.destroy({where: { movie_id: movie_id, user_id: userId }})
   }
-  catch (err) { console.log('Unable to remove movie from user favorites.') }
+  catch (err) { console.error('Unable to remove movie from user favorites.', err) }
 };
 
-export const removeFavoriteActor = async (actorId: any, userId: any) => {
+export const removeFavoriteActors = async (userId: any, actorId: any) => {
   try {
-    console.log('actor to remove from favs', actorId, userId);
-    await Users_Actors.destroy({where: { actorId: actorId, user_id: userId}});
+    await Users_Actors.destroy({where: { userId: userId, actorId: actorId}});
   }
-  catch (err) { console.log('Unable to remove user favorite actor.') }
+  catch (err) { console.error('Unable to remove user favorite actor.', err) }
+}
+
+export const removeFavoriteGenre = async (userId: any, genreId: any) => {
+  try {
+    await Users_Genre.destroy({where: { userId: userId, genreId: genreId}});
+  }
+  catch (err) { console.error('Unable to remove user favorite actor.', err) }
 }
 
 export const addUser_Movie = async (movieId: number, userId: number) => {
@@ -536,18 +530,6 @@ export const addUser_Movie = async (movieId: number, userId: number) => {
        movieId: movieId}
     });
 };
-
-// export const removeUser_Movie = async (movieId: number, userId: number) => {
-//   console.log('movieid', movieId, 'userid', userId );
-//   try{
-//   await Users_Movies.delete({
-//     where:
-//       {userId: userId,
-//        movieId: movieId}
-//     });
-//   }
-//   catch (err) { console.log('error removing movie from favs')}
-// };
 
 export const deleteUserMovie = async (userId: any, movieId: any) => {
   Users_Movies.destroy({

@@ -21,11 +21,11 @@ import useStyles from "../styles/profile.styles";
 import UserPreferences from './UserPreferences';
 import MovieCards from './MovieCards';
 import ActorCards from './ActorCards';
+import GenreCards from './GenreCards';
 
 const Profile: FC<any> = ({ user }) => {
 
   //User favorites {movies, actors, genres, directors}
-  const [favoriteActors, setFavoriteActors] = useState<null | Array<object>>(null);
   const [favoriteDirectors, setFavoriteDirectors] = useState<any>();
   const [favoriteGenres, setFavoriteGenres] = useState<any>();
   const [currentTab, setCurrentTab] = useState<string>('Favorite Movies');
@@ -47,7 +47,7 @@ const Profile: FC<any> = ({ user }) => {
       return <ActorCards userId={user.id} />
     }
     if (currentTab === 'Favorite Genres') {
-      return <MovieCards userId={user.id} />
+      return <GenreCards userId={user.id} />
     }
     if (currentTab === 'Settings') {
       return <UserPreferences userId={user.id} />
@@ -59,16 +59,13 @@ const Profile: FC<any> = ({ user }) => {
 
   //Used to get all favorites upon initial load.
   // const getAllFavorites = (userId: number) => {
-    // const getActors = axios.get(`/api/users/actors/${userId}`);
   //   const getDirectors = axios.get(`/api/users/directors/${userId}`);
   //   const getGenres = axios.get(`/api/users/genres/${userId}`);
 
   //   axios.all([getActors, getDirectors, getGenres])
   //     .then(responseArr => {
-  //       setFavoriteActors(responseArr[0].data.actors);
   //       setFavoriteDirectors(responseArr[1].data.directors);
   //       setFavoriteGenres(responseArr[2].data.genres);
-  //       console.log('Favorite Actors', responseArr[0].data.actors)
   //       console.log('Favorite directors', responseArr[1].data.directors)
   //       console.log('Favorite genres', responseArr[2].data.genres)
 
@@ -192,26 +189,6 @@ const Profile: FC<any> = ({ user }) => {
               </div>
             </CardContent>
           </Card>
-
-          <div>
-            <Typography variant='h6'>
-              Your Favorite Actors
-            </Typography>
-            <Stack direction='row' spacing={2}>
-              {!favoriteActors ? null : favoriteActors.map((actor: any, key: number) => {
-                return (
-                  <Card key={key}>
-                    <CardContent>
-                      <Typography>
-                        {actor.actor_name}
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                );
-              })}
-            </Stack>
-            <UserPreferences user={user} />
-          </div>
         </>
       }
     </div>

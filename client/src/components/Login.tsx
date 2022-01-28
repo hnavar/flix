@@ -15,7 +15,7 @@ const paperStyle = {
   boxShadow: '0 0 1rem rgba(25, 25, 25, 1)',
 };
 
-const avatarStyle = { width: 200, height: 200, opacity: 1.0 };
+const avatarStyle = { width: 225, height: 225, opacity: 1.0, variant: 'square', borderRadius: 0 };
 
 const buttonStyles = {
   background: 'rgba(254, 213, 2, 1)',

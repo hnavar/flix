@@ -68,9 +68,11 @@ const App: FC = () => {
         : (<>
           <Login user={currentUser} />
           <ThemeProvider theme={theme}>
-            <Paper>
+            <Paper style={{ backgroundColor: 'rgba(255, 255, 255, 0.25)', backdropFilter: 'blur(2px)' }}>
               <CssBaseline />
-              <NavigationBar themeSwitch={<Switch checked={currentTheme} onChange={() => handleTheme()} />} />
+              <NavigationBar
+              userImage={currentUser.profile_image_url}
+              themeSwitch={<Switch checked={currentTheme} onChange={() => handleTheme()} />} />
               <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
                 <Routes>
                   {Paths.map((route: any, index: number) => {
