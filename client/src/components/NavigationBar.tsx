@@ -82,8 +82,9 @@ const NavigationBar:FC = (props: any, { userImage }: { userImage: string }) => {
             <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={toggleDrawer(true)}>
               <MenuIcon />
             </IconButton>
+            <img style={{ width: '10%' }} src='/assets/logo.png' />
             <Typography variant="h6" className={classes.title}>
-              Flixar
+
             </Typography>
             {props.themeSwitch}
             <Avatar src={userAvatar}/>
