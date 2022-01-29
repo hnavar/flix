@@ -181,7 +181,12 @@ const Discover:FC<any> = ({user}) => {
             Save movie
         </Button>
 
-        <div className="TwitterTweets">
+        <div className="TwitterTweets"
+          style={{
+            margin: 'auto',
+            width: '50%'
+          }}
+        >
             {tweets.map((tweet: any) => {
                 // {console.log(tweet)}
                 return (<Box sx={{border: 1, borderColor: "primary.main"}}>
