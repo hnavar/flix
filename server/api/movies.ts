@@ -62,9 +62,12 @@ MoviesRouter.get('/directors/:id', (req: Request, res: Response) => {
 MoviesRouter.post('/saveMovie', (req: Request, res: Response) => {
   type movieData = {imDbId: string; title: string; year: string; videoDescription: string; linkEmbed: string; genres: string;
   actors: string; directors: string; thumbnailUrl: string};
+  const userId = Number(req.body.userId);
+  console.log(userId);
   addMovieInfo(req.body)
     .then((data: any) => {
-      const {imDbId, title, year, videoDescription, linkEmbed, genres, actors, directors, thumbnailUrl}: movieData = data;
+      console.log(data);
+      const {imDbId, title, year, videoDescription, linkEmbed, genres, actors, directors, thumbnailUrl}: movieData = data.searchResults;
       const movie = {
         movie_id: imDbId,
         title: title,
@@ -76,6 +79,7 @@ MoviesRouter.post('/saveMovie', (req: Request, res: Response) => {
         directors: directors,
         thumbnailUrl: thumbnailUrl
       };
+      console.log("movie", movie);
       addMovie(movie).then((data: any) => {
         res.sendStatus(201);
       }).catch((err: any) => {

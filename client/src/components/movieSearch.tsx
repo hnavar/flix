@@ -27,9 +27,18 @@ const SearchMovie:FC<any> = ({user}) => {
       });
   };
 
-  // axios.post('/api/movies/saveMovie/', fullData)
+
+
+
   const addMovieInfo = () => {
-    axios.post(`/api/movies/saveMovie/`, searchResults)
+axios({
+          method: 'post',
+          url: '/api/movies/saveMovie/',
+          data: {
+            searchResults: searchResults,
+            userId: user.id
+          }
+        })
       .then(({data}: any) => {
         console.log("Saved to database");
       }).catch((error: any) => {
@@ -66,6 +75,7 @@ const SearchMovie:FC<any> = ({user}) => {
     </div>
   );
   } else {
+    console.log(searchResults.title)
     return (
       <div>
         <div>

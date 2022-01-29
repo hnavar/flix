@@ -32,10 +32,11 @@ export const addMovieInfo = async (movieObj: any) => {
       thumbnailUrl: data.data.thumbnailUrl,
     }
     const fullData = {...newData, ...movieObj};
+    console.log("dataaaa", fullData);
     return fullData;
   })
   .catch((err: any) => {
-    console.log("Error getting movie info", err);
+    console.log("Error getting movie info");
   });
   return result;
 }

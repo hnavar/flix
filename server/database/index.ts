@@ -462,6 +462,7 @@ export const addFavoriteMovie = async (userId: any, movie_id: any) => {
 };
 
 export const addMovie = async (movie: movieObj, userId?: number) => {
+  console.log(movie, userId);
   try {
     const {movie_id, title, description, release_date, trailer_url, thumbnailUrl} = movie;
     const actors = movie.actors.split(', ');
@@ -498,7 +499,7 @@ export const addMovie = async (movie: movieObj, userId?: number) => {
     });
   }
   catch (err) {
-    console.error('Movie not added');
+    console.error('Movie not added', err);
   }
 };
 
