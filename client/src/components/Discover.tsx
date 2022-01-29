@@ -147,7 +147,7 @@ const Discover:FC<any> = ({user}) => {
               >
               <iframe width="860"
                       height="600"
-                      src={!!currentMovie ? currentMovie.trailer_url: 'https://res.cloudinary.com/doruu9b3f/image/upload/v1641818928/snap_flixar_ngn5ui.png'} frameBorder="0">
+                      src={!!currentMovie ? currentMovie.trailer_url: '/assets/flixar.png'} frameBorder="0">
               </iframe>
               </Card>
 

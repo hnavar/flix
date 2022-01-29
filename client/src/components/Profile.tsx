@@ -16,12 +16,14 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import TheaterComedyIcon from '@mui/icons-material/TheaterComedy';
 import SettingsAccessibilityIcon from '@mui/icons-material/SettingsAccessibility';
 import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
+import MovieCreationIcon from '@mui/icons-material/MovieCreation';
 
 import useStyles from "../styles/profile.styles";
 import UserPreferences from './UserPreferences';
 import MovieCards from './MovieCards';
 import ActorCards from './ActorCards';
 import GenreCards from './GenreCards';
+import DirectorCards from './DirectorCards';
 
 const Profile: FC<any> = ({ user }) => {
 
@@ -29,12 +31,17 @@ const Profile: FC<any> = ({ user }) => {
   const [favoriteDirectors, setFavoriteDirectors] = useState<any>();
   const [favoriteGenres, setFavoriteGenres] = useState<any>();
   const [currentTab, setCurrentTab] = useState<string>('Favorite Movies');
+  //photo states
+  const [userPhoto, setUserPhoto] = useState<any>();
+
+
   const classes = useStyles();
 
   const tabInfo = [
     { title: 'Favorite Movies', icon: <FavoriteIcon /> },
     { title: 'Favorite Actors', icon: <SettingsAccessibilityIcon /> },
     { title: 'Favorite Genres', icon: <TheaterComedyIcon /> },
+    { title: 'Favorite Directors', icon: <MovieCreationIcon /> },
     { title: 'Settings', icon: <SettingsApplicationsIcon /> },
   ];
 
@@ -49,6 +56,9 @@ const Profile: FC<any> = ({ user }) => {
     if (currentTab === 'Favorite Genres') {
       return <GenreCards userId={user.id} />
     }
+    if (currentTab === 'Favorite Directors') {
+      return <DirectorCards userId={user.id} />
+    }
     if (currentTab === 'Settings') {
       return <UserPreferences userId={user.id} />
     }
@@ -56,6 +66,8 @@ const Profile: FC<any> = ({ user }) => {
     setCurrentTab('Favorite Movies');
     return <MovieCards userId={user.id} />
   };
+
+  //put in functions for handling the photo changes here, then pass the click handler for those down to user prefs
 
   //Used to get all favorites upon initial load.
   // const getAllFavorites = (userId: number) => {
