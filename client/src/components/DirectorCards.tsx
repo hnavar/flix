@@ -1,50 +1,50 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Card, CardActionArea, CardMedia, CardContent, Typography } from '@material-ui/core';
+import { Typography, Card, CardActionArea, CardMedia, CardContent } from '@material-ui/core';
 import ClearIcon from '@mui/icons-material/Clear';
 
-const MovieCards = ({ userId }: { userId: number }) => {
-  const [favoriteMovies, setFavoriteMovies] = useState<any>();
+const DirectorCards = ({ userId }: { userId: number }) => {
+  const [favoriteDirectors, setFavoriteDirectors] = useState<any>();
 
-  const getFavoriteMovies = () => {
-    axios.get(`/api/users/movies/${userId}`)
+  const getFavoriteDirectors = () => {
+    axios.get(`/api/users/directors/${userId}`)
       .then(({ data }) => {
-        setFavoriteMovies(data.movies);
+        setFavoriteDirectors(data.directors);
       })
   };
 
-  const removeFavorite = (movieId: number) => {
+  const removeFavorite = (directorId: number) => {
     axios.delete('/api/users/movies/destroy', {
       data: {
-        movieId,
+        directorId,
         userId
       }
     });
-    getFavoriteMovies();
+    getFavoriteDirectors();
   }
 
   useEffect(() => {
-    getFavoriteMovies();
+    getFavoriteDirectors();
   }, [])
 
   return (
-    !favoriteMovies ?
+    !favoriteDirectors ?
       <Typography>
         It appears you do not have any favorites yet!
       </Typography>
 
-      : favoriteMovies.map((movie: any, key: number) => (
+      : favoriteDirectors.map((director: any, key: number) => (
         <Card key={key} style={{ width: 300, margin: '0.5rem', boxShadow: '-1px 1px 6px rgba(125, 125, 125, 0.5)' }}>
-          <ClearIcon onClick={() => removeFavorite(movie.id)} />
+          <ClearIcon onClick={() => removeFavorite(director.id)} />
           <CardActionArea>
             <CardMedia
               component="img"
               height="140"
-              image={movie.thumbnailUrl}
-              alt="movie image" />
+              image={director.thumbnailUrl}
+              alt="director image" />
             <CardContent>
               <Typography gutterBottom variant="h6" component="div">
-                {movie.title}
+                {director.title}
               </Typography>
             </CardContent>
           </CardActionArea>
@@ -53,5 +53,4 @@ const MovieCards = ({ userId }: { userId: number }) => {
       ));
 };
 
-
-export default MovieCards;
+export default DirectorCards;

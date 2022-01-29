@@ -1,8 +1,8 @@
-import React, { useState, FC, KeyboardEvent, MouseEvent } from 'react';
+import React, { useState, FC, KeyboardEvent, MouseEvent, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { AppBar, Toolbar, Typography, IconButton, Drawer, MenuList, MenuItem, ListItemText, } from '@material-ui/core';
+import { AppBar, Toolbar, Typography, IconButton, Drawer, MenuList, MenuItem, ListItemText, Avatar, } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 
 import Paths from '../Routes';
@@ -46,9 +46,12 @@ const withRouter = (Component: FC) => {
   return Wrapper;
 };
 
-const NavigationBar:FC = (props: any) => {
+const NavigationBar:FC = (props: any, { userImage }: { userImage: string }) => {
+  console.log('user image url', userImage)
+  //^this keeps coming through undefined
   const classes = useStyles();
   const [isOpen, setIsOpen] = useState(false);
+  const [userAvatar, setUserAvatar] = useState<string>();
   const toggleDrawer = (open: boolean) => (
     event: KeyboardEvent | MouseEvent,
   ) => {
@@ -67,6 +70,10 @@ const NavigationBar:FC = (props: any) => {
     return props.history.name === routeName;
   }
 
+  useEffect(() => {
+    setUserAvatar(userImage)
+  }, []);
+
   return (
     <div>
       <div className={classes.root}>
@@ -75,10 +82,12 @@ const NavigationBar:FC = (props: any) => {
             <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={toggleDrawer(true)}>
               <MenuIcon />
             </IconButton>
+            <img style={{ width: '10%' }} src='/assets/logo.png' />
             <Typography variant="h6" className={classes.title}>
-              Flixar
+
             </Typography>
             {props.themeSwitch}
+            <Avatar src={userAvatar}/>
           </Toolbar>
         </AppBar>
       </div>

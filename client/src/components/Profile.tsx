@@ -16,24 +16,32 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import TheaterComedyIcon from '@mui/icons-material/TheaterComedy';
 import SettingsAccessibilityIcon from '@mui/icons-material/SettingsAccessibility';
 import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
+import MovieCreationIcon from '@mui/icons-material/MovieCreation';
 
 import useStyles from "../styles/profile.styles";
 import UserPreferences from './UserPreferences';
 import MovieCards from './MovieCards';
+import ActorCards from './ActorCards';
+import GenreCards from './GenreCards';
+import DirectorCards from './DirectorCards';
 
 const Profile: FC<any> = ({ user }) => {
 
   //User favorites {movies, actors, genres, directors}
-  const [favoriteActors, setFavoriteActors] = useState<null | Array<object>>(null);
   const [favoriteDirectors, setFavoriteDirectors] = useState<any>();
   const [favoriteGenres, setFavoriteGenres] = useState<any>();
   const [currentTab, setCurrentTab] = useState<string>('Favorite Movies');
+  //photo states
+  const [userPhoto, setUserPhoto] = useState<any>();
+
+
   const classes = useStyles();
 
   const tabInfo = [
     { title: 'Favorite Movies', icon: <FavoriteIcon /> },
     { title: 'Favorite Actors', icon: <SettingsAccessibilityIcon /> },
     { title: 'Favorite Genres', icon: <TheaterComedyIcon /> },
+    { title: 'Favorite Directors', icon: <MovieCreationIcon /> },
     { title: 'Settings', icon: <SettingsApplicationsIcon /> },
   ];
 
@@ -43,31 +51,33 @@ const Profile: FC<any> = ({ user }) => {
       return <MovieCards userId={user.id} />
     }
     if (currentTab === 'Favorite Actors') {
-      return <MovieCards userId={user.id} />
+      return <ActorCards userId={user.id} />
     }
     if (currentTab === 'Favorite Genres') {
-      return <MovieCards userId={user.id} />
+      return <GenreCards userId={user.id} />
+    }
+    if (currentTab === 'Favorite Directors') {
+      return <DirectorCards userId={user.id} />
     }
     if (currentTab === 'Settings') {
-      return <MovieCards userId={user.id} />
+      return <UserPreferences userId={user.id} />
     }
 
     setCurrentTab('Favorite Movies');
     return <MovieCards userId={user.id} />
   };
 
+  //put in functions for handling the photo changes here, then pass the click handler for those down to user prefs
+
   //Used to get all favorites upon initial load.
   // const getAllFavorites = (userId: number) => {
-  //   const getActors = axios.get(`/api/users/actors/${userId}`);
   //   const getDirectors = axios.get(`/api/users/directors/${userId}`);
   //   const getGenres = axios.get(`/api/users/genres/${userId}`);
 
   //   axios.all([getActors, getDirectors, getGenres])
   //     .then(responseArr => {
-  //       setFavoriteActors(responseArr[0].data.actors);
   //       setFavoriteDirectors(responseArr[1].data.directors);
   //       setFavoriteGenres(responseArr[2].data.genres);
-  //       console.log('Favorite Actors', responseArr[0].data.actors)
   //       console.log('Favorite directors', responseArr[1].data.directors)
   //       console.log('Favorite genres', responseArr[2].data.genres)
 
@@ -191,26 +201,6 @@ const Profile: FC<any> = ({ user }) => {
               </div>
             </CardContent>
           </Card>
-
-          <div>
-            <Typography variant='h6'>
-              Your Favorite Actors
-            </Typography>
-            <Stack direction='row' spacing={2}>
-              {!favoriteActors ? null : favoriteActors.map((actor: any, key: number) => {
-                return (
-                  <Card key={key}>
-                    <CardContent>
-                      <Typography>
-                        {actor.actor_name}
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                );
-              })}
-            </Stack>
-            <UserPreferences user={user} />
-          </div>
         </>
       }
     </div>

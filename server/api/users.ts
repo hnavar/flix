@@ -2,7 +2,7 @@ import { Response, Request, response } from 'express';
 import { Router } from 'express';
 import axios from 'axios';
 import { userInfo } from 'os';
-import { addFavoriteMovie, removeFavoriteActor } from '../database';
+import { addFavoriteMovie, removeFavoriteActors, removeFavoriteGenre } from '../database';
 import { uploadPhoto } from '../helpers/cloudinary';
 // import { Request } from 'aws-sdk';
 
@@ -133,12 +133,23 @@ UsersRouter.post('/user-movies', (req: any, res: any) => {
 // });
 
 UsersRouter.delete('/movies/destroy', (req: Request, res: Response) => {
-  // console.log(Number(req.params.movieId), Number(req.params.userId));
-  // removeFavoriteMovie(Number(req.params.movieId), Number(req.params.userId))
   deleteUserMovie(req.body.userId, req.body.movieId)
     .then(() => {
-      res.sendStatus(300)
+      res.sendStatus(200)
     })
+});
+
+UsersRouter.delete('/genres/destroy', (req: Request, res: Response) => {
+  removeFavoriteGenre(req.body.userId, req.body.genreId)
+    .then(() => {
+      res.sendStatus(200)
+    })
+});
+
+UsersRouter.delete('/actors/destroy', (req: Request, res: Response) => {
+  console.log('req', req.body)
+  removeFavoriteActors(req.body.userId, req.body.actorId)
+    .then(() => { res.sendStatus(200) })
 });
 
 

@@ -107,7 +107,7 @@ const Discover:FC<any> = ({user}) => {
 
     const getTweets = () => {
       const options: any = {
-        url: 'http://localhost:3000/api/twitter/tweets',
+        url: '/api/twitter/tweets',
         method: 'GET',
         headers: {
             'Accept': 'application/json',
@@ -147,7 +147,7 @@ const Discover:FC<any> = ({user}) => {
               >
               <iframe width="860"
                       height="600"
-                      src={!!currentMovie ? currentMovie.trailer_url: 'https://res.cloudinary.com/doruu9b3f/image/upload/v1641818928/snap_flixar_ngn5ui.png'} frameBorder="0">
+                      src={!!currentMovie ? currentMovie.trailer_url: '/assets/flixar.png'} frameBorder="0">
               </iframe>
               </Card>
 

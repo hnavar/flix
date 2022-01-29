@@ -2,9 +2,9 @@ import axios from 'axios';
 import React, { FC, useState, useEffect, SyntheticEvent } from 'react';
 import Button from '@mui/material/Button';
 
-const UserPreferences: FC<any> = ({ user }) => {
+const UserPreferences: FC<any> = ({ userId }: { userId: number }) => {
 
-  const [currentUser, setCurrentUser] = useState<any>(user);
+  const [currentUser, setCurrentUser] = useState<any>(userId);
   const [age, setAge] = useState<number>();
   const [userPhoto, setUserPhoto] = useState<any>();
   const [coverPhoto, setCoverPhoto] = useState<any>();
